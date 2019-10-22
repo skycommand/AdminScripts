@@ -1,4 +1,4 @@
-﻿Try 
+Try 
 {
   # Get script name
   #$ScriptName=(Get-Item $PSCommandPath).Name
