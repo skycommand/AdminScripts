@@ -25,7 +25,7 @@ The names of these scripts are self-explanatory.
 
 ## Unicode test suite
 
-See [its documentation](./Unicode test suite/README.md)
+See [its documentation](Unicode%20test%20suite/README.md)
 
 ## Wallpaper
 
