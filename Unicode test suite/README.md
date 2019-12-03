@@ -2,9 +2,9 @@
 
 ## What is it?
 
-This is suite of files that old Wikipedia editors once used to take screenshots demonstrating the capabilities of various apps. The file names are in the same language as the contents.
+This is a suite of files with Unicode names that old Wikipedia editors once used to take screenshots demonstrating the capabilities of various apps. The file names are in the same language as the contents.
 
-Use of Unicode is not the only features of this suite. The Unicode strings used in the file names have been in front of two billion Internet users for one and half a decade. They are the most peer-reviewed pieces of Unicode strings in the world. As such, this suite represents a major, widespread Unicode use case.
+What gives validity to this suite is that it does not consist of some arbitrary Unicode characters. The Unicode strings used in these file names have been in front of two billion Internet users for one and half a decade. They are the most peer-reviewed pieces of Unicode strings in the world. As such, this suite represents a major, widespread Unicode use case.
 
 ## Licensing
 
