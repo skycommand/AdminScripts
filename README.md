@@ -25,7 +25,9 @@ The names of these scripts are self-explanatory.
 
 ## Unicode test suite
 
-See [its documentation](Unicode%20test%20suite/README.md)
+A group of PNG images with multilingual file names. This set is intended to represent a practical real-world use of Unicode. 
+
+See [its documentation](Unicode%20test%20suite/README.md).
 
 ## Wallpaper
 
