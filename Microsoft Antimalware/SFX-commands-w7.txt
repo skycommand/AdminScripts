@@ -1,0 +1,5 @@
+;The comment below contains SFX script commands
+
+Path=%ProgramData%\Microsoft\Microsoft Antimalware\Definition Updates\Updates
+Setup=cmd.exe /k cd "%ProgramData%\Microsoft\Microsoft Antimalware\Definition Updates\Updates"
+Overwrite=1
