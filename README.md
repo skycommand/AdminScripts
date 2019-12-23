@@ -72,6 +72,14 @@ A group of PNG images with multilingual file names. This set is intended to repr
 
 See [its documentation](Unicode%20test%20suite/README.md).
 
+## Update management
+
+1. `Check automatic update services.ps1`: Gives you a list of all update channels registered with the local instance of the Windows Update service. You are probably aware of the "Windows Update" and "Microsoft Update" channels. (The former contains updates for Windows only, the latter for all Microsoft products.) But not everyone knows about WSUS. This script is specifically useful to find out if the local computer is properly registered with WSUS.
+2. `Install with DISM module.ps1`: Scans the current folder for Windows updates that you've manually downloaded from Microsoft Catalog or WSUS, then invokes `Add-WindowsPackage` to install them all. There was a time when Microsoft released 1.5 GB worth of update each month. I used to download them once and use this script to install them on several computers at home, thus saving 4.5 GB of download. (At work we use WSUS to save bandwidth.) Before you ask, no, the Delivery Optimization service does not reduce bandwidth consumption for you; it reduces bandwidth consumption for Microsoft's servers. Delivery Optimization depends on a centralized peer coordination server on the Internet.
+3. `Install with DISM.exe.ps1`: Scans the current folder for Windows updates that you've manually downloaded from Microsoft Catalog or WSUS, then invokes `dism.exe` to install them all.
+4. `Opt in to Microsoft Update.ps1` and `Opt out of Microsoft Update.ps1` are used to enable or disable the "Microsoft Update" channel on the local computer. These scripts are much faster than the cumbersome  official GUI way, which I've long forgotten. When the "Microsoft Update" channel is not enabled, Windows uses the "Windows Update" channel instead.
+5. `Run all MSPs.ps1`: Scans the current folder and all its subfolders for `.msp` files and invokes Windows Installer to install them all. Many apps use MSPs to delivery updates. Microsoft Office 2016 and earlier are such apps.
+
 ## Wallpaper
 
 The following two scripts are co-developed with Ramesh Srinivasan (the author of [WinHelpOnline.com](https://www.winhelponline.com)). More specifically, he wrote them in VBScript first, and I re-wrote them in PowerShell to support Unicode. Then, he credited me in his blog post and we added additional bits to support Windows 10. Back then, I knew zero about PowerShell and its philosophy, so, these scripts are unlike any other PowerShell scripts. In fact, they generate graphical message boxes.
