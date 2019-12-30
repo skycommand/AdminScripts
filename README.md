@@ -1,12 +1,6 @@
 # Administrative scripts
 Scripts for carrying out administrative tasks, mostly in Windows
 
-## (Code snippets)
-
-These items are not supposed to be run directly.
-
-1. `Self-elevation framework.ps1`: Use this code snippet to enable your PowerShell scripts to check for administrative privileges, determine if they require it, and trigger a UAC prompt.
-
 ## AppX
 
 Deals with Microsoft Store app packages.
