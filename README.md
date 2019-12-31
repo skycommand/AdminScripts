@@ -60,6 +60,24 @@ The names of these scripts are self-explanatory.
 4. Restart (Alternative).vbs
 5. Restart.vbs
 
+### Further reading: modern ways
+
+1. [Stop-Computer](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/stop-computer?view=powershell-5.1)
+2. [Restart-Computer](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/restart-computer?view=powershell-5.1)
+
+### Further reading: Old ways
+
+1. "[The Desktop FilesPsTools Primer](https://docs.microsoft.com/en-us/previous-versions/technet-magazine/cc162490(v=msdn.10))", an article in the old _TechNet Magazine_, March 2007
+2. [Win32_OperatingSystem class](https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-operatingsystem) of CIMWin32
+    - [Reboot method](https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/reboot-method-in-class-win32-operatingsystem)
+    - [Shutdown method](https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/shutdown-method-in-class-win32-operatingsystem)
+    - [Win32Shutdown method](https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32shutdown-method-in-class-win32-operatingsystem)
+    - [Win32ShutdownTracker method](https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32shutdowntracker-method-in-class-win32-operatingsystem)
+3. [Shutting Down Computers and Logging Off Users](https://docs.microsoft.com/en-us/previous-versions/tn-archive/ee156553(v=technet.10))
+    - [Shutting Down a Computer](https://docs.microsoft.com/en-us/previous-versions/tn-archive/ee156545(v=technet.10))
+    - [Restarting a Computer](https://docs.microsoft.com/en-us/previous-versions/tn-archive/ee156548(v=technet.10))
+
+
 ## Unicode test suite
 
 A group of PNG images with multilingual file names. This set is intended to represent a practical real-world use of Unicode. 
