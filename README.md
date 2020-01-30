@@ -38,6 +38,11 @@ There was a period of time when Windows was plagued with bugs that corrupted the
 
 A matter of licensing: I did not write this script. The user who posted it was called `Corvus1` and posted it in educational spirit.
 
+## Maintenance
+
+1. `Repair-AllVolumes.ps1`: Enumerates all fixed-disk volumes and sequentially runs `Repair-Volume` on them to scan them for errors.
+2. `Repair-Windows.ps1`: Repairs the online Windows instance by running DISM and SFC. Their logs are moved to the desktop.
+
 ## Microsoft Antimalware
 
 This folder contains one script and two utility files for extracting Microsoft malware definition files from one computer and package them up into a self-extracting archive, so that it can be installed on other computers.
@@ -77,6 +82,9 @@ The names of these scripts are self-explanatory.
     - [Shutting Down a Computer](https://docs.microsoft.com/en-us/previous-versions/tn-archive/ee156545(v=technet.10))
     - [Restarting a Computer](https://docs.microsoft.com/en-us/previous-versions/tn-archive/ee156548(v=technet.10))
 
+## Time
+
+1. `Firmware time is UTC.reg`: Causes Windows to interpret the real-time clock as UTC time. Ordinarily, Windows interprets it as the local time correponding to the time zone you've selected. This is in contrast to most Linux distros that interpret it as UTC. After applying this, restart the computer.
 
 ## Unicode test suite
 
