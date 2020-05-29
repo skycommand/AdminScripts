@@ -78,20 +78,20 @@ for ($i = 0; $i -lt $AppxSum; $i++) {
 			if ($AXI.DisplayNameRaw -match '^@') {
 				$AXI.DisplayNameResolved = [IndirectStrings]::GetIndirectString( $AXI.DisplayNameRaw )
 				if ($AXI.DisplayNameResolved -eq '') {
-					Write-Warning "$($AXN): Could not resolve the display name."
+					Write-Warning "Could not resolve the display name for $($AXN)."
 				}
 			} else {
 				$AXI.DisplayNameResolved = $AXI.DisplayNameRaw
 				if ($AXI.DisplayNameRaw -match '^ms-resource\:') {
-					Write-Verbose = 'For the want of an @, a kingdom is lost.'
+					Write-Verbose "For the want of an `@, a kingdom is lost. $($AXN) has a bad display name."
 				}
 			}
 		} catch {
-			Write-Verbose "$($AXN): There are no display names associated with this package."
+			Write-Verbose "There are no display names associated with $($AXN)."
 		}
 	}
 
-	#Hand over the gather info to the array
+	#Hand over the info
 	$AppxIdentities[$i] = $AXI
 }
 
