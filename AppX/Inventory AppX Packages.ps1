@@ -1,6 +1,4 @@
 ﻿[CmdletBinding()]
-param (
-)
 
 <# 
 C# code to expose SHLoadIndirectString(), derived from:
@@ -47,7 +45,7 @@ Usage examples:
 #>
 
 # Get a list of Appx packages
-$AppxPackages = Get-AppxPackage -Verbose
+$AppxPackages = Get-AppxPackage @args
 $AppxSum = $AppxPackages.Count
 
 # Create an array to store Appx identities
