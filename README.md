@@ -1,4 +1,5 @@
 # Administrative scripts
+
 Scripts for carrying out administrative tasks, mostly in Windows
 
 ## AppX
@@ -16,7 +17,7 @@ Deals with Microsoft Store app packages.
 2. `Active BITS jobs - Table.ps1`: Asks the BITS service to give a list of all of its download and upload operations whose status is "Transferring". The result would be in the table form. I recommend maximizing your PowerShell window for this.
 3. `All BITS jobs - Custom.ps1`: Asks the BITS service to give a list of all of its operation, then summarizes them, so that only the job state (color-coded), job ID, display name, type, priority, bytes transferred, and bytes total are shown, along with a list of all files in each job.
 4. `Pending BITS jobs - Detailed.ps1`: Asks the BITS service to give a list of all of its download and upload operations whose status is anything but "Transferred". The result would be in the list form.
-6. `Pending BITS jobs - Table.ps1`: Asks the BITS service to give a list of all of its download and upload operations whose status is anything but "Transferred". The result would be in the table form. I recommend maximizing your PowerShell window for this.
+5. `Pending BITS jobs - Table.ps1`: Asks the BITS service to give a list of all of its download and upload operations whose status is anything but "Transferred". The result would be in the table form. I recommend maximizing your PowerShell window for this.
 
 ## Download
 
@@ -44,27 +45,31 @@ A matter of licensing: I did not write this script. The user who posted it was c
 2. `Repair-Windows.ps1`: Repairs the online Windows instance by running DISM and SFC. Their logs are moved to the desktop.
 3. `NGEN Update.bat`: Runs NGEN inside Windows PowerShell. While PowerShell 6 and 7 run on .NET Core, Windows PowerShell and some Windows-exclusive PowerShell modules (which PowerShell 7 also loads) run on .NET Framework. Run this script with admin privileges whenever you update .NET Framework, or whenever you feel Windows PowerShell or PowerShell 7 for Windows are sluggish at launch time.
 
-## Microsoft Antimalware
+## Security
 
-This folder contains one script and two utility files for extracting Microsoft malware definition files from one computer and package them up into a self-extracting archive, so that it can be installed on other computers.
+### MpDefinitionPackage
 
-I conceived this script at a time when our network was suffering an infrastructure breakdown. Many of the computers had lost their Internet connectivity and users were using USB flash drives (notorious for being malware carriers) to transfer files. Those that had Internet connectivity were suffering from a bandwidth problem too, so downloading the official Microsoft antimalware package every day was not feasible. Windows 8.1's Windows Defender, however, could download minimal delta packages quickly.
+This entire folder, `MpDefinitionPackage`, is a PowerShell module that adds a cmdlet to your PowerShell: `Build-MpDefinitionPackage`. This cmdlet extracts Microsoft malware definition files from one computer and packages them up into a self-extracting archive, so that it can be installed on other computers. It requires WinRAR to work.
 
-In those dire situations, I wrote these scripts to keep a broken network secure and up-to-date.
+I conceived it as a script at a time when our site was suffering a network outage. Not only we couldn't update our antimalware, users were using USB flash drives (notorious for being malware carriers) to transfer files. Desperate times need desperate measures. I wrote this solution to keep our devices secure. Eventually, I turned it into a module.
+
+**Warning:** I do not guarantee that this solution works. If you wish to update an entire network while preserving Internet bandwidth, the official solutions are _Windows Server Update Services_ and _System Center_.
+
+**Warning:** Residents of the United States of America must use this module in compliance with the Title 17 of United States Code, section 117 ("Limitations on exclusive rights: Computer programs"), article C. In other words, use this script only to keep your Microsoft antimalware product up-to-date and only when you have no other options.
 
 ## Shell
 
-1. `PowerShell bug fix for 'Run with PowerShell' verb.reg` correctly registers Windows PowerShell with File Explorer. It is especially useful for those who have installed Visual Studio Code or have corrupted their .ps1 registration.
+1. `PowerShell bug fix for 'Run with PowerShell' verb.reg` correctly registers Windows PowerShell with File Explorer. It is also useful for those who have corrupted or otherwise undesirably altered their `.ps1` registration.
 
 ## Shutdown
 
 The names of these scripts are self-explanatory.
 
 1. Log off.vbs
-2. Power off (Alternative).vbs
-3. Power off.vbs
-4. Restart (Alternative).vbs
-5. Restart.vbs
+1. Power off.vbs
+1. Power off (Alternative).vbs
+1. Restart.vbs
+1. Restart (Alternative).vbs
 
 ### Further reading: modern ways
 
@@ -85,11 +90,11 @@ The names of these scripts are self-explanatory.
 
 ## Time
 
-1. `Firmware time is UTC.reg`: Causes Windows to interpret the real-time clock as UTC time. Ordinarily, Windows interprets it as the local time correponding to the time zone you've selected. This is in contrast to most Linux distros that interpret it as UTC. After applying this, restart the computer.
+1. `Firmware time is UTC.reg`: Configures Windows to interpret the real-time clock as UTC time. Ordinarily, Windows interprets it as the local time correponding to the time zone you've selected. Most Linux distros that interpret it as UTC, so you may need this script if you multi-boot a Linux distro along Windows. After applying this, restart the computer.
 
 ## Unicode test suite
 
-A group of PNG images with multilingual file names. This set is intended to represent a practical real-world use of Unicode. 
+A group of PNG images with multilingual file names. This set is intended to represent a practical real-world use of Unicode.
 
 See [its documentation](Unicode%20test%20suite/README.md).
 
