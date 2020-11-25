@@ -3,8 +3,15 @@ function Get-FixedVolume {
 }
 
 $Volumes = Get-FixedVolume
+
+Write-Output "Pre-scan status:"
+Write-Output $Volumes
+
+Write-Output "Scanning..."
 foreach ($Volume in $Volumes) {
   Format-List -InputObject $Volume -Property DriveLetter,Path,UniqueID,FileSystemLabel,FileSystemType,Size,SizeRemaining
-  $Volume | Repair-Volume -Scan -Verbose
+  $Volume | Repair-Volume -Scan # -Verbose
 }
-Get-FixedVolume
+
+Write-Output "`nPost-scan status:"
+Write-Output $(Get-FixedVolume)
