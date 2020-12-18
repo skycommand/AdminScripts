@@ -35,9 +35,8 @@ There was a period of time when Windows was plagued with bugs that corrupted the
 
 ## Last logon time
 
-`LastLogon.vbs` takes a long time to run, but returns a list of all local users and the date and time of their last logon action.
-
-A matter of licensing: I did not write this script. The user who posted it was called `Corvus1` and posted it in educational spirit.
+1. `LastLogon.ps1` returns a list of all local user accounts, as well as the date and time of their last logon.
+2. `LastLogon (Deprecated).vbs` takes a long time to run, but returns a list of all local user accounts, as well as the date and time of their last logon. A matter of licensing: I did not write this script. The user who posted it was called `Corvus1` and posted it in educational spirit. It's very old and outdated anyway; it's best not to use it.
 
 ## Maintenance
 
