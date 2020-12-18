@@ -7,9 +7,9 @@ Scripts for carrying out administrative tasks, mostly in Windows
 Deals with Microsoft Store app packages.
 
 1. `Inventory AppX Packages.ps1`: The `Get-AppxPackage` cmdlet in PowerShell can find all installed Microsoft Store apps, but it does not do a good job of discovering their display names. At best, it can show the technical package name. This script lists all AppX packages installed for the current user account, along with their display names. It accepts a `-Verbose` switch and its output can be piped to `Format-Table` or `Format-List`. I believe it can be expanded to work machine-wide.
-2. `Reinstall-AppxPackages.ps1`: This script belongs to long-gone days. Nowdays, it is probably just dangerous. It is used to reset and re-register all AppX packages that were either shipped with Windows or were published by Microsoft. It is a safer alternative to the utterly sadistic oneliner that retrived a list of all AppX packages and reset them all.
-3. `Repair system apps.ps1`: This script also belongs to long-gone days. Nowdays, it is probably just dangerous. It re-registers all AppX packages installed in the "SystemApp" folder.
-4. `(Specialized) Remove these appx packages.ps1`: This one is mostly for me, but others can find educational value in it. This script uninstalls a number of Microsoft Store apps for all users, without deleting their provisioned packages. I believe it can only run on Windows 10 version 1809 or later.
+2. `Reinstall-AppxPackages.ps1`: This script belongs to long-gone days. Nowadays, it is probably just dangerous. It resets and re-registers all AppX packages that were either shipped with Windows or were published by Microsoft. It is a safer alternative to the utterly sadistic one-liner that retrieves a list of all AppX packages and reset them all.
+3. `Repair system apps.ps1`: This script also belongs to long-gone days. Nowadays, it is probably just dangerous. It re-registers all AppX packages installed in the "SystemApp" folder.
+4. `(Specialized) Remove these AppX packages.ps1`: This one is mostly for me, but others can find educational value in it. This script uninstalls a number of Microsoft Store apps for all users, without deleting their provisioned packages. I believe it can only run on Windows 10 version 1809 or later.
 
 ## BITS
 
@@ -21,7 +21,7 @@ Deals with Microsoft Store app packages.
 
 ## Download
 
-1. `Download-Channl9VideosFromRSS.ps1` helps download entire Channel 9 sets of videos. It accepts one RSS URL for the video set and one download location.
+1. `Download-Channel9VideosFromRSS.ps1` helps download entire Channel 9 sets of videos. It accepts one RSS URL for the video set and one download location.
 
 ## Firewall
 
@@ -31,11 +31,11 @@ Deals with Microsoft Store app packages.
 
 There was a period of time when Windows was plagued with bugs that corrupted the icon cache. These scripts were conceived in that time, as ways of mitigating the problem. I have long stopped using them though.
 
-`Refresh icon cache with MoveFile.cmd` is the most effective of those but it is hard-coded to use an installed copy of `movefile.exe` from the Microsoft Sysinternals utility set.
+`Refresh icon cache with MoveFile.cmd` is the most effective of those but it is hard-coded to use an installed copy of `MoveFile.exe` from the Microsoft Sysinternals utility set.
 
 ## Last logon time
 
-`lastlogon.vbs` takes a long time to run, but returns a list of all local users and the date and time of their last logon action.
+`LastLogon.vbs` takes a long time to run, but returns a list of all local users and the date and time of their last logon action.
 
 A matter of licensing: I did not write this script. The user who posted it was called `Corvus1` and posted it in educational spirit.
 
@@ -43,7 +43,7 @@ A matter of licensing: I did not write this script. The user who posted it was c
 
 1. `Repair-AllVolumes.ps1`: Enumerates all fixed-disk volumes and sequentially runs `Repair-Volume` on them to scan them for errors.
 2. `Repair-Windows.ps1`: Repairs the online Windows instance by running DISM and SFC. Their logs are moved to the desktop.
-3. `NGEN Update.bat`: Runs NGEN inside Windows PowerShell. While PowerShell 6 and 7 run on .NET Core, Windows PowerShell and some Windows-exclusive PowerShell modules (which PowerShell 7 also loads) run on .NET Framework. Run this script with admin privileges whenever you update .NET Framework, or whenever you feel Windows PowerShell or PowerShell 7 for Windows are sluggish at launch time.
+3. `nGen Update.bat`: Runs nGen inside Windows PowerShell. While PowerShell 6 and 7 run on .NET Core, Windows PowerShell and some Windows-exclusive PowerShell modules (which PowerShell 7 also loads) run on .NET Framework. Run this script with admin privileges whenever you update .NET Framework, or whenever you feel Windows PowerShell or PowerShell 7 for Windows are sluggish at launch time.
 
 ## Security
 
@@ -90,7 +90,7 @@ The names of these scripts are self-explanatory.
 
 ## Time
 
-1. `Firmware time is UTC.reg`: Configures Windows to interpret the real-time clock as UTC time. Ordinarily, Windows interprets it as the local time correponding to the time zone you've selected. Most Linux distros that interpret it as UTC, so you may need this script if you multi-boot a Linux distro along Windows. After applying this, restart the computer.
+1. `Firmware time is UTC.reg`: Configures Windows to interpret the real-time clock as UTC time. Ordinarily, Windows interprets it as the local time corresponding to the time zone you've selected. Most Linux distros that interpret it as UTC, so you may need this script if you multi-boot a Linux distro along Windows. After applying this, restart the computer.
 
 ## Unicode test suite
 
@@ -112,3 +112,10 @@ The following two scripts are co-developed with Ramesh Srinivasan (the author of
 
 1. Find current wallpaper (Windows 7).ps1
 2. Find current wallpaper (Windows 8,10).ps1
+
+## (Code snippets)
+
+This special folder contains source code that one should not run directly. Rather, PowerShell developers could read them, learn from them, or include portions of them in their PowerShell scripts.
+
+1. `Function library.psm1`: Contains a number of reusable functions. I've chosen the `.psm1` filename extension to prevent it from being accidentally run as a script. Each function has its own local help.
+2. `Demo - Message boxes in PowerShell.ps1`: This scripts demonstrates how to invoke message boxes within a PowerShell script. Normally, one must not use message boxes (or `Write-Host`) inside PowerShell scripts. Before Windows 10, however, console apps had serious problems displaying Unicode characters, so I used message boxes instead.
