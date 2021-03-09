@@ -25,11 +25,11 @@ Deals with Microsoft Store app packages.
 
 ## Firewall
 
-1. `Report status.cmd` reports whether Windows Firewall is on or off. It requires Windows 10.
+1. `Get-WindowsFirewallStatus.cmd` reports whether Windows Firewall is on or off. It requires Windows 10.
 
 ## Icon cache
 
-There was a period of time when Windows was plagued with bugs that corrupted the icon cache. These scripts were conceived in that time, as ways of mitigating the problem. I have long stopped using them though.
+There was a period of time (2011–2016 timeframe) when Windows was plagued with bugs that corrupted the icon cache. These scripts were conceived in that time, as ways of mitigating the problem. I have long stopped using them though.
 
 `Refresh icon cache with MoveFile.cmd` is the most effective of those but it is hard-coded to use an installed copy of `MoveFile.exe` from the Microsoft Sysinternals utility set.
 

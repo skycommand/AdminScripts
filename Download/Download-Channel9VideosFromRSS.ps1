@@ -30,9 +30,10 @@ try {
     $RSSWebObject = [xml]($WebClient.DownloadString($RssUrl))
 }
 catch {
+    if ($_.Exception -is [MethodInvocationException]) { $TheException = $_.Exception.InnerException } else { $TheException = $_.Exception }
     $PSCmdlet.ThrowTerminatingError(
         [ErrorRecord]::new(
-            $_,
+            $TheException,
             'CouldNotGetRssFeed',
             [ErrorCategory]::ResourceUnavailable,
             $RssUrl
