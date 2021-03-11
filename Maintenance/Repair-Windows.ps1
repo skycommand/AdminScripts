@@ -1,3 +1,5 @@
+#Requires -RunAsAdministrator
+
 $CurrentFolder = Split-Path $PSCommandPath
 Push-Location $CurrentFolder
 

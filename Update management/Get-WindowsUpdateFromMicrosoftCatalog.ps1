@@ -24,7 +24,7 @@ function Public_Void_Main {
     if ($null -eq $uc) { break }
 
     # Parse the results and separate the updates
-    $Updates = $uc.Links | Where-Object onClick -Like "*goToDetails*" -ErrorAction SilentlyContinue
+    $Updates = $uc.Links | Where-Object onClick -Like "*goToDetails*" -ErrorAction Ignore
     if ($null -eq $Updates) {
         $PSCmdlet.ThrowTerminatingError(
             [ErrorRecord]::new(

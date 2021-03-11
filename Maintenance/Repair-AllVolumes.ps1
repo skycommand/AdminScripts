@@ -1,3 +1,5 @@
+#Requires -RunAsAdministrator
+
 function Get-FixedVolume {
     Get-Volume | Where-Object DriveType -EQ Fixed | Sort-Object DriveLetter
 }
