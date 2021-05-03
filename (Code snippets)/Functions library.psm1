@@ -1,4 +1,4 @@
-function AmIAdmin {
+function Test-ProcessAdminRights {
   <#
   .SYNOPSIS
     Returns $True when the process running this script has administrative privileges
@@ -15,6 +15,21 @@ function AmIAdmin {
   $MyId = [System.Security.Principal.WindowsIdentity]::GetCurrent()
   $WindowsPrincipal = New-Object System.Security.Principal.WindowsPrincipal( $MyId )
   return $WindowsPrincipal.IsInRole( [System.Security.Principal.WindowsBuiltInRole]::Administrator )
+}
+
+function Test-UserAdminMembership {
+  <#
+  .SYNOPSIS
+    Returns $True when the user account running this script is a member of the
+    local Administrators group.
+  .DESCRIPTION
+    This function checks whether the current user account is a member of the
+    local Administrators group. If the answer is positive, depending on the User
+    Account Control configuration on this machine, this script may either be
+    running with administrative privileges or may request it.
+  #>
+  $MyId = [System.Security.Principal.WindowsIdentity]::GetCurrent()
+  return $MyId.Name -in $(Get-LocalGroupMember -Name Administrators).Name
 }
 
 function Unregister-ScheduledTaskEx {
