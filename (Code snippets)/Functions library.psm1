@@ -3,11 +3,7 @@ function Test-ProcessAdminRights {
   .SYNOPSIS
     Returns $True when the process running this script has administrative privileges
   .DESCRIPTION
-    Starting with PowerShell 4.0, the "Requires -RunAsAdministrator" directive
-    prevents the execution of the script when administrative privileges are
-    absent. However, there are still times that you'd like to just check the
-    privilege (or lack thereof), e.g., to announce it to the user or downgrade
-    script functionality gracefully.
+    Starting with PowerShell 4.0, the "Requires -RunAsAdministrator" directive prevents the execution of the script when administrative privileges are absent. However, there are still times that you'd like to just check the privilege (or lack thereof), e.g., to announce it to the user or downgrade script functionality gracefully.
   .NOTES
     For the Requires directive, see the "about_Requires" help page.
     https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_requires?view=powershell-7
@@ -20,13 +16,9 @@ function Test-ProcessAdminRights {
 function Test-UserAdminMembership {
   <#
   .SYNOPSIS
-    Returns $True when the user account running this script is a member of the
-    local Administrators group.
+    Returns $True when the user account running this script is a member of the local Administrators group.
   .DESCRIPTION
-    This function checks whether the current user account is a member of the
-    local Administrators group. If the answer is positive, depending on the User
-    Account Control configuration on this machine, this script may either be
-    running with administrative privileges or may request it.
+    This function checks whether the current user account is a member of the local Administrators group. If the answer is positive, depending on the User Account Control configuration on this machine, this script may either be running with administrative privileges or may request it.
   #>
   $MyId = [System.Security.Principal.WindowsIdentity]::GetCurrent()
   return $MyId.Name -in $(Get-LocalGroupMember -Name Administrators).Name
@@ -95,4 +87,42 @@ function Remove-RegistryValues {
   } else {
     Write-Verbose "Could not find '$Path'"
   }
+}
+
+function New-TemporaryFileName {
+  <#
+  .SYNOPSIS
+    Generates a string to use as your temporary file's name.
+  .DESCRIPTION
+    Generates a string whose general form is "tmp####.tmp", where #### is a hexadecimal number. This style mimicks the output of the built-in New-TemporaryFile.
+  .EXAMPLE
+    PS C:\> New-TemporaryFileName
+    tmp5B7F.tmp
+  .INPUTS
+    None
+  .OUTPUTS
+    System.String
+  .NOTES
+    None
+  #>
+  return "tmp$((Get-Random -Maximum 0xFFFF).ToString('X4')).tmp"
+}
+
+function New-TemporaryFolderName {
+  <#
+  .SYNOPSIS
+    Generates a string to use as your temporary folder's name.
+  .DESCRIPTION
+    Generates a string whose general form is "tmp####", where #### is a hexadecimal number. This style mimicks the output of the built-in New-TemporaryFile.
+  .EXAMPLE
+    PS C:\> New-TemporaryFolderName
+    tmp5B7F.tmp
+  .INPUTS
+    None
+  .OUTPUTS
+    System.String
+  .NOTES
+    None
+  #>
+  return "tmp$((Get-Random -Maximum 0xFFFF).ToString('X4'))"
 }

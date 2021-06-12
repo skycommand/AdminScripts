@@ -46,7 +46,7 @@ There was a period of time (2011–2016 timeframe) when Windows was plagued with
 
 ## Security
 
-### MpDefinitionPackage
+### MpDefinitionPackage module
 
 This entire folder, `MpDefinitionPackage`, is a PowerShell module that adds a cmdlet to your PowerShell: `Build-MpDefinitionPackage`. This cmdlet extracts Microsoft malware definition files from one computer and packages them up into a self-extracting archive, so that it can be installed on other computers. It requires WinRAR to work.
 
@@ -55,6 +55,10 @@ I conceived it as a script at a time when our site was suffering a network outag
 **Warning:** I do not guarantee that this solution works. If you wish to update an entire network while preserving Internet bandwidth, the official solutions are _Windows Server Update Services_ and _System Center_.
 
 **Warning:** Residents of the United States of America must use this module in compliance with the Title 17 of United States Code, section 117 ("Limitations on exclusive rights: Computer programs"), article C. In other words, use this script only to keep your Microsoft antimalware product up-to-date and only when you have no other options.
+
+### Others
+
+1. `Clear-WindowsDefenderHistory.ps1`: Clears the "protection history" of Microsoft Defender Antivirus (commonly referred to as Windows Defender). Starting with Windows 10 version 1703, this products no longer allows the users to clear the protection history via its UI. This "history", however, is each user's personal property. It is the owner's discretion to keep or clear it.
 
 ## Shell
 
@@ -116,5 +120,11 @@ The following two scripts are co-developed with Ramesh Srinivasan (the author of
 
 This special folder contains source code that one should not run directly. Rather, PowerShell developers could read them, learn from them, or include portions of them in their PowerShell scripts.
 
-1. `Function library.psm1`: Contains a number of reusable functions. I've chosen the `.psm1` filename extension to prevent it from being accidentally run as a script. Each function has its own local help.
-2. `Demo - Message boxes in PowerShell.ps1`: This scripts demonstrates how to invoke message boxes within a PowerShell script. Normally, one must not use message boxes (or `Write-Host`) inside PowerShell scripts. Before Windows 10, however, console apps had serious problems displaying Unicode characters, so I used message boxes instead.
+1. `Demo - Message boxes in PowerShell.ps1`: This scripts demonstrates how to invoke message boxes within a PowerShell script. Normally, one must not use message boxes (or `Write-Host`) inside PowerShell scripts. Before Windows 10, however, console apps had serious problems displaying Unicode characters, so I used message boxes instead.
+1. `Function library.psm1`: Contains a number of reusable functions. I've chosen the `.psm1` filename extension to prevent it from being accidentally run as a script. Each function has its own local help. The functions include:
+    1. **Test-ProcessAdminRights**: Returns $True when the process running this script has administrative privileges
+    1. **Test-UserAdminMembership**: Returns $True when the user account running this script is a member of the local Administrators group.
+    1. **Unregister-ScheduledTaskEx**: Unregisters several scheduled tasks whose names matches a wildcard patten (not regex)
+    1. **Remove-RegistryValues**: Attempts to remove one or more values from a given path in Windows Registry.
+    1. **New-TemporaryFileName**: Generates a string to use as your temporary file's name.
+    1. **New-TemporaryFolderName**: Generates a string to use as your temporary folder's name.
