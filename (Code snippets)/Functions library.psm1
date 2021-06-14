@@ -103,7 +103,7 @@ function New-TemporaryFileName {
   .OUTPUTS
     System.String
   .NOTES
-    None
+    Version 1.0
   #>
   return "tmp$((Get-Random -Maximum 0xFFFF).ToString('X4')).tmp"
 }
@@ -126,3 +126,47 @@ function New-TemporaryFolderName {
   #>
   return "tmp$((Get-Random -Maximum 0xFFFF).ToString('X4'))"
 }
+
+function Get-AlphabetUpper {
+    <#
+    .SYNOPSIS
+      Returns an array of Char containing 'A' through 'Z'.
+    .DESCRIPTION
+      Returns an array of Char  with 26 members. The array contains the uppercase alphabet letters 'A' through 'Z'.
+    .EXAMPLE
+      PS C:\> (Get-AlphabetUpper) -join ', '
+      A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z
+    .INPUTS
+      None
+    .OUTPUTS
+      System.Char[]
+    #>
+    
+    <#
+    [Byte]([char]'A') gives 65
+    [Byte]([char]'Z') gives 90
+    #>
+    return [Char[]](65..90)
+  }
+  
+  function Get-AlphabetLower {
+    <#
+    .SYNOPSIS
+      Returns an array of Char containing 'a' through 'a'.
+    .DESCRIPTION
+      Returns an array of Char  with 26 members. The array contains the lowercase alphabet letters 'a' through 'z'.
+    .EXAMPLE
+      PS C:\> (Get-AlphabetLower) -join ', '
+      a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z
+    .INPUTS
+      None
+    .OUTPUTS
+      System.Char[]
+    #>
+    
+    <#
+    [Byte]([char]'a') gives 97
+    [Byte]([char]'z') gives 122
+    #>
+    return [Char[]](97..122)
+  }
