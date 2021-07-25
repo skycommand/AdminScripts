@@ -27,7 +27,7 @@ function Test-UserAdminMembership {
 function Unregister-ScheduledTaskEx {
   <#
   .SYNOPSIS
-    Unregisters several scheduled tasks whose names matches a wildcard patten (not regex)
+    Unregisters several scheduled tasks whose names matches a wildcard pattern (not regex)
   .DESCRIPTION
     Uses Get-ScheduledTask to get a list of all scheduled tasks, filters then via the -like operator, and runs Unregister-ScheduledTask against the resulting set.
     Extremly dangerous. Use with caution.
@@ -41,10 +41,12 @@ function Unregister-ScheduledTaskEx {
   .NOTES
     Version 1.0
   #>
-  [CmdletBinding()]
+  [CmdletBinding(SupportsShouldProcess)]
   param (
+    # The set of wildcard patterns based on which to search the scheduled tasks.  The task gets unregistered if its name matches one member of this set.
     [Parameter(Mandatory)]
     [SupportsWildcards()]
+    [ValidateNotNullOrEmpty()]
     [String[]]
     $TaskNameEx
   )
@@ -52,7 +54,7 @@ function Unregister-ScheduledTaskEx {
   if ($null -ne $MatchingTasks) {
     # This command does not seem to respect the $VerbosePreference and asks for confirmation anyway
     # Add -Confirm:$false to make it stop
-    Unregister-ScheduledTask -TaskName $MatchingTasks.TaskName
+    Unregister-ScheduledTask -TaskName $MatchingTasks.TaskName -WhatIf:$WhatIfPreference
   } else {
     Write-Verbose "Found no scheduled tasks matching the requested criteria"
   }
@@ -74,13 +76,13 @@ function Remove-RegistryValues {
   .NOTES
     Version 1.0
   #>
-  [CmdletBinding()]
+  [CmdletBinding(SupportsShouldProcess)]
   param (
     [Parameter(Mandatory, Position = 0)] [String] $Path,
     [Parameter(Mandatory, Position = 1)] [String[]] $Name
   )
   if (Test-Path -Path $Path) {
-    Remove-ItemProperty -Path $Path -Name $Name -ErrorAction SilentlyContinue -ErrorVariable ee
+    Remove-ItemProperty -Path $Path -Name $Name -ErrorAction SilentlyContinue -ErrorVariable ee -WhatIf:$WhatIfPreference
     foreach ($e in $ee) {
       if (-not ($e.Exception -is [System.ArgumentException])) { Write-Warning $e }
     }
@@ -141,14 +143,14 @@ function Get-AlphabetUpper {
     .OUTPUTS
       System.Char[]
     #>
-    
+
     <#
     [Byte]([char]'A') gives 65
     [Byte]([char]'Z') gives 90
     #>
     return [Char[]](65..90)
   }
-  
+
   function Get-AlphabetLower {
     <#
     .SYNOPSIS
@@ -163,7 +165,7 @@ function Get-AlphabetUpper {
     .OUTPUTS
       System.Char[]
     #>
-    
+
     <#
     [Byte]([char]'a') gives 97
     [Byte]([char]'z') gives 122

@@ -49,8 +49,8 @@ Write-Output $result
         [enum]::GetValues([Microsoft.VisualBasic.MsgBoxResult])
 #>
 Write-Output "Demonstrating method 2: $Method2"
-[System.Reflection.Assembly]::LoadWithPartialName('Microsoft.VisualBasic') 
-$result = [Microsoft.VisualBasic.Interaction]::MsgBox($Message2, 'OKOnly,Information', $TitleBar  ) 
+[System.Reflection.Assembly]::LoadWithPartialName('Microsoft.VisualBasic')
+$result = [Microsoft.VisualBasic.Interaction]::MsgBox($Message2, 'OKOnly,Information', $TitleBar  )
 Write-Output $result
 
 <# METHOD 3 (DEPRECATED):

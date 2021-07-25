@@ -1,12 +1,9 @@
-﻿Try 
+﻿Try
 {
-  # Get script name
-  #$ScriptName=(Get-Item $PSCommandPath).Name
-
   # Load Windows Forms and initialize visual styles
   [void][System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
   [System.Windows.Forms.Application]::EnableVisualStyles()
-  
+
   # Check Windows verison
   $vers=[System.Environment]::OSVersion.Version
   If (!(($vers.Major -eq 6) -and ($vers.Minor -eq 1))) {

@@ -1,3 +1,4 @@
+#Requires -RunAsAdministrator
 Get-AppxPackage -AllUsers | Where-Object InstallLocation -Like "*SystemApp*" | ForEach-Object {
     $a=$_
     Format-List -InputObject $a -Property Name,InstallLocation

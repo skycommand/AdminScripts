@@ -17,7 +17,6 @@ $Settings = @{
     }
 }
 Get-ChildItem *.ps1,*.psm1 | ForEach-Object {
-    Write-Output "Analyzing $_"
     Invoke-ScriptAnalyzer -Path $_ -Settings $Settings
-}
+} | Format-Table -AutoSize
 Pop-Location
