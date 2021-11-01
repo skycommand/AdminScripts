@@ -1,5 +1,22 @@
 # Change log
 
+## October 2021
+
+New:
+
+- **Demos folder** contains scripts that demonstrates how PowerShell works
+- **Demos\ANSI escape sequences.ps1:** Demonstrates the use of ANSI escape sequences in PowerShell. In reality, I use it to calibrate my settings, i.e., to ensure that my color schemes and font choices maintain a high contrast. I kept it compatible with PowerShell 5.1.
+- **Demos\Hello, World!.ps1:** This is a simple "Hello, World!" app in PowerShell. It is perfect for testing those alleged PowerShell-to-C# converters. To this date, I haven't seen one that can correctly convert this simple script to `Console.Write("Hello, World!")`.
+- **Demos\Sort order.ps1:** Compares how .NET Framework sorts a `Char[]` array versus a `String[]` array, when both have the same contents.
+- **Demos\Working paths.ps1:** There are three types of working paths (working folders) in PowerShell: Process working path, script working path, and invoker's working path. There are four ways of discovering them. This script prints the results of all four ways. However, for the invokers working path to show its effect, you must invoke this demo script from within another script.
+
+Changes:
+
+- **Code snippets folder:** Moved from `(Code snippets)`
+- **Demos\Message boxes in PowerShell.ps1:** Moved from `(Code snippets)\Demo - Message boxes in PowerShell.ps1`
+- **Demos\Pipeline-ready function.ps1:** Moved from `(Code snippets)\Demo - Pipeline-ready function.ps1`
+- **Code snippets\PSM1 template.psm1:** Moved from `(Code snippets)\Template.psm1`
+
 ## July 2021
 
 New:
