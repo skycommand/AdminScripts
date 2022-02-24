@@ -24,7 +24,7 @@ The following script belong to long-gone days. Nowadays, they are probably just 
 
 ### BITS
 
-The following scripsts ask the BITS service for a list of all of its download and upload operations with a certain status and format the results in a certain form. More specifically:
+The following scripts ask the BITS service for a list of all of its download and upload operations with a certain status and format the results in a certain form. More specifically:
 
 Script name                        | Desired job status         | Format
 ---------------------------------- | -------------------------- | ------
@@ -41,7 +41,7 @@ Script name                        | Desired job status         | Format
 
 ### Icon cache
 
-There was a period of time (2011–2016 timeframe) when Windows was plagued with bugs that corrupted the icon cache. These scripts were conceived in that time, as ways of mitigating the problem. I have long stopped using them though.
+There was a period of time (2011–2016) when Windows was plagued with bugs that corrupted the icon cache. These scripts were conceived in that time, as ways of mitigating the problem. I have long stopped using them though.
 
 `Refresh icon cache with MoveFile.cmd` is the most effective of those but it is hard-coded to use an installed copy of `MoveFile.exe` from the Microsoft Sysinternals utility set.
 
@@ -74,7 +74,30 @@ I conceived it as a script at a time when our site was suffering a network outag
 
 ### Shell
 
-- `PowerShell bug fix for 'Run with PowerShell' verb.reg` correctly registers Windows PowerShell with File Explorer. It is also useful for those who have corrupted or otherwise undesirably altered their `.ps1` registration.
+The following scripts fix the `.ps1` file association in Microsoft Windows.
+
+- `Fix 'Run with PowerShell' verb (legacy).reg`
+- `Fix 'Run with PowerShell' verb (PowerShell 7).reg`
+- `Fix 'Run with PowerShell' verb (Windows 10).reg`
+- `Fix 'Run with PowerShell' verb (Visual Studio Code - System).reg`
+
+Since at least PowerShell 3.0, there has been a bug in the "Run with PowerShell" verb (formerly "Run with Windows PowerShell") of the `.ps1` files: If your PowerShell script has a mono quotation mark (`'`) in its name, the "Run with PowerShell" command fails. Let's inspect the command string to find out why:
+
+```bash
+"C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" "-Command" "if((Get-ExecutionPolicy ) -ne 'AllSigned') { Set-ExecutionPolicy -Scope Process Bypass }; & '%1'"
+```
+
+The offending part is the last seven letters: `& '%1'"`
+
+In this string, `%1` gets replaced with the name of your `.ps1` file. If this file's name contains mono quotation marks, the parser gets mislead.
+
+In legacy PowerShell versions, the solution is to use the `-File` switch instead of the `-Command`. In modern versions of PowerShell (7.x and 5.1 for Windows 10), however, I opted a more fancy approach:
+
+```bash
+"C:\Program Files\PowerShell\7\pwsh.exe" -Command "$host.UI.RawUI.WindowTitle = 'PowerShell 7 (x64)'; if ((Get-ExecutionPolicy ) -ne 'AllSigned') { Set-ExecutionPolicy -Scope Process Bypass }; & """%1"""; Pause"
+```
+
+I've replaced the offending mono quotation marks with three double quotation marks. This way, I can keep using the `-Command` switch. I've added a new "Pause" instruction that prevents the script window from disappearing.
 
 ### Shutdown
 
@@ -133,7 +156,7 @@ The following two scripts are co-developed with Ramesh Srinivasan (the author of
 This special folder contains source code that one should not run directly. Rather, PowerShell developers could read them, learn from them, or include portions of them in their PowerShell scripts.
 
 - `Demo - Message boxes in PowerShell.ps1`: This scripts demonstrates how to invoke message boxes within a PowerShell script. Normally, one must not use message boxes (or `Write-Host`) inside PowerShell scripts. Before Windows 10, however, console apps had serious problems displaying Unicode characters, so I used message boxes instead.
-- `Demo - Pipline-ready function.ps1`: Demonstrates how PowerShell passes objects through the pipeline.
+- `Demo - Pipeline-ready function.ps1`: Demonstrates how PowerShell passes objects through the pipeline.
 - `Function library.psm1`: Contains a number of reusable functions. I've chosen the `.psm1` filename extension to prevent it from being accidentally run as a script, but it is not a real module. Each function has its own local help. The functions include:
     - **Test-ProcessAdminRights**: Returns $True when the process running this script has administrative privileges
     - **Test-UserAdminMembership**: Returns $True when the user account running this script is a member of the local Administrators group.

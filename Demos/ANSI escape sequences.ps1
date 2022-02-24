@@ -1,11 +1,14 @@
 #Requires -Version 5.1
 
-Clear-Host
+function PublicStaticVoidMain {
+  [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingWriteHost", "", Justification = "This script targets terminal emulators to diagnose their use of ANSI escape sequences. There is no point in running it headless. In addition, as of PowerShell 5.1, the PSAvoidUsingWriteHost warning is entirely meaningless because Write-Host has become a wrapper for Write-Information.")]
+  param ()
+  Clear-Host
 
-# Compatible with PowerShell 5.1
-[Char]$ESC = [Char]27
+  # Compatible with PowerShell 5.1
+  [Char]$ESC = [Char]27
 
-Write-Host @"
+  Write-Host @"
 This script helps you find out whether your terminal emulator supports ANSI escape sequences.
 
 $ESC[43;30m Styles $ESC[0m
@@ -35,3 +38,6 @@ $ESC[43;30m Normal background colors $ESC[0m   $ESC[43;30m Bright background col
 <ESC>[47m $ESC[47m       $ESC[0m    White   <ESC>[107m $ESC[107m       $ESC[0m   White
 
 "@
+}
+
+PublicStaticVoidMain @args

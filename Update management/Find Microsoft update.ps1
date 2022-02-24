@@ -25,7 +25,7 @@ using namespace System.Management.Automation
     PS C:\> $wsus.ImportUpdateFromCatalogSite('c9435bbf-e563-4feb-b43f-9c9200c6fdea', 'windows10.0-kb5003537-x64-ndp48.msu')
 
     To add a .msu file to your WSUS inventory, you need its ID. This script helps you find that ID.
-    Once you have both the .msu file and the ID, you can import that package as shown above. 
+    Once you have both the .msu file and the ID, you can import that package as shown above.
 .NOTES
     Special thanks to Wolfgang Sommergut for his educational article.
 #>

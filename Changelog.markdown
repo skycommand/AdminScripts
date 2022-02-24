@@ -1,5 +1,27 @@
 # Change log
 
+## February 2022
+
+New:
+
+- **Shell:** There are now three new `.reg` files that fix the `.ps1` file association in Microsoft Windows. Consult with the readme file about what they do.
+    - `Fix 'Run with PowerShell' verb (PowerShell 7).reg`
+    - `Fix 'Run with PowerShell' verb (Windows 10).reg`
+    - `Fix 'Run with PowerShell' verb (Visual Studio Code - System).reg`
+- **Code snippets\PS1 template.ps1** used as a template for creating new `.ps1` files.
+- **Demos\Pipeline-ready function.ps1** demonstrates the peculiarities of creating pipeline-ready functions.
+- **Unicode test suite\Text file.markdown** is UTF-16  LE text file that contains text in 12 different languages. Only very good text editors can show them all correctly.
+
+Changes:
+
+- **Many name changes.** I've renamed many of the scripts, as part of adopting the following coding guidelines:
+    - `.ps1` files will have natural English names, preferably starting with an imperative verb.
+    - `.ps1` files will contain scripts that are expected to run interactively. `Write-Host` is allowed.
+    - Fully automated scripts, from now on, go into `.psm1` modules and will have cmdlet names compliant with PowerShell verb-noun standards.
+    - `.ps1` files will not have a `pause` command. This was a fragile approach. The duty of keeping the PowerShell window open for the user to see the output is now with the operating system shell.
+- **Code snippets\Functions library.psm1** now passes PSScriptAnalyzer tests.
+- **Demos\ANSI escape sequences.ps1** now passes PSScriptAnalyzer tests.
+
 ## October 2021
 
 New:
@@ -21,7 +43,7 @@ Changes:
 
 New:
 
-- **~Meta~ Analyze.ps1:** Analyzes all PowerShell scripts via Script Analyzer.
+- **\~Meta\~ Analyze.ps1:** Analyzes all PowerShell scripts via Script Analyzer.
 - **Changelog.markdown:** The file whose contents you are reading right now!
 - **(Code snippets)\Template.psm1:** A simple template for creating `.psm1` files. It enables the strict mode, separates the public functions from private functions, and exposes the public functions.
 - **(Code snippets)\Demo - Pipline-ready function.ps1:** Demonstrates how PowerShell passes objects through the pipeline.

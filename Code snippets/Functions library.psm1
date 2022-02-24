@@ -1,4 +1,4 @@
-function Test-ProcessAdminRights {
+function Test-ProcessAdminRight {
   <#
   .SYNOPSIS
     Returns $True when the process running this script has administrative privileges
@@ -56,11 +56,11 @@ function Unregister-ScheduledTaskEx {
     # Add -Confirm:$false to make it stop
     Unregister-ScheduledTask -TaskName $MatchingTasks.TaskName -WhatIf:$WhatIfPreference
   } else {
-    Write-Verbose "Found no scheduled tasks matching the requested criteria"
+    Write-Verbose "Found no scheduled tasks matching the requested criteria: $TaskNameEx"
   }
 }
 
-function Remove-RegistryValues {
+function Remove-RegistryValue {
   <#
   .SYNOPSIS
     Attempts to remove one or more values from a given path in Windows Registry.
@@ -107,6 +107,8 @@ function New-TemporaryFileName {
   .NOTES
     Version 1.0
   #>
+  [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
+  param ()
   return "tmp$((Get-Random -Maximum 0xFFFF).ToString('X4')).tmp"
 }
 
@@ -126,49 +128,43 @@ function New-TemporaryFolderName {
   .NOTES
     None
   #>
+  [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
+  param ()
   return "tmp$((Get-Random -Maximum 0xFFFF).ToString('X4'))"
 }
 
 function Get-AlphabetUpper {
-    <#
-    .SYNOPSIS
-      Returns an array of Char containing 'A' through 'Z'.
-    .DESCRIPTION
-      Returns an array of Char  with 26 members. The array contains the uppercase alphabet letters 'A' through 'Z'.
-    .EXAMPLE
-      PS C:\> (Get-AlphabetUpper) -join ', '
-      A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z
-    .INPUTS
-      None
-    .OUTPUTS
-      System.Char[]
-    #>
+  <#
+  .SYNOPSIS
+    Returns an array of Char containing 'A' through 'Z'.
+  .DESCRIPTION
+    Returns an array of Char  with 26 members. The array contains the uppercase alphabet letters 'A' through 'Z'.
+  .EXAMPLE
+    PS C:\> (Get-AlphabetUpper) -join ', '
+    A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z
+  .INPUTS
+    None
+  .OUTPUTS
+    System.Char[]
+  #>
 
-    <#
-    [Byte]([char]'A') gives 65
-    [Byte]([char]'Z') gives 90
-    #>
-    return [Char[]](65..90)
-  }
+  return [Char[]](65..90)
+}
 
-  function Get-AlphabetLower {
-    <#
-    .SYNOPSIS
-      Returns an array of Char containing 'a' through 'a'.
-    .DESCRIPTION
-      Returns an array of Char  with 26 members. The array contains the lowercase alphabet letters 'a' through 'z'.
-    .EXAMPLE
-      PS C:\> (Get-AlphabetLower) -join ', '
-      a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z
-    .INPUTS
-      None
-    .OUTPUTS
-      System.Char[]
-    #>
+function Get-AlphabetLower {
+  <#
+  .SYNOPSIS
+    Returns an array of Char containing 'a' through 'a'.
+  .DESCRIPTION
+    Returns an array of Char  with 26 members. The array contains the lowercase alphabet letters 'a' through 'z'.
+  .EXAMPLE
+    PS C:\> (Get-AlphabetLower) -join ', '
+    a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z
+  .INPUTS
+    None
+  .OUTPUTS
+    System.Char[]
+  #>
 
-    <#
-    [Byte]([char]'a') gives 97
-    [Byte]([char]'z') gives 122
-    #>
-    return [Char[]](97..122)
-  }
+  return [Char[]](97..122)
+}

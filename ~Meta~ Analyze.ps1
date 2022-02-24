@@ -1,42 +1,48 @@
-#Requires -Version 5.1
+<#
+.SYNOPSIS
+  A controller script that runs PSScriptAnalyzer on this repo.
+.DESCRIPTION
+  Place this script at the root of your repo. Once run, it'll generates a list
+  of all .ps1 and .psm1 files in your repo and runs PSScriptAnalyzer on them one
+  by one.
+.EXAMPLE
+  PS C:\> & '.\~Meta~ Analyze.ps1' -Verbose
+  Runs the script, enabling verbose output.
+#>
+
+#Requires -Version 7.1
+
+using namespace System.Management.Automation
+
 [CmdletBinding()]
-param (
-  # Specifies a path to a location. The value of the LiteralPath parameter is used exactly as it
-  # is typed. No characters are interpreted as wildcards. If the path includes escape characters,
-  # enclose it in single quotation marks. Single quotation marks tell PowerShell not to interpret
-  # any characters as escape sequences.
-  [Parameter(Mandatory = $false,
-    Position = 0,
-    ParameterSetName = "LiteralPath",
-    HelpMessage = "Literal path to the location.")]
-  [Alias("PSPath")]
-  [String]
-  $LiteralPath
-)
-If ($LiteralPath -notin ($null, '')) {
-  $FilesToAnalyze = Get-Item $LiteralPath -ErrorAction Stop
-} else {
-  $FilesToAnalyze = Get-ChildItem *.ps1, *.psm1 -Recurse
-}
+param()
 
-Import-Module -Name PSScriptAnalyzer -MinimumVersion '1.19.1' -ErrorAction Stop
-Push-Location $PSScriptRoot
-$Settings = @{
-  Rules = @{
-    PSUseCompatibleSyntax = @{
-      # This turns the rule on (setting it to false will turn it off)
-      Enable         = $true
+function PublicStaticVoidMain {
+  [CmdletBinding()]
+  param ()
 
-      # List the targeted versions of PowerShell here
-      TargetVersions = @(
-        '5.1',
-        '6.2',
-        '7.0'
-      )
+  Import-Module -Name PSScriptAnalyzer -MinimumVersion '1.19.1' -ErrorAction Stop
+
+  $FilesToAnalyze = Get-ChildItem -Path $PSScriptRoot -Include '*.ps1', '*.psm1' -Recurse
+  $Settings = @{
+    Rules = @{
+      PSUseCompatibleSyntax = @{
+        # This turns the rule on (setting it to false will turn it off)
+        Enable         = $true
+
+        # List the targeted versions of PowerShell here
+        TargetVersions = @(
+          '5.1',
+          '7.0',
+          '7.2'
+        )
+      }
     }
   }
+  $FilesToAnalyze | ForEach-Object {
+    Write-Verbose -Message $_
+    Invoke-ScriptAnalyzer -Path $_ -Settings $Settings
+  } | Format-Table -AutoSize
 }
-$FilesToAnalyze | ForEach-Object {
-  Invoke-ScriptAnalyzer -Path $_ -Settings $Settings
-} | Format-Table -AutoSize
-Pop-Location
+
+PublicStaticVoidMain @args
