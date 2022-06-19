@@ -168,3 +168,48 @@ function Get-AlphabetLower {
 
   return [Char[]](97..122)
 }
+
+function Exit-BecauseOsIsNotSupported {
+  $PSCmdlet.ThrowTerminatingError(
+    [ErrorRecord]::new(
+      [PSInvalidOperationException]::new('This operating system is not supported.'),
+      'OSNotSupported',
+      [ErrorCategory]::InvalidOperation,
+      [System.Environment]::OSVersion
+    )
+  )
+}
+
+function Exit-BecauseFolderIsMissing {
+  param (
+    # Specify one or two words that says what's missing; use lowcase for indefinite nouns
+    [Parameter(Mandatory, Position = 0)][String]$Title,
+    # Specify the path of the missing folder
+    [Parameter(Mandatory, Position = 1)][String]$Path
+  )
+  $PSCmdlet.ThrowTerminatingError(
+    [ErrorRecord]::new(
+      [System.IO.DirectoryNotFoundException]::new("Could not find the $Title at '$Path'"),
+      'FolderNotFound',
+      [ErrorCategory]::ObjectNotFound,
+      $Path
+    )
+  )
+}
+
+function Exit-BecauseFileIsMissing {
+  param (
+    # Specify one or two words that says what's missing; use lowcase for indefinite nouns
+    [Parameter(Mandatory, Position = 0)][String]$Title,
+    # Specify the path of the missing file
+    [Parameter(Mandatory, Position = 1)][String]$Path
+  )
+  $PSCmdlet.ThrowTerminatingError(
+    [ErrorRecord]::new(
+      [System.IO.FileNotFoundException]::new("Could not find the $Title at '$Path'"),
+      'FileNotFound',
+      [ErrorCategory]::ObjectNotFound,
+      $Path
+    )
+  )
+}

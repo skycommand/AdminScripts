@@ -1,4 +1,7 @@
-﻿[CmdletBinding()]
+﻿#Requires -Version 5.1
+
+[CmdletBinding()]
+param ()
 
 <#
 C# code to expose SHLoadIndirectString(), derived from:

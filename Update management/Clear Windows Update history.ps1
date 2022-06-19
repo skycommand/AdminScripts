@@ -26,10 +26,11 @@ function Public_Static_Void_Main {
 
 
   If ($IsWindows10v20H1andLater) {
-    Stop-Service -Name usosvc, wuauserv
+    Stop-Service -Name BITS,DoSvc,UsoSvc,WaaSMedicSvc,wuauserv
+    Remove-Item "$SystemRoot\Logs\WindowsUpdate\*" -Force
     Remove-Item "$SystemRoot\SoftwareDistribution\DataStore\Logs\edb.log" -Force
     Remove-Item "$ProgramData\USOPrivate\UpdateStore\*" -Force
-    Start-Service -Name usosvc, wuauserv
+    Start-Service -Name BITS,DoSvc,UsoSvc,WaaSMedicSvc,wuauserv
     & UsoClient.exe RefreshSettings
   } else {
     Stop-Service -Name wuauserv
