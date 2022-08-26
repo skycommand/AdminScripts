@@ -115,10 +115,14 @@ function Optimize-EnvPath {
   $UserEnvPathOut = $UserEnvPathList -Join ';'
   $MachineEnvPathOut = $MachineEnvPathList -Join ';'
 
-  Write-Output "`r`nInitial machine paths: `r`n$MachineEnvPathIn"
-  Write-Output "`r`nOptimized machine paths: `r`n$MachineEnvPathOut"
-  Write-Output "`r`nInitial user paths: `r`n$UserEnvPathIn"
-  Write-Output "`r`nOptimized user paths: `r`n$UserEnvPathOut"
+  if ($MachineEnvPathIn -ne $MachineEnvPathOut) {
+    Write-Output "`r`nInitial machine paths: `r`n$MachineEnvPathIn"
+    Write-Output "`r`nOptimized machine paths: `r`n$MachineEnvPathOut"
+  }
+  if ($UserEnvPathIn -ne $UserEnvPathOut) {
+    Write-Output "`r`nInitial user paths: `r`n$UserEnvPathIn"
+    Write-Output "`r`nOptimized user paths: `r`n$UserEnvPathOut"
+  }
 }
 
 function ValidateOS {
