@@ -13,12 +13,27 @@ function Test-ProcessAdminRight {
   return $WindowsPrincipal.IsInRole( [System.Security.Principal.WindowsBuiltInRole]::Administrator )
 }
 
-function Test-UserAdminMembership {
+function Test-UserAdminMembershipDirect {
   <#
   .SYNOPSIS
-    Returns $True when the user account running this script is a member of the local Administrators group.
+    Returns $True when the user account running this script is a **direct** member of the local Administrators group.
   .DESCRIPTION
-    This function checks whether the current user account is a member of the local Administrators group. If the answer is positive, depending on the User Account Control configuration on this machine, this script may either be running with administrative privileges or may request it.
+    This function checks whether the current user account is a **direct** member of the local Administrators group. However, even when this function returns $False, the user account may still be a nested member of said group.
+    
+    This function has several use cases, but it is not a reliable test as to whether the script running it has administrative privileges. (For that purpose, use Test-ProcessAdminRight.)
+  #>
+  $MyId = [System.Security.Principal.WindowsIdentity]::GetCurrent()
+  return $MyId.Name -in $(Get-LocalGroupMember -Name Administrators).Name
+}
+
+function Test-UserAdminMembershipRecursive {
+  <#
+  .SYNOPSIS
+    Returns $True when the user account running this script is a member (direct or nested) of the local Administrators group.
+  .DESCRIPTION
+    This function checks whether the current user account is a member of the local Administrators group or one of its subgroups.
+    
+    This function is not a reliable test as to whether the script running it has administrative privileges. (For that purpose, use Test-ProcessAdminRight.) However, it has several use cases, one of which is knowing whether the current user can request elevated access through the User Account Control.
   #>
   $MyId = [System.Security.Principal.WindowsIdentity]::GetCurrent()
   return $MyId.Claims.Value.Contains('S-1-5-32-544')
