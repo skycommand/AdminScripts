@@ -62,7 +62,7 @@ This folder contains code that one should not run directly. Rather, PowerShell d
 ### Demos
 
 - `ANSI escape sequences.ps1`: Demonstrates the use of ANSI escape sequences to write text in plain, bold, underlined, and inverse styles, as well as in the 16 basic colors.
-- `Enumerate system colors.ps1`: Demonstrates the `System.Drawing.SystemColors` class. This class enumerates the colors that Windows 7 uses to render its standard UI on the screen. Unfortunately, this class has limited uses in Windows 10 because it cannot retrieve the new Accent Color.
+- `System colors.ps1`: Demonstrates the `System.Drawing.SystemColors` class. This class enumerates the colors that Windows 7 uses to render its standard UI on the screen. Unfortunately, this class has limited uses in Windows 10 because it cannot retrieve the new Accent Color.
 - `Hello, World!.ps1`: All developers start their journey by writing a "Hello, World!" app. This is the app in PowerShell.
 - `Message boxes in PowerShell.ps1`: This scripts demonstrates how to invoke message boxes within a PowerShell script. Normally, one must not use message boxes (or `Write-Host`) inside PowerShell scripts. Before Windows 10, however, console apps had serious problems displaying Unicode characters, so I used message boxes instead.
 - `Pipeline-ready function.ps1`: Demonstrates how PowerShell passes objects through the pipeline.
@@ -92,6 +92,7 @@ This folder contains code that one should not run directly. Rather, PowerShell d
 - `Optimize PATH variable.ps1`: If you work with package managers (as a developer) or containerization solutions (as an IT admin), your PATH variable gets dirty soon. This script inspects both copies of PATH (per-user and machine-wide), removes bad or redundant entries, normalizes paths, and displays the optimized results.
 - `Repair all volumes.ps1`: Enumerates all fixed-disk volumes and sequentially runs `Repair-Volume` on them to scan them for errors.
 - `Repair Windows.ps1`: Repairs the online Windows instance by running DISM and SFC. Their logs are moved to the desktop.
+- `Get installed apps.ps1`: A rudimentary script that queries Windows Registry for installed apps. In Windows PowerShell 5.1, you could accomplish the same via the `Get-Package` cmdlet since Windows comes bundled with a "Programs" package provider. This provider is not available in PowerShell 7.0 and later.
 
 ### Security
 

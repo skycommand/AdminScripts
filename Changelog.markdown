@@ -4,7 +4,7 @@
 
 New:
 
-- **Maintenance\Get installed apps.ps1** A rudimentary script that queries Windows Registry for installed apps. In Windows PowerShell 5.1, you could accomplish the same via `Get-Package` module since Windows comes bundled with a "Programs" package provider, which is not available in PowerShell 7.0 and later.
+- **Maintenance\Get installed apps.ps1** A rudimentary script that queries Windows Registry for installed apps. In Windows PowerShell 5.1, you could accomplish the same via the `Get-Package` cmdlet since Windows comes bundled with a "Programs" package provider. This provider is not available in PowerShell 7.0 and later.
 
 Changes:
 
