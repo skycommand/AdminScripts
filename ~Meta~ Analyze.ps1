@@ -21,7 +21,7 @@ function PublicStaticVoidMain {
   [CmdletBinding()]
   param ()
 
-  Import-Module -Name PSScriptAnalyzer -MinimumVersion '1.19.1' -ErrorAction Stop
+  Import-Module -Name PSScriptAnalyzer -MinimumVersion '1.21.0' -ErrorAction Stop
 
   $FilesToAnalyze = Get-ChildItem -Path $PSScriptRoot -Include '*.ps1', '*.psm1' -Recurse
   $Settings = @{

@@ -1,5 +1,21 @@
 # Change log
 
+## February 2022
+
+New:
+
+- **Maintenance\Get installed apps.ps1** A rudimentary script that queries Windows Registry for installed apps. In Windows PowerShell 5.1, you could accomplish the same via `Get-Package` module since Windows comes bundled with a "Programs" package provider, which is not available in PowerShell 7.0 and later.
+
+Changes:
+
+- **Demos\ANSI escape sequences.ps1**: More comprehensive demo. Uses `Write-Output` instead of `Write-Host`.
+- **Demos\System colors.ps1**: Renamed from `Enumerate system colors.ps1`. Fixed PowerShell 5.1 compatibility. Used `Write-Output` instead of `Write-Host`.
+- **Graphics\Find good JPEG images (Opt-1).ps1**: Added comment-based help
+- **Graphics\Find good JPEG images.ps1**: Added comment-based help
+- **Shell\Wallpaper\Find current wallpaper.ps1**: Despite almost every byte in the file having changed, there has been little difference in their functionality. I intended to add the ability to find additional wallpapers on systems with two or more monitors but I'm having trouble procuring a second monitor.
+- **Shell\Wallpaper\Find current wallpaper (Windows 7).ps1**: Ditto
+- The analyzer now loads a more recent version of PSScriptAnalyzer
+
 ## June 2022
 
 New:

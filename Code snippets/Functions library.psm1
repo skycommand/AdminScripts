@@ -19,7 +19,7 @@ function Test-UserAdminMembershipDirect {
     Returns $True when the user account running this script is a **direct** member of the local Administrators group.
   .DESCRIPTION
     This function checks whether the current user account is a **direct** member of the local Administrators group. However, even when this function returns $False, the user account may still be a nested member of said group.
-    
+
     This function has several use cases, but it is not a reliable test as to whether the script running it has administrative privileges. (For that purpose, use Test-ProcessAdminRight.)
   #>
   $MyId = [System.Security.Principal.WindowsIdentity]::GetCurrent()
@@ -32,7 +32,7 @@ function Test-UserAdminMembershipRecursive {
     Returns $True when the user account running this script is a member (direct or nested) of the local Administrators group.
   .DESCRIPTION
     This function checks whether the current user account is a member of the local Administrators group or one of its subgroups.
-    
+
     This function is not a reliable test as to whether the script running it has administrative privileges. (For that purpose, use Test-ProcessAdminRight.) However, it has several use cases, one of which is knowing whether the current user can request elevated access through the User Account Control.
   #>
   $MyId = [System.Security.Principal.WindowsIdentity]::GetCurrent()

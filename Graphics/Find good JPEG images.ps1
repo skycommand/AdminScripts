@@ -1,3 +1,22 @@
+<#
+.SYNOPSIS
+  Finds valid JPEG images in folder.
+.DESCRIPTION
+  Searches a folder (and optionally its subfolders) for JPEG images and tries to decode each image.
+  Reports valid JPEG images. Optionally, reports the number of "bad" images.
+.EXAMPLE
+  PS C:\> & 'Find good JPEG images.ps1' -LiteralPath 'D:\My Images' -Recurse -Verbose
+  Scans all JPEG files in 'D:\My Images' and its subfolders.
+.PARAMETER LiteralPath
+  Specifies a path to one folder. Wildcards are not allowed.
+.PARAMETER Recurse
+  Specifies whether to search all subfolders in the given path.
+.NOTES
+  At the time of its development (2022 AD), this script only worked on Microsoft Windows because
+  .NET relies on Windows GDI+ to decode JPEG. Hence, a "bad" JPEG image is one that GDI+ cannot
+  understand. (GDI+ raises error code 0x80004005.) GDI+ does not understand arithmetic coding.
+#>
+
 #Requires -Version 7.2
 
 using namespace System.Management.Automation
