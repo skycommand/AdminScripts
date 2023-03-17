@@ -1,58 +1,115 @@
-﻿<#  ATTENTION:
-
-    YOU. WILL. FAIL...
-    ...if you try to run this script by the following methods:
-    1. PowerShell.exe ScriptName.ps1
-    2. Right-clicking, selecting Open With..., choosing PowerShell
-
-    Reason: PowerShell's script execution syntax is:
-    powershell.exe -File <ScriptName.ps1> <args>
+﻿<#
+.SYNOPSIS
+  Short description
+.DESCRIPTION
+  Long description
+.EXAMPLE
+  PS C:\> <example usage>
+  Explanation of what the example does
+.INPUTS
+  Inputs (if any)
+.OUTPUTS
+  Output (if any)
+.NOTES
+  General notes
 #>
 
+#Requires -Version 5.1
+
+using namespace System.Management.Automation
+using namespace System.Windows.Forms
+using namespace System.Security.Principal
+
+[CmdletBinding()]
+[OutputType([void])]
 param (
-    [parameter(mandatory=$false)][Switch]$BypassAdminPrompt
+  [parameter(mandatory = $false)][Switch]$BypassAdminPrompt
 )
-Try
-{
+
+function Initialize {
+  [OutputType([void])]
+  param()
+
+  <#  Load the Windows Forms extension and initialize visual styles
+      The correct loading of this assembly is essential for the use of message boxes. So, we cannot
+      wrap this code inside a exception handler that shows errors via message boxes. In addition,
+      Add-Type is a jerk. It doesn't understand the meaning of -ErrorAction = 'Stop'.
+  #>
+  $ErrorActionPreference = 'Stop'
+  Add-Type -AssemblyName 'System.Windows.Forms'
+  [Application]::EnableVisualStyles()
+  $ErrorActionPreference = 'Continue'
+
   Clear-Host
+}
 
-  # Get script name
-  $ScriptName=(Split-Path $PSCommandPath -Leaf)
+function Write-ErrorMessage {
+  [OutputType ([void])]
+  param(
+    # Error message to write
+    [Parameter(Mandatory, Position = 0)]
+    [String]
+    $Message
+  )
 
-  # Load Windows Forms and initialize visual styles
-  [void][System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
-  [System.Windows.Forms.Application]::EnableVisualStyles()
+  [MessageBox]::Show(
+    $Message,
+    (Split-Path -Path $PSCommandPath -Leaf),
+    "OK",
+    "Error"
+  ) | Out-Null
+}
 
-  # Is the script holding administrative privileges?
-  If (-NOT ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
+function HaveAdminPrivileges {
+  [OutputType([bool])]
+  param()
+
+  If (-NOT ([WindowsPrincipal] [WindowsIdentity]::GetCurrent()).IsInRole([WindowsBuiltInRole] "Administrator")) {
     if (!$BypassAdminPrompt) {
-      Start-Process "powershell.exe" -ArgumentList "-NoExit -File `"$PSCommandPath`" -BypassAdminPrompt" -Verb RunAs
+      $StartProcessArgs = @{
+        FilePath     = [Environment]::ProcessPath
+        ArgumentList = "-NoExit -File `"$PSCommandPath`" -BypassAdminPrompt"
+        Verb         = 'RunAs'
+      }
+      Start-Process @StartProcessArgs
     } else {
-      [System.Windows.Forms.MessageBox]::Show("This script requires administrative privileges, which are absent.", $ScriptName, "OK", "Error") | Out-Null
+      Write-ErrorMessage -Message "This script requires administrative privileges, which are absent."
     }
-    break;
+    return $false
+  } else {
+    return $true
   }
+}
 
-  # Install...
+function InstallUpdates {
+  [OutputType([void])]
+  param()
+
+  $ErrorActionPreference = 'Stop'
   Set-Location $PSScriptRoot
   $MSP_list = Get-ChildItem *.msp -Recurse
   if ($null -eq $MSP_list) {
-    [System.Windows.Forms.MessageBox]::Show("Nothing found to install.`rSearch path was "+$PSScriptRoot, $ScriptName, "OK", "Error") | Out-Null
-  }
-  else
-  {
+    Write-ErrorMessage -Message "We found nothing found to install in:`r`n$PSScriptRoot"
+  } else {
     $MSP_list | ForEach-Object {
       $filename = $_.FullName
-      Output $filename
-      $a=Start-Process msiexec.exe -ArgumentList "/p `"$filename`" /passive /norestart" -Wait -PassThru
+      Write-Output $filename
+      $a = Start-Process msiexec.exe -ArgumentList "/p `"$filename`" /passive /norestart" -Wait -PassThru
       Write-Output "Exit code: $($a.ExitCode)"
     }
     Remove-Variable filename
   }
   Remove-Variable MSP_list
+  $ErrorActionPreference = 'Continue'
 }
-Catch
-{
-  [System.Windows.Forms.MessageBox]::Show("Error!`r`r"+$Error[0], $ScriptName, "OK", "Error") | Out-Null
-  break;
+
+function Main {
+  Initialize
+  Try {
+    if (HaveAdminPrivileges) { InstallUpdates }
+  } Catch {
+    Write-ErrorMessage -Message "Error!`r`r$($Error[0])"
+  }
 }
+
+Main @args

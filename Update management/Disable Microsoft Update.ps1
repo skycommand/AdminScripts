@@ -1,4 +1,7 @@
+#Requires -Version 5.1
 #Requires -RunAsAdministrator
+#I discovered the hard way that even though the following syntax is valid in PowerShell 2.0, it does
+#nothing.
 
 $ServiceManager = (New-Object -ComObject "Microsoft.Update.ServiceManager")
 $ServiceManager.ClientApplicationID = "My App"

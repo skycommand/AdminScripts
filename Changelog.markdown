@@ -1,10 +1,26 @@
 # Change log
 
+## March 2022
+
+Featured change:
+
+- **Shell\Wallpaper\Find current wallpaper.ps1**: I finally managed to obtain a second monitor! Now, this script correctly reports all wallpaper when multiple monitors have different wallpapers.
+
+Other changes:
+
+- **Shell\Wallpaper\Find current wallpaper (Windows 7).ps1**: Fixed error handling bug.
+- **Unicode test suite**: Now that my cooperation with Wikipedia is over, I removed Wikipedia logos. The last sentence was an understatement. A Wikipedia moderator called `User:Bbb23` accused me of being a "sock puppet" and threatened to block my account on Wikipedia. For the record, I don't have an account on Wikipedia.
+- **Update management\Disable Microsoft Update.ps1**: Added `#Requires -Version 5.1`.
+- **Update management\Enable Microsoft Update.ps1**: Added `#Requires -Version 5.1`.
+- **Update management\Install updates with Dism.exe.ps1**: Fixed error handling bug.
+- **Update management\Install updates with MsiExec.exe.ps1**: Fixed error handling bug.
+- **Update management\Install updates with PowerShell.ps1**: Fixed error handling bug.
+
 ## February 2022
 
 New:
 
-- **Maintenance\Get installed apps.ps1** A rudimentary script that queries Windows Registry for installed apps. In Windows PowerShell 5.1, you could accomplish the same via the `Get-Package` cmdlet since Windows comes bundled with a "Programs" package provider. This provider is not available in PowerShell 7.0 and later.
+- **Maintenance\Get installed apps.ps1**: A rudimentary script that queries Windows Registry for installed apps. In Windows PowerShell 5.1, you could accomplish the same via the `Get-Package` cmdlet since Windows comes bundled with a "Programs" package provider. This provider is not available in PowerShell 7.0 and later.
 
 Changes:
 

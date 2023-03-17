@@ -12,6 +12,22 @@ This repository contains scripts that I use for carrying out various tasks in Wi
 
 You can either download each script individually or clone this entire repository. With one exception, all scripts are standalone and have no dependencies. That exception is the `MpDefinitionPackage` PowerShell module. (It's a PowerShell script module, meaning that you need its entire folder.) Most scripts are in PowerShell, so you need to open a PowerShell window to run them.
 
+### Note for the newbies
+
+I'm flattered that you intend to use my scripts. I hope you find them useful. But please pay attention.
+
+YOU. WILL. FAIL...
+
+...if you try to run this script by the following methods:
+
+1. Issuing a `PowerShell.exe ScriptName.ps1` command
+2. Right-clicking `ScriptName.ps1`, selecting Open With..., choosing PowerShell
+
+Reason: PowerShell's script execution syntax is:
+
+    powershell.exe -File "<ScriptName.ps1>" <parameters>
+
+
 ## Description of scripts
 
 ### AppX
@@ -189,13 +205,13 @@ The names of these scripts are self-explanatory.
 
 ### Unicode test suite
 
-A group of PNG images with multilingual file names. This set is intended to represent a practical real-world use of Unicode.
+In this folder, you find a group of text files that use Unicode characters in their names. They represent a widespread Unicode use case that does not consist of some arbitrary Unicode characters. The Unicode strings used in the file names have been in front of two billion Internet users for one and half a decade. They are the most peer-reviewed pieces of Unicode strings in the world.
 
-See [its documentation](Unicode%20test%20suite/README.md).
+These files aren't copyright-encumbered. But please be aware that "Wikipedia" is a trademark of "Wikimedia Foundation." As long as you don't try to include it in the title of your product or organization, you are fine.
 
 ### Update management
 
-- `Clear Windows Update history.ps1`: This scripts clears the so-called Windows "update history," which is a log of installation events, not a history. This log could be potentially misleading. It might report that you've installed the "security update for Visual C++ 2005 SP1 Redistributable Package" on such-and-such date and time, without telling that you've removed the entire Visual C++ 2005 SP1 Redistributable Package on a later date. Clearing scary logs is sometimes necessary.
+- `Clear Windows Update history.ps1`: This scripts clears the so-called Windows "update history," which is a log of installation events, not a history. This log could be potentially misleading. It might report that you've installed the "security update for Visual C++ 2005 SP1 Redistributable Package" on such-and-such date and time, without telling that you've removed it on a later date. Clearing scary logs is sometimes necessary.
 - `Disable Microsoft Update.ps1` and `Enable Microsoft Update.ps1` are used to enable or disable the "Microsoft Update" channel on the local computer. These scripts are much faster than the cumbersome official GUI way, which I've long forgotten. When the "Microsoft Update" channel is not enabled, Windows uses the "Windows Update" channel instead.
 - `Find update on Microsoft Catalog.ps1`: Finds an update package on Microsoft Catalog and returns its ID.
 - `Get automatic update services.ps1`: Gives you a list of all update channels registered with the local instance of the Windows Update service. You are probably aware of the "Windows Update" and "Microsoft Update" channels. (The former contains updates for Windows only, the latter for all Microsoft products.) But not everyone knows about WSUS. This script is specifically useful to find out if the local computer is properly registered with WSUS.

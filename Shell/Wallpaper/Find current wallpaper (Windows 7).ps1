@@ -1,10 +1,11 @@
 ﻿<#
 .SYNOPSIS
-  Finds Windows wallpapers. Intended for legacy versions of Windows.
+  Finds the Windows wallpaper on Windows 7 and Windows Server 2008 R2.
 .DESCRIPTION
-  Finds the paths to the currently displayed Windows wallpapers. Once found, the script lists them
-  in a message box. You can use Ctrl+C to copy the contents of the message box. Intended for use
-  with Windows Vista and Windows 7, as well as their siblings.
+  Finds the path to the currently displayed Windows wallpaper, and displays the
+  path in a message box. You can use Ctrl+C to copy the contents of the message
+  box. Additionally, the message box allows you to direct Windows Explorer to
+  the wallpaper's path.
 .INPUTS
   None
 .OUTPUTS
@@ -12,53 +13,80 @@
 .NOTES
   This script uses PowerShell in the capacity of a generic scripting language.
   Hence, it is not automation-friendly.
+  This script doesn't support multiple monitors.
 #>
 
 #Requires -Version 5.1
 
 using namespace System.Management.Automation
+using namespace System.Windows.Forms
 
 [CmdletBinding()]
 param()
 
-function PublicStaticVoidMain {
-  Try {
-    # Load Windows Forms and initialize visual styles
-    Add-Type -AssemblyName 'System.Windows.Forms' -ErrorAction 'Stop'
-    [System.Windows.Forms.Application]::EnableVisualStyles()
+function Write-ErrorMessage {
+  param(
+    # Error message to write
+    [Parameter(Mandatory, Position = 0)]
+    [String]
+    $Message
+  )
+  [MessageBox]::Show(
+    $Message,
+    (Split-Path -Path $PSCommandPath -Leaf),
+    "OK",
+    "Error"
+  ) | Out-Null
+}
 
+function PublicStaticVoidMain {
+  <#  Load the Windows Forms extension and initialize visual styles
+      The correct loading of this assembly is essential for the use of message boxes. So, we cannot
+      wrap this code inside a exception handler that shows errors via message boxes. In addition,
+      Add-Type is a jerk. It doesn't understand the meaning of -ErrorAction = 'Stop'.
+  #>
+  $ErrorActionPreference = 'Stop'
+  Add-Type -AssemblyName 'System.Windows.Forms'
+  [Application]::EnableVisualStyles()
+  $ErrorActionPreference = 'Continue'
+
+  try {
     # Check Windows verison
-    $vers = [System.Environment]::OSVersion.Version
-    If (!(($vers.Major -eq 6) -and ($vers.Minor -eq 1))) {
-      $result = [System.Windows.Forms.MessageBox]::Show("This operating system is not supported. This script only supports Windows NT 6.1. (i.e. Windows 7 or Windows Server 2008 R2). You seem to be running:`r`r" + [System.Environment]::OSVersion.VersionString, "Script", "OK", "Error");
-      break;
+    $vers = [Environment]::OSVersion.Version
+    if (!(($vers.Major -eq 6) -and ($vers.Minor -eq 1))) {
+      Write-ErrorMessage "This script only supports Windows 7 or Windows Server 2008 R2. (They identify themselves as Windows NT 6.1.) You seem to be running:`r`r$([Environment]::OSVersion.VersionString)"
+      break
     }
 
     # Access Windows Registry and get wallpaper path
     try {
       $WallpaperSource = (Get-ItemProperty "HKCU:\Software\Microsoft\Internet Explorer\Desktop\General" WallpaperSource -ErrorAction Stop).WallpaperSource
-    } catch [System.Management.Automation.ItemNotFoundException], [System.Management.Automation.PSArgumentException] {
-      $result = [System.Windows.Forms.MessageBox]::Show("Windows does not seem to be holding a record of a wallpaper at this time.`r`r" + $Error[0].Exception.Message, "Script", "OK", "Error");
-      break;
+    } catch [ItemNotFoundException], [PSArgumentException] {
+      Write-ErrorMessage  "We could not find the wallpaper's location.`r`r$($Error[0].Exception.Message)"
+      break
     }
 
     # Test item's existence
     try {
       Get-Item $WallpaperSource -Force -ErrorAction Stop | Out-Null
-    } catch [System.Management.Automation.ItemNotFoundException] {
-      $result = [System.Windows.Forms.MessageBox]::Show("Wallpaper is not found at the location Windows believes it is: `r$WallpaperSource", "Script", "OK", "Warning");
-      break;
+    } catch [ItemNotFoundException] {
+      Write-ErrorMessage "We found the wallpaper's location but it seems invalid: `r$WallpaperSource"
+      break
     }
 
-    # Wallpaper should by now have been found.
-    # Present it to the user. If he so chooses, launch Explorer to take him were wallpaper is.
-    $result = [System.Windows.Forms.MessageBox]::Show("Wallpaper location: `r$WallpaperSource`r`rLaunch Explorer?", "Script", "YesNo", "Asterisk");
+    # Show the item
+    $result = [MessageBox]::Show(
+      "We found a wallpaper at: `r$WallpaperSource`r`rLaunch Explorer?",
+      "Script",
+      "YesNo",
+      "Asterisk"
+    )
     if ($result -eq "Yes") {
       Start-Process explorer.exe -ArgumentList "/select,`"$WallpaperSource`""
     }
-  } Catch {
-    $result = [System.Windows.Forms.MessageBox]::Show("Error!`r`r" + $Error[0], "Script", "OK", "Error");
-    break;
+  } catch {
+    Write-ErrorMessage "Error!`r`r$($Error[0])"
+    break
   }
 
 }

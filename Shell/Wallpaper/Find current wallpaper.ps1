@@ -2,8 +2,10 @@
 .SYNOPSIS
   Finds Windows wallpapers
 .DESCRIPTION
-  Finds the paths to the currently displayed Windows wallpapers. Once found, the script lists them
-  in a message box. You can use Ctrl+C to copy the contents of the message box.
+  Finds paths of currently displayed Windows wallpapers. Once found, the script
+  lists them in a message box. You can use Ctrl+C to copy the contents of the
+  message box. Alternatively, the box allows you to launch File Explorer windows
+  pointing to each wallpaper's path.
 .INPUTS
   None
 .OUTPUTS
@@ -16,77 +18,132 @@
 #Requires -Version 5.1
 
 using namespace System.Management.Automation
+using namespace System.Windows.Forms
+using namespace System.Collections.Generic
+using namespace System.Text
 
 [CmdletBinding()]
 param()
 
+function Write-ErrorMessage {
+  param(
+    # Error message to write
+    [Parameter(Mandatory, Position = 0)]
+    [String]
+    $Message
+  )
+  [MessageBox]::Show(
+    $Message,
+    (Split-Path -Path $PSCommandPath -Leaf),
+    "OK",
+    "Error"
+  ) | Out-Null
+}
+
 function PublicStaticVoidMain {
-  Try
-  {
-    # Load Windows Forms and initialize visual styles
-    Add-Type -AssemblyName 'System.Windows.Forms' -ErrorAction 'Stop'
-    [System.Windows.Forms.Application]::EnableVisualStyles()
+  # Constants
+  $RegKeyPath = 'HKCU:\Control Panel\Desktop'
+  $RegValue = 'TranscodedImageCache(|_\d\d\d)'
+  $PathStartDelta = 24
+  $ErrorCountReadValue = 0
 
+  <#  Load the Windows Forms extension and initialize visual styles
+      The correct loading of this assembly is essential for the use of message boxes. So, we cannot
+      wrap this code inside a exception handler that shows errors via message boxes. In addition,
+      Add-Type is a jerk. It doesn't understand the meaning of -ErrorAction = 'Stop'.
+  #>
+  $ErrorActionPreference = 'Stop'
+  Add-Type -AssemblyName 'System.Windows.Forms'
+  [Application]::EnableVisualStyles()
+  $ErrorActionPreference = 'Continue'
+
+  try {
     # Check Windows verison
-    $vers=[System.Environment]::OSVersion.Version
+    $vers = [Environment]::OSVersion.Version
     If (!(($vers.Major -eq 10) -or (($vers.Major -eq 6) -and ($vers.Minor -ge 2)))) {
-      $result=[System.Windows.Forms.MessageBox]::Show("This operating system is not supported. This script only supports Windows NT 6.2, 6.3 or 10.x (i.e., Windows 8, 10, and 11, as well as their Windows Server siblings). You seem to be running:`r`r"+[System.Environment]::OSVersion.VersionString, "Script", "OK", "Error");
-      break;
+      Write-ErrorMessage "This script only supports Windows 8, 10, and 11, as well as their Windows Server siblings. (They identify themselves as Windows NT 6.2, 6.3 or 10.0.) You seem to be running:`r`r$([Environment]::OSVersion.VersionString)"
+      break
     }
 
-    # Initialize counters
-    $Path_Start_Delta=24  #The offset at which the image path starts
-    $Path_End_Delta=-1    #The offset at which the image path ends... is still unknown
+    # Initialize the decoder
+    [UnicodeEncoding]$UnicodeObject = [UnicodeEncoding]::new()
 
-    # First, access Windows Registry and get the property containing wallpaper path
-    try {
-      $TranscodedImageCache=(Get-ItemProperty -Path 'HKCU:\Control Panel\Desktop' -Name 'TranscodedImageCache' -ErrorAction 'Stop').TranscodedImageCache
-    }
-    catch [System.Management.Automation.ItemNotFoundException],[System.Management.Automation.PSArgumentException]  {
-      $result=[System.Windows.Forms.MessageBox]::Show("Windows does not seem to be holding a record of a wallpaper at this time.`r`r"+$Error[0].Exception.Message,"Script","OK","Error");
-      break;
-    }
+    # Read and decode
+    [HashSet[String]]$PathList = [HashSet[String]]::new()
+    $RegKey = Get-Item -LiteralPath $RegKeyPath -ErrorAction 'Stop'
+    $RegValueList = $RegKey.Property -match $RegValue
+    $RegValueList | ForEach-Object {
+      try {
+        if ($RegKey.GetValueKind($PSItem) -eq 'Binary') {
+          [Byte[]]$Encoded = $RegKey.GetValue($PSItem)
 
-    # Decode the property containing the path
-    # First, let's assume the path ends at the last byte of $TranscodedImageCache
-    $Path_End_Delta=$TranscodedImageCache.length-1
-
-    # A sequence of 0x00 0x00 marks the end of string. Find it.
-    # The array that we are searching contains a UTF-16 string. Each character is a little-endian WORD,
-    # so we can search the array's even indexes only.
-    for ($i = $Path_Start_Delta; $i -lt ($TranscodedImageCache.length); $i += 2) {
-      if ($TranscodedImageCache[($i+2)..($i+3)] -eq 0) {
-        $Path_End_Delta=$i + 1;
-        Break;
+          # This part looks for the end of a null-terminated UTF16 string. It checks each element
+          # with an even index and its subsequent element for a 0x0000 sequence. Please note that
+          # there may be other data after the string.
+          $PathLength = $Encoded.Length - $PathStartDelta
+          for ($i = $PathStartDelta + 2; $i -lt ($Encoded.length); $i += 2) {
+            if (0 -eq $Encoded[$i] -bor $Encoded[($i + 1)]) {
+              $PathLength = $i - $PathStartDelta
+              break
+            }
+          }
+          $Decoded = $UnicodeObject.GetString($Encoded, $PathStartDelta, $PathLength)
+          $PathList.Add($Decoded) | Out-Null
+        } else {
+          $ErrorCountReadValue++
+        }
+      } catch {
+        $ErrorCountReadValue++
       }
     }
 
-    # Convert the bytes holding the wallpaper path to a Unicode string
-    $UnicodeObject=New-Object System.Text.UnicodeEncoding
-    $WallpaperSource=$UnicodeObject.GetString($TranscodedImageCache[$Path_Start_Delta..$Path_End_Delta]);
+    # Compile the results
+    $MessageBuilder = [StringBuilder]::new()
 
-
-    # Test item's existence
-    try {
-      Get-Item $WallpaperSource -Force -ErrorAction Stop | Out-Null
+    if ($ErrorCountReadValue -eq 0) {
+      $MessageIcon = [MessageBoxIcon]::Asterisk
+      if ($PathList.Count -gt 0) {
+        $MessageButtons = [MessageBoxButtons]::YesNo
+        $MessageBuilder.AppendLine('We found the following wallpaper records:') | Out-Null
+      } else {
+        $MessageButtons = [MessageBoxButtons]::OK
+        $MessageBuilder.AppendLine('We found no wallpaper records.') | Out-Null
+      }
+    } else {
+      $MessageIcon = [MessageBoxIcon]::Warning
+      $MessageBuilder.AppendFormat('We encountered {0} errors while reading Windows Registry.', $ErrorCountReadValue) | Out-Null
+      if ($PathList.Count -gt 0) {
+        $MessageButtons = [MessageBoxButtons]::YesNo
+        $MessageBuilder.AppendLine() | Out-Null
+        $MessageBuilder.AppendLine('Nevertheless, we found the following wallpaper records:') | Out-Null
+      } else {
+        $MessageButtons = [MessageBoxButtons]::OK
+        $MessageBuilder.Append(' As result, we found no wallpaper records.') | Out-Null
+      }
     }
-    catch [System.Management.Automation.ItemNotFoundException] {
-      $result=[System.Windows.Forms.MessageBox]::Show("Wallpaper is not found at the location Windows believes it is: `r$WallpaperSource", "Script", "OK", "Warning");
-      break;
+    if ($PathList.Count -ne 0) {
+      $MessageBuilder.AppendLine() | Out-Null
+      foreach ($element in $PathList) {
+        $MessageBuilder.AppendLine($element) | Out-Null
+      }
     }
 
-    # Wallpaper should by now have been found.
-    # Present it to the user. If he so chooses, launch Explorer to take him were wallpaper is.
-    $result=[System.Windows.Forms.MessageBox]::Show("Wallpaper location: `r$WallpaperSource`r`rLaunch Explorer?", "Script", "YesNo", "Asterisk");
+    $result = [MessageBox]::Show(
+      $MessageBuilder.ToString(),
+      (Split-Path -Path $PSScriptRoot -Leaf),
+      $MessageButtons,
+      $MessageIcon
+    )
     if ($result -eq "Yes")
     {
-        Start-Process explorer.exe -ArgumentList "/select,`"$WallpaperSource`""
+      foreach ($element in $PathList) {
+        Start-Process explorer.exe -ArgumentList "/select,`"$element`""
+      }
     }
-  }
-  Catch
-  {
-    $result=[System.Windows.Forms.MessageBox]::Show("Error!`r`r"+$Error[0], "Script", "OK", "Error");
-    break;
+
+  } catch {
+    Write-ErrorMessage -Message "Error!`r`r$($Error[0])"
+    break
   }
 }
 
