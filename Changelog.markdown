@@ -1,6 +1,12 @@
 # Change log
 
-## March 2022
+## June 2023
+
+- **Maintenance\Optimize PATH variable.ps1**: This script now performs optimizations automatically.
+- **AppX\Remove AppX packages.ps1**: Revised to match modern use cases. It no longer attempts to remove apps for all users.
+- **Changelog.markdown**: Fixed dates.
+
+## March 2023
 
 Featured change:
 
@@ -16,7 +22,7 @@ Other changes:
 - **Update management\Install updates with MsiExec.exe.ps1**: Fixed error handling bug.
 - **Update management\Install updates with PowerShell.ps1**: Fixed error handling bug.
 
-## February 2022
+## February 2023
 
 New:
 
@@ -31,6 +37,11 @@ Changes:
 - **Shell\Wallpaper\Find current wallpaper.ps1**: Despite almost every byte in the file having changed, there has been little difference in their functionality. I intended to add the ability to find additional wallpapers on systems with two or more monitors but I'm having trouble procuring a second monitor.
 - **Shell\Wallpaper\Find current wallpaper (Windows 7).ps1**: Ditto
 - The analyzer now loads a more recent version of PSScriptAnalyzer
+
+## August 2022
+
+- **Maintenance\Optimize PATH variable.ps1**: Minor optimization
+- **Unicode test suite**: Recompressed images losslessly
 
 ## June 2022
 

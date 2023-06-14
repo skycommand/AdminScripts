@@ -33,9 +33,9 @@ function Get-ServicePath {
 
   Get-Service | Select-Object -Property `
     Name,
-  DisplayName,
-  @{ label = "CommandLine"; e = { $_.BinaryPathName } },
-  @{ label = "Path"; e = { ExtractServiceExePath ($_.BinaryPathName) } }
+    DisplayName,
+    @{ label = "CommandLine"; e = { $_.BinaryPathName } },
+    @{ label = "Path"; e = { ExtractServiceExePath ($_.BinaryPathName) } }
 }
 
 <#

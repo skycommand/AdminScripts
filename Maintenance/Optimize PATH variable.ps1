@@ -1,6 +1,7 @@
 <#
 .SYNOPSIS
   Optimizes the PATH environment variable.
+
 .DESCRIPTION
   In Microsoft Windows, the PATH environment variable contains a list of folder pathes. When a user
   asks the OS to run an executable file without specifying a fully qualified path, the OS searches
@@ -8,6 +9,7 @@
   that we can tell Windows to run "notepad" without knowing where Notepad.exe resides.
 
   This command removes duplicate and invalid entries from the PATH environment variable.
+
 .EXAMPLE
   PS C:\> & .\Optimize-EnvPath.ps1
   Reads the PATH environment variable and returns an optimized version.
@@ -20,6 +22,24 @@ using namespace System.Collections.Generic
 
 [CmdletBinding()]
 param()
+
+function Test-ProcessAdminRight {
+  <#
+  .SYNOPSIS
+    Returns $True when the process running this script has administrative privileges
+
+  .DESCRIPTION
+    Starting with PowerShell 4.0, the "Requires -RunAsAdministrator" directive prevents the execution of the script when administrative privileges are absent. However, there are still times that you'd like to just check the privilege (or lack thereof), e.g., to announce it to the user or downgrade script functionality gracefully.
+
+  .NOTES
+    For the Requires directive, see the "about_Requires" help page.
+    https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_requires?view=powershell-7
+
+  #>
+  $MyId = [System.Security.Principal.WindowsIdentity]::GetCurrent()
+  $WindowsPrincipal = New-Object System.Security.Principal.WindowsPrincipal( $MyId )
+  return $WindowsPrincipal.IsInRole( [System.Security.Principal.WindowsBuiltInRole]::Administrator )
+}
 
 function Convert-EnvPathToList {
   param (
@@ -101,8 +121,10 @@ function ValidatePathList {
 }
 
 function Optimize-EnvPath {
-  $UserEnvPathIn = [Environment]::GetEnvironmentVariable('Path', 'User')
-  $MachineEnvPathIn = [Environment]::GetEnvironmentVariable('Path', 'Machine')
+  $SomethingChanged = $false
+
+  $UserEnvPathIn = [Environment]::GetEnvironmentVariable('Path', 'User').TrimEnd(';')
+  $MachineEnvPathIn = [Environment]::GetEnvironmentVariable('Path', 'Machine').TrimEnd(';')
 
   [HashSet[String]]$UserEnvPathList = Convert-EnvPathToList -InputObject $UserEnvPathIn
   [HashSet[String]]$MachineEnvPathList = Convert-EnvPathToList -InputObject $MachineEnvPathIn
@@ -116,12 +138,25 @@ function Optimize-EnvPath {
   $MachineEnvPathOut = $MachineEnvPathList -Join ';'
 
   if ($MachineEnvPathIn -ne $MachineEnvPathOut) {
+    $SomethingChanged = $true
     Write-Output "`r`nInitial machine paths: `r`n$MachineEnvPathIn"
     Write-Output "`r`nOptimized machine paths: `r`n$MachineEnvPathOut"
+    if (Test-ProcessAdminRight) {
+      Write-Output "`r`nWe are now applying the optimized paths to the machine."
+      [Environment]::SetEnvironmentVariable('Path', $MachineEnvPathOut, 'Machine')
+    } else {
+      Write-Output "`r`nWe could not apply the optimized path because of insufficient privileges."
+    }
   }
   if ($UserEnvPathIn -ne $UserEnvPathOut) {
+    $SomethingChanged = $true
     Write-Output "`r`nInitial user paths: `r`n$UserEnvPathIn"
     Write-Output "`r`nOptimized user paths: `r`n$UserEnvPathOut"
+    Write-Output "`r`nWe are now applying the optimized paths to the user."
+    [Environment]::SetEnvironmentVariable('Path', $UserEnvPathOut, 'User')
+  }
+  if (!$SomethingChanged) {
+    Write-Output "No optimizations were needed."
   }
 }
 
