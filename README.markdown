@@ -25,8 +25,9 @@ YOU. WILL. FAIL...
 
 Reason: PowerShell's script execution syntax is:
 
-    powershell.exe -File "<ScriptName.ps1>" <parameters>
-
+```plain
+powershell.exe -File "<ScriptName.ps1>" <parameters>
+```
 
 ## Description of scripts
 
@@ -128,7 +129,9 @@ I conceived it as a script at a time when our site was suffering a network outag
 
 #### Others
 
-- `Clear-WindowsDefenderHistory.ps1`: Clears the "protection history" of Microsoft Defender Antivirus (commonly referred to as Windows Defender). Starting with Windows 10 version 1703, this products no longer allows the users to clear the protection history via its UI. This "history", however, is each user's personal property. It is the owner's discretion to keep or clear it.
+- `Clear-WindowsDefenderHistory.ps1` (deprecated): Clears the "protection history" of Microsoft Defender Antivirus. Starting with Windows 10 version 1703, the antivirus no longer allows users to clear the protection history via its UI. This script worked fine until 2023, when Microsoft added new measures to protect the "history." Now, it is only possible to clear it via Windows Recovery Environment or when your OS is offline.
+
+    The "history" is each user's personal property. It is the owner's discretion to keep or clear it. Valid reasons to clear the history are abundant. For example, [a user on Reddit reported that Defender Antivirus attempted to quarantine a multi-gigabyte file][Defender fail], failed, and ended up wasting disk space with no means to free it. Defender Antivirus is also notorious for its false positives. It has repeatedly attacked innocent apps such as System Informer (digitally signed, competes Microsoft's Process Explorer), WinDjView 2.1, Pencil 3.1.0, Neat Download Manager, and various products from Sordum. Microsoft's false-positive submission form has stopped working. The company constantly misfiles submissions. Attempt to inquire into their fate is met with 502, 404, and 403 HTTP errors.
 
 ### Shell
 
@@ -218,3 +221,5 @@ These files aren't copyright-encumbered. But please be aware that "Wikipedia" is
 - `Install updates with Dism.exe.ps1`: Scans the current folder for Windows updates that you've downloaded from Microsoft Catalog or WSUS, then invokes `dism.exe` to install them all.
 - `Install updates with MsiExec.exe.ps1`: Scans the current folder and all its subfolders for `.msp` files and invokes Windows Installer to install them all.
 - `Install updates with PowerShell.ps1`: Scans the current folder for Windows updates that you've downloaded from Microsoft Catalog or WSUS, then invokes `Add-WindowsPackage` to install them all. There was a time when Microsoft released 1.5 GB worth of updates each month. I used to download them once and use this script to install them on several computers at home, thus saving 4.5 GB of download. (At work we use WSUS to save bandwidth.) Before you ask, no, the Delivery Optimization service does not reduce bandwidth consumption for you; it reduces bandwidth consumption for Microsoft's servers. It depends on a centralized peer coordination server on the Internet.
+
+[Defender fail]: https://www.reddit.com/r/WindowsHelp/comments/15j17ga/windows_defender_quarantined_an_iso_removed_it/

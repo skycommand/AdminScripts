@@ -1,5 +1,9 @@
 # Change log
 
+## August 2023
+
+- **Clear-WindowsDefenderHistory.ps1**: Marked as deprecated.
+
 ## June 2023
 
 - **Maintenance\Optimize PATH variable.ps1**: This script now performs optimizations automatically.
