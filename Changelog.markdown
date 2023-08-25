@@ -2,9 +2,13 @@
 
 ## August 2023
 
-- **Clear-WindowsDefenderHistory.ps1**: Marked as deprecated.
+Deprecated:
+
+- Clear-WindowsDefenderHistory.ps1
 
 ## June 2023
+
+Changed:
 
 - **Maintenance\Optimize PATH variable.ps1**: This script now performs optimizations automatically.
 - **AppX\Remove AppX packages.ps1**: Revised to match modern use cases. It no longer attempts to remove apps for all users.
@@ -12,14 +16,14 @@
 
 ## March 2023
 
-Featured change:
+Changed (major):
 
 - **Shell\Wallpaper\Find current wallpaper.ps1**: I finally managed to obtain a second monitor! Now, this script correctly reports all wallpaper when multiple monitors have different wallpapers.
 
-Other changes:
+Changed (others):
 
 - **Shell\Wallpaper\Find current wallpaper (Windows 7).ps1**: Fixed error handling bug.
-- **Unicode test suite**: Now that my cooperation with Wikipedia is over, I removed Wikipedia logos. The last sentence was an understatement. A Wikipedia moderator called `User:Bbb23` accused me of being a "sock puppet" and threatened to block my account on Wikipedia. For the record, I don't have an account on Wikipedia.
+- **Unicode test suite**: Removed Wikipedia logos, as my cooperation with Wikipedia is now over – and not in a good way. Someone purporting to represent Wikipedia's administration sent me a not-nice email. I've since decided not to trust anything I read in that email, including the identity of its sender and its degree of officiality. However, Wikipedia is yet another entry in the long list of institutions that started as champions of freedom, only to become a figurative police state.
 - **Update management\Disable Microsoft Update.ps1**: Added `#Requires -Version 5.1`.
 - **Update management\Enable Microsoft Update.ps1**: Added `#Requires -Version 5.1`.
 - **Update management\Install updates with Dism.exe.ps1**: Fixed error handling bug.
@@ -32,7 +36,7 @@ New:
 
 - **Maintenance\Get installed apps.ps1**: A rudimentary script that queries Windows Registry for installed apps. In Windows PowerShell 5.1, you could accomplish the same via the `Get-Package` cmdlet since Windows comes bundled with a "Programs" package provider. This provider is not available in PowerShell 7.0 and later.
 
-Changes:
+Changed:
 
 - **Demos\ANSI escape sequences.ps1**: More comprehensive demo. Uses `Write-Output` instead of `Write-Host`.
 - **Demos\System colors.ps1**: Renamed from `Enumerate system colors.ps1`. Fixed PowerShell 5.1 compatibility. Used `Write-Output` instead of `Write-Host`.
@@ -43,6 +47,8 @@ Changes:
 - The analyzer now loads a more recent version of PSScriptAnalyzer
 
 ## August 2022
+
+Changed:
 
 - **Maintenance\Optimize PATH variable.ps1**: Minor optimization
 - **Unicode test suite**: Recompressed images losslessly
@@ -60,7 +66,7 @@ New:
 - **Maintenance\Optimize PATH variable.ps1**: If you work with package managers (as a developer) or containerization solutions (as an IT admin), your PATH variable gets dirty soon. This script inspects both copies of PATH (per-user and machine-wide), removes bad or redundant entries, normalizes paths, and displays the optimized results.
 - **Update management\Find update on Microsoft Catalog.ps1**: Finds an update package on Microsoft Catalog and returns its ID.
 
-Changes:
+Changed:
 
 - **Changes to the folder structure:** "Icon cache", "File associations", and "Wallpaper" are now subfolders of "Shell".
 - **Clear Windows Update history.ps1**: This script now disables `BITS`, `DoSvc`, `UsoSvc`, `WaaSMedicSvc`, and `wuauserv` before proceeding.
@@ -80,7 +86,7 @@ New:
 - **Demos\Pipeline-ready function.ps1** demonstrates the peculiarities of creating pipeline-ready functions.
 - **Unicode test suite\Text file.markdown** is UTF-16  LE text file that contains text in 12 different languages. Only very good text editors can show them all correctly.
 
-Changes:
+Changed:
 
 - **Many name changes.** I've renamed many of the scripts, as part of adopting the following coding guidelines:
     - `.ps1` files will have natural English names, preferably starting with an imperative verb.
@@ -100,7 +106,7 @@ New:
 - **Demos\Sort order.ps1**: Compares how .NET Framework sorts a `Char[]` array versus a `String[]` array, when both have the same contents.
 - **Demos\Working paths.ps1**: There are three types of working paths (working folders) in PowerShell: Process working path, script working path, and invoker's working path. There are four ways of discovering them. This script prints the results of all four ways. However, for the invokers working path to show its effect, you must invoke this demo script from within another script.
 
-Changes:
+Changed:
 
 - **Code snippets folder**: Moved from `(Code snippets)`
 - **Demos\Message boxes in PowerShell.ps1**: Moved from `(Code snippets)\Demo - Message boxes in PowerShell.ps1`
@@ -117,7 +123,7 @@ New:
 - **(Code snippets)\Demo - Pipline-ready function.ps1**: Demonstrates how PowerShell passes objects through the pipeline.
 - **Update management\Clear-WindowsUpdateHistory.ps1**: Clears the history of installed Windows updates. Use this script when your update history is corrupt, causing Windows Update to download update packages even after you've installed an equivalent `.msu` package manually.
 
-Changes:
+Changed:
 
 - **(Code snippets)\Functions library.psm1**: Support `-WhatIf` and `-Confirm` in `Unregister-ScheduledTaskEx`, `Remove-RegistryValues`
 - **AppX\Inventory AppX Packages.ps1**: Update legal notice
@@ -138,6 +144,6 @@ Changes:
 - **Update management\Install all with DISM.exe.ps1**: Rename from `Install with DISM.exe.ps1`. Use `$PSScriptRoot` and `Out-Null`.
 - **Update management\Run all MSPs.ps1**: Use `$PSScriptRoot` and `Out-Null`
 
-Deletions:
+Removed:
 
 - **Download\Download-Channel9VideosFromRSS.ps1**: This script was unreliable.
