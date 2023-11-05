@@ -1,5 +1,13 @@
 # Change log
 
+## November 2023
+
+Changed (minor):
+
+- **Shell\Wallpaper\Find current wallpaper (Windows 7).ps1**: Streamlines the version-checking code
+- **Shell\Wallpaper\Find current wallpaper.ps1**: Streamlines the version-checking code
+- **Maintenance\Clean compatibility store.ps1**: Shortens the code
+
 ## August 2023
 
 Deprecated:

@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
   Queries Windows Registry for a list of installed apps
 .DESCRIPTION

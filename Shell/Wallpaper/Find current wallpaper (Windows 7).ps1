@@ -52,8 +52,7 @@ function PublicStaticVoidMain {
 
   try {
     # Check Windows verison
-    $vers = [Environment]::OSVersion.Version
-    if (!(($vers.Major -eq 6) -and ($vers.Minor -eq 1))) {
+    if ([Environment]::OSVersion.Version -ne [Version]"6.1") {
       Write-ErrorMessage "This script only supports Windows 7 or Windows Server 2008 R2. (They identify themselves as Windows NT 6.1.) You seem to be running:`r`r$([Environment]::OSVersion.VersionString)"
       break
     }
