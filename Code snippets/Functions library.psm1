@@ -48,6 +48,7 @@ function Unregister-ScheduledTaskEx {
     Extremly dangerous. Use with caution.
   .EXAMPLE
     PS C:\> Unregister-ScheduledTaskEx -TaskNameEx "AppThatIJustUninstalled_User.*"
+
     Removes scheduled tasks whose names begins with "AppThatIJustUninstalled_User."
   .INPUTS
     None
@@ -83,6 +84,7 @@ function Remove-RegistryValue {
     Removes one or more specified values from a given path in Windows Registry, if they exist. Remains silent if they don't exist. Generates a warning in the even of other problems.
   .EXAMPLE
     PS C:\> Remove-RegistryValues -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -Name "AppThatIJustUninstalled-TrayIcon", "AppThatIJustUninstalled-Updater"
+
     Opens the "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" path of Windows Registry, looks for two values: "AppThatIJustUninstalled-TrayIcon", "AppThatIJustUninstalled-Updater". If they exist, deletes them.
   .INPUTS
     None

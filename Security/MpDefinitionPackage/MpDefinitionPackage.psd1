@@ -12,7 +12,6 @@
 RootModule = 'MpDefinitionPackage.psm1'
 
 # Version number of this module.
-# Update this only when you are publishing
 ModuleVersion = '1.0'
 
 # Supported PSEditions
@@ -25,10 +24,10 @@ GUID = 'f0061b7e-c590-449e-89e4-0af5d48fd859'
 Author = 'github.com/skycommand'
 
 # Company or vendor of this module
-CompanyName = 'Unknown'
+CompanyName = 'None'
 
 # Copyright statement for this module
-Copyright = '(C) github.com/skycommand. Expat license.'
+Copyright = '(C) 2020 github.com/skycommand. MIT license.'
 
 # Description of the functionality provided by this module
 # Description = ''
