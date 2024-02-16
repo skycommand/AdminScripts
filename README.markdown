@@ -112,7 +112,6 @@ This folder contains code that one should not run directly. Rather, PowerShell d
 - `Get installed apps.ps1`: A rudimentary script that queries Windows Registry for installed apps. In Windows PowerShell 5.1, you could accomplish the same via the `Get-Package` cmdlet since Windows comes bundled with a "Programs" package provider. This provider is not available in PowerShell 7.0 and later.
 - `Optimize PATH variable.ps1`: If you work with package managers (as a developer) or containerization solutions (as an IT admin), your PATH variable gets dirty soon. This script inspects both copies of PATH (per-user and machine-wide), removes bad or redundant entries, normalizes paths, and displays the optimized results.
 - `Repair all volumes.ps1`: Enumerates all fixed-disk volumes and sequentially runs `Repair-Volume` on them to scan them for errors.
-- `Repair Windows.ps1`: Repairs the online Windows instance by running DISM and SFC. Their logs are moved to the desktop.
 
 ### Security
 
@@ -221,5 +220,6 @@ These files aren't copyright-encumbered. But please be aware that "Wikipedia" is
 - `Install updates with Dism.exe.ps1`: Scans the current folder for Windows updates that you've downloaded from Microsoft Catalog or WSUS, then invokes `dism.exe` to install them all.
 - `Install updates with MsiExec.exe.ps1`: Scans the current folder and all its subfolders for `.msp` files and invokes Windows Installer to install them all.
 - `Install updates with PowerShell.ps1`: Scans the current folder for Windows updates that you've downloaded from Microsoft Catalog or WSUS, then invokes `Add-WindowsPackage` to install them all. There was a time when Microsoft released 1.5 GB worth of updates each month. I used to download them once and use this script to install them on several computers at home, thus saving 4.5 GB of download. (At work we use WSUS to save bandwidth.) Before you ask, no, the Delivery Optimization service does not reduce bandwidth consumption for you; it reduces bandwidth consumption for Microsoft's servers. It depends on a centralized peer coordination server on the Internet.
+- `Install updates with Wusa.exe.ps1`: Scans the current folder and all its subfolders for `.msu` files and invokes Windows Update Standalone Installer to install them all.
 
 [Defender fail]: https://www.reddit.com/r/WindowsHelp/comments/15j17ga/windows_defender_quarantined_an_iso_removed_it/

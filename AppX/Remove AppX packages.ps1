@@ -1,3 +1,26 @@
+#Requires -Version 5.1
+
+<#
+.SYNOPSIS
+  Uninstalls certain packaged apps for the current user.
+.DESCRIPTION
+  When Windows 10 was first published in 2015, it was bloated with marginally useful AppX packages.
+  To their credit, they had no performance impact. Yet, their very existence was a violation of the
+  principle of lean systems.
+
+  This script uninstalls them all for the current user. The script requires no administrative
+  privileges.
+.NOTES
+  DEPRECATED
+
+  This script requires Remove-AppxPackage and its Appx module. As such, it won't work in PowerShell
+  6 and later.
+
+  Instead of this script, consider using WinGet.exe.
+.LINK
+  None
+#>
+
 Import-Module -Name Appx -ErrorAction Stop
 
 $applist = @(

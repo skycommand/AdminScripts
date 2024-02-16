@@ -1,3 +1,20 @@
+#Requires -Version 5.1
+
+<#
+.SYNOPSIS
+  Re-registers all packaged apps by Microsoft Corporation for the current user.
+.DESCRIPTION
+  Looks for all mainline packaged apps whose publishers are "cw5n1h2txyewy" (Microsoft apps) or
+  "8wekyb3d8bbwe" (Windows components). Re-registers them for the current user.
+.NOTES
+  DEPRECATED
+
+  This script depends on Get-AppxPackage and its Appx module. As such, it won't work in PowerShell
+  6 and later.
+.LINK
+  None
+#>
+
 $MicrosoftPublisherIDs = @(
     "cw5n1h2txyewy", # CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US
     "8wekyb3d8bbwe"  #     CN=Microsoft Windows, O=Microsoft Corporation, L=Redmond, S=Washington, C=US

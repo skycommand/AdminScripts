@@ -3,11 +3,11 @@
 param (
 )
 
-<#
-.SYNOPSIS
-  Extracts the .exe path from the BinaryPathName property of a System.ServiceProcess.ServiceController object
-#>
 function ExtractServiceExePath {
+  <#
+  .SYNOPSIS
+    Extracts the .exe path from the BinaryPathName property of a System.ServiceProcess.ServiceController object
+  #>
   param (
     # Supply a valid service invocation string, preferrably from the BinaryPathName property of a System.ServiceProcess.ServiceController object.
     [Parameter(Position = 0, Mandatory)]
@@ -22,11 +22,11 @@ function ExtractServiceExePath {
   }
 }
 
-<#
-.SYNOPSIS
-  Generates a list of Windows services consisting of their names, display names, command-line invocations, and binary file paths.
-#>
 function Get-ServicePath {
+  <#
+  .SYNOPSIS
+    Generates a list of Windows services consisting of their names, display names, command-line invocations, and binary file paths.
+  #>
   [CmdletBinding()]
   param (
   )
@@ -38,11 +38,11 @@ function Get-ServicePath {
     @{ label = "Path"; e = { ExtractServiceExePath ($_.BinaryPathName) } }
 }
 
-<#
-.SYNOPSIS
-  Generates a list of broken Windows services whose binary file path is invalid.
-#>
 function Find-BrokenService {
+  <#
+  .SYNOPSIS
+    Generates a list of broken Windows services whose binary file path is invalid.
+  #>
   [CmdletBinding()]
   param (
   )

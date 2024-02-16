@@ -1,5 +1,16 @@
 #Requires -Version 5.1
 
+<#
+.SYNOPSIS
+  Remove all local paths from the compatibility store.
+.DESCRIPTION
+  The application compatibility database can potentially record paths of every .exe file ever run on
+  your PC. This is a necessity of the PC ecosystem. However, users ocassionally need to start fresh.
+  This script empties the compatibility store.
+
+  Unless you know what you are doing, don't run this script.
+#>
+
 using namespace System.Management.Automation
 
 [CmdletBinding(SupportsShouldProcess)]

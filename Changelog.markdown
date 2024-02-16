@@ -1,5 +1,26 @@
 # Change log
 
+## February 2024
+
+Added:
+
+- **Update management\Install updates with Wusa.exe.ps1:** Scans the current folder and all its subfolders for `.msu` files and invokes Windows Update Standalone Installer to install them all.
+
+Remove:
+
+- **Maintenance\Repair Windows.ps1:** This script proved more difficult than I had anticipated. I never had time to finish it.
+
+Changed:
+
+- **AppX\Get AppX package names.ps1:** Added help contents
+- **AppX\Reinstall AppX Packages.ps1:** Added help contents
+- **AppX\Remove AppX packages.ps1:** Added help contents
+- **AppX\Repair system AppX packages.ps1:** Added help contents
+- **BITS\Get all BITS jobs, custom.ps1:** Revised
+- **Maintenance\Clean compatibility store.ps1:** Added help contents
+- **Maintenance\Find broken services.ps1:** Trivial whitespace changes
+- **Maintenance\Repair all volumes.ps1:** Added help contents
+
 ## November 2023
 
 Changed (minor):
