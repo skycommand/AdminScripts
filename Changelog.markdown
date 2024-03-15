@@ -1,8 +1,14 @@
 # Change log
 
+## March 2024
+
+Changed:
+
+- **Demos\ANSI escape sequences.ps1:** Extended this demo to support contrast comparison.
+
 ## February 2024
 
-Added:
+New:
 
 - **Update management\Install updates with Wusa.exe.ps1:** Scans the current folder and all its subfolders for `.msu` files and invokes Windows Update Standalone Installer to install them all.
 

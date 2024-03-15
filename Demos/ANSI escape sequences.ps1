@@ -21,6 +21,8 @@ $ESC[42;30m Writing styles                                        $ESC[0m
 <ESC>[8m$ESC[8m Hidden          $ESC[28m<ESC>[28m               Hidden
 <ESC>[9m$ESC[9m Strikethrough   $ESC[29m<ESC>[29m        Strikethrough
 $ESC[0m
+
+$ESC[42;30m Colors                                                $ESC[0m
 $ESC[43;30m Normal foreground colors $ESC[0m   $ESC[103;30m Bright foreground colors $ESC[0m
 <ESC>[30m $ESC[30m@#%&%#@$ESC[0m    Black   <ESC>[90m  $ESC[90m@#%&%#@$ESC[0m   Black
 <ESC>[31m $ESC[31m@#%&%#@$ESC[0m      Red   <ESC>[91m  $ESC[91m@#%&%#@$ESC[0m     Red
@@ -41,6 +43,18 @@ $ESC[43;30m Normal background colors $ESC[0m   $ESC[103;30m Bright background co
 <ESC>[46m $ESC[46m       $ESC[0m     Cyan   <ESC>[106m $ESC[106m       $ESC[0m    Cyan
 <ESC>[47m $ESC[47m       $ESC[0m    White   <ESC>[107m $ESC[107m       $ESC[0m   White
 
+
+$ESC[42;30m Contrast test                                         $ESC[0m
+$ESC[43;30m Bright on normal         $ESC[0m   $ESC[103;30m Normal on bright         $ESC[0m
+
+$ESC[40;90m                    Black $ESC[0m   $ESC[100;30m                    Black $ESC[0m
+$ESC[41;91m                      Red $ESC[0m   $ESC[101;31m                      Red $ESC[0m
+$ESC[42;92m                    Green $ESC[0m   $ESC[102;32m                    Green $ESC[0m
+$ESC[43;93m                   Yellow $ESC[0m   $ESC[103;33m                   Yellow $ESC[0m
+$ESC[44;94m                     Blue $ESC[0m   $ESC[104;34m                     Blue $ESC[0m
+$ESC[45;95m                  Magenta $ESC[0m   $ESC[105;35m                  Magenta $ESC[0m
+$ESC[46;96m                     Cyan $ESC[0m   $ESC[106;36m                     Cyan $ESC[0m
+$ESC[47;97m                    White $ESC[0m   $ESC[107;37m                    White $ESC[0m
 "@
 }
 
