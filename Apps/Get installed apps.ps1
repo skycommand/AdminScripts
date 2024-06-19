@@ -3,7 +3,7 @@
   Queries Windows Registry for a list of installed apps
 .DESCRIPTION
   Queries Windows Registry for a list of apps that have registered uninstallers. Displays their
-  technical moniker, friendly name, and their registered uninstaller.
+  technical Arch, friendly name, and their registered uninstaller.
 .EXAMPLE
   PS C:\> Get installed apps.ps1
 
@@ -55,38 +55,74 @@ using namespace System.Management.Automation
 [CmdletBinding()]
 param()
 
-function PublicStaticVoidMain {
-  # No [CmdletBinding()] or param() allowed here!
-  # Define parameter is in the main param() block above.
+function GetInstallAppsFragment {
+  [CmdletBinding()]
+  param (
+      [Parameter(Mandatory,Position=0)]
+      [string]
+      $Arch,
 
-  $QParams = @{
-    Path    = @(
-      'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall',
-      'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall'
-    )
-    Exclude = @(
-      'SchedulingAgent',
-      'MobileOptionPack',
-      'WIC',
-      'AddressBook',
-      'Connection Manager',
-      'DirectDrawEx',
-      'IEData',
-      'IE5BAKEX',
-      'Fontcore',
-      'IE4Data',
-      'IE40',
-      '7-Zip'
-    )
-  }
-  $a = Get-ChildItem @QParams -ErrorAction 'Stop'
+      [Parameter(Mandatory,Position=1)]
+      [string[]]
+      $GetChildItemLiteralPath,
 
-  $a | Select-Object -Property @(
+      [Parameter(Mandatory,Position=2)]
+      [string[]]
+      $GetChildItemExclude
+  )
+
+  $gci = Get-ChildItem -LiteralPath $GetChildItemLiteralPath -Exclude $GetChildItemExclude -ErrorAction 'SilentlyContinue'
+  return $gci | Select-Object -Property @(
+    @{n = "Arch"; e = { $Arch } }
     @{n = "Scope"; e = { $_.PSDrive.Name } }
     @{n = "Name"; e = { $_.PSChildName } }
     @{n = "Display name"; e = { $_.GetValue("DisplayName") } }
     @{n = "Uninstall string"; e = { $_.GetValue("UninstallString") } }
-  ) | Sort-Object -Property "Scope", "Display name"
+  )
+
 }
 
-PublicStaticVoidMain @args
+$x64QueryParameters = @{
+  Arch = "x64"
+  GetChildItemLiteralPath = @(
+    'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall',
+    'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall'
+  )
+  GetChildItemExclude = @(
+    '7-Zip'
+    'AddressBook'
+    'Connection Manager'
+    'DirectDrawEx'
+    'Fontcore'
+    'IE40'
+    'IE4Data'
+    'IE5BAKEX'
+    'IEData'
+    'MobileOptionPack'
+    'SchedulingAgent'
+    'WIC'
+  )
+}
+GetInstallAppsFragment @x64QueryParameters
+
+$IA32QueryParameters = @{
+  Arch = "IA-32"
+  GetChildItemLiteralPath = @(
+    'HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall'
+    'HKCU:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall'
+  )
+  GetChildItemExclude = @(
+    'AddressBook'
+    'Connection Manager'
+    'DirectDrawEx'
+    'Fontcore'
+    'IE40'
+    'IE4Data'
+    'IE5BAKEX'
+    'IEData'
+    'MobileOptionPack'
+    'SchedulingAgent'
+    'WIC'
+  )
+}
+GetInstallAppsFragment @IA32QueryParameters

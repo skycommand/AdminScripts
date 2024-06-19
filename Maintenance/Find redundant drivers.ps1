@@ -51,9 +51,9 @@ function PublicStaticVoidMain {
   $Date = @{ Name = "Date"; Expression = { "{0:yyyy-MM-dd}" -f $_.Date } }
 
   # Inventory all device drivers
-  Write-Progress -Activity "Looking for drivers..." -Id 1
+  Write-Progress -Activity "Inspecting drivers..." -Id 1
   $AllDrivers = Get-WindowsDriver -Online -All | Where-Object -FilterScript { $_.Driver -like 'oem*inf' } | Select-Object -Property $OriginalFileName, Driver, ClassDescription, ProviderName, $Date, Version
-  Write-Progress -Activity "Looking for drivers..." -Id 1 -Completed
+  Write-Progress -Activity "Inspecting drivers..." -Id 1 -Completed
 
   # Print a list of all third-party device drivers to the verbose stream
   Write-Verbose $("All installed third-party drivers:`n" + ($AllDrivers | Sort-Object -Property ClassDescription | Format-Table -AutoSize -Wrap | Out-String))

@@ -66,6 +66,14 @@ function Convert-EnvPathToList {
   # Hash sets don't accept duplicates
   [HashSet[String]]$list = New-Object -TypeName 'HashSet[String]'
 
+  <#
+  We can't use PowerShell's splitting operator (-split) because:
+  
+  - It doesn't support text qualifiers.
+  - It doesn't discard zero-length strings.
+
+  The following block of code implements a splitter.
+  #>
   $StartPos = 0;
   $InhibitSearch = $false
   for ($i = 0; $i -lt $InputObjectLength; $i++) {
@@ -109,15 +117,28 @@ function ValidatePathList {
   [Char]$PathSep = [Io.Path]::PathSeparator
   [Char]$TextQualifier = '"'
 
+  # The output object also needs to be a HashSet because after normalizing two seemingly different
+  # paths, they may become duplicates.
+  [HashSet[String]]$OutputObject = New-Object -TypeName 'HashSet[String]' -ArgumentList $InputObject.Count
+
   foreach ($Element in $InputObject) {
-    if (Test-Path -LiteralPath $Element -PathType Container) {
-      if ($Element.Contains($PathSep)) { $Element = [String]::Concat($TextQualifier, $Element, $TextQualifier) }
+    if (-not (Test-Path -LiteralPath $Element -PathType Container)) {
+      Write-Verbose -Message "Not found: $Element"
       continue
     }
-    Write-Verbose -Message "Not found: $Element"
-    if ($InputObject.Remove($Element)) { continue }
-    Write-Warning -Message "Assertion failure: Could not remove $Element"
+
+    # Resolve convoluted paths
+    # The cmdlet doesn't trim the trailing slahs or backslash
+    $Element = (Resolve-Path -LiteralPath $Element).Path
+
+    # Wrap the path in double quotation marks if it contains a $PathSep
+    if ($Element.Contains($PathSep)) { $Element = [String]::Concat($TextQualifier, $Element, $TextQualifier) }
+
+    # Write the new element to the hash set
+    [Void]$OutputObject.Add($Element)
   }
+
+  return $OutputObject
 }
 
 function Optimize-EnvPath {
@@ -126,16 +147,16 @@ function Optimize-EnvPath {
   $UserEnvPathIn = [Environment]::GetEnvironmentVariable('Path', 'User').TrimEnd(';')
   $MachineEnvPathIn = [Environment]::GetEnvironmentVariable('Path', 'Machine').TrimEnd(';')
 
-  [HashSet[String]]$UserEnvPathList = Convert-EnvPathToList -InputObject $UserEnvPathIn
-  [HashSet[String]]$MachineEnvPathList = Convert-EnvPathToList -InputObject $MachineEnvPathIn
+  [HashSet[String]]$UserEnvPathListIn = Convert-EnvPathToList -InputObject $UserEnvPathIn
+  [HashSet[String]]$MachineEnvPathListIn = Convert-EnvPathToList -InputObject $MachineEnvPathIn
 
-  $UserEnvPathList.ExceptWith($MachineEnvPathList)
+  $UserEnvPathListIn.ExceptWith($MachineEnvPathListIn)
 
-  ValidatePathList -InputObject $UserEnvPathList
-  ValidatePathList -InputObject $MachineEnvPathList
+  $UserEnvPathListOut = ValidatePathList -InputObject $UserEnvPathListIn
+  $MachineEnvPathListOut = ValidatePathList -InputObject $MachineEnvPathListIn
 
-  $UserEnvPathOut = $UserEnvPathList -Join ';'
-  $MachineEnvPathOut = $MachineEnvPathList -Join ';'
+  $UserEnvPathOut = $UserEnvPathListOut -Join ';'
+  $MachineEnvPathOut = $MachineEnvPathListOut -Join ';'
 
   if ($MachineEnvPathIn -ne $MachineEnvPathOut) {
     $SomethingChanged = $true

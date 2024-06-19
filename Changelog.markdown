@@ -1,5 +1,36 @@
 # Change log
 
+## June 2024
+
+New:
+
+- `Apps\Is x64.ps1`
+- `Hardware\Set-BluetoothRadio.ps1`
+- `Security\Malicious Software Removal Tool\Allow Windows Update to install MRT.reg`
+- `Security\Malicious Software Removal Tool\Prevent Windows Update from installing MRT.reg`
+- `Shell\Folder view state\Delete folder view state.reg`
+- `Shell\Promotional Store apps (pre-Setup)\Disable promotional Store apps.reg`
+- `Shell\Promotional Store apps (pre-Setup)\Enable promotional Store apps.reg`
+- `Shell\Removable drives outside This PC\Hide removable drives outside This PC.reg`
+- `Shell\Removable drives outside This PC\Show removable drives outside This PC, 32-bit.reg`
+- `Shell\Removable drives outside This PC\Show removable drives outside This PC, 64-bit.reg`
+- `Shell\Special folders under This PC\Remove all special folders from This PC, 32-bit.reg`
+- `Shell\Special folders under This PC\Remove all special folders from This PC, 64-bit.reg`
+- `Shell\Special folders under This PC\Restore all special folders to This PC, 32-bit.reg`
+- `Shell\Special folders under This PC\Restore all special folders to This PC, 64-bit.reg`
+- `Shell\Telemetry\Disable diagnostics data collection (reversible with Settings app).reg`
+- `Shell\Web results in Windows Search\Disable web results in Windows Search.reg`
+- `Shell\Web results in Windows Search\Restore web results to Windows Search.reg`
+
+Changed:
+
+- **AppX**: Renamed to **Apps**
+- **Get installed apps.ps1**: Moved into the `Apps` folder
+- **Optimize PATH variable.ps1**: Improved reliability
+- **Find redundant drivers.ps1**: Minor wording change
+- **Get Windows Firewall status.cmd**: Moved into the `Security\Others` folder
+- **Clear Windows Defender history.ps1**: Moved into the `Security\Others` folder
+
 ## March 2024
 
 Changed:
