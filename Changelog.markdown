@@ -28,7 +28,7 @@ Changed:
 - **Get installed apps.ps1**: Moved into the `Apps` folder
 - **Optimize PATH variable.ps1**: Improved reliability
 - **Find redundant drivers.ps1**: Minor wording change
-- **Get Windows Firewall status.cmd**: Moved into the `Security\Others` folder
+- **Get Windows Firewall status.cmd**: Moved into the `Security\Others` folder. Improved, so that it now lists 32-bit apps installed on x64 machines.
 - **Clear Windows Defender history.ps1**: Moved into the `Security\Others` folder
 
 ## March 2024
