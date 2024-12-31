@@ -64,7 +64,7 @@ function Convert-EnvPathToList {
   If ($InputObjectLength -lt 2) { return $InputObject }
 
   # Hash sets don't accept duplicates
-  [HashSet[String]]$list = New-Object -TypeName 'HashSet[String]'
+  [HashSet[String]]$list = New-Object -TypeName 'HashSet[String]' -ArgumentList ([StringComparer]::CurrentCultureIgnoreCase)
 
   <#
   We can't use PowerShell's splitting operator (-split) because:

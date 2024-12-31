@@ -1,10 +1,15 @@
-﻿<#
+﻿#Requires -Version 5.1
+
+<#
 .SYNOPSIS
   Queries Windows Registry for a list of installed apps
-.DESCRIPTION
-  Queries Windows Registry for a list of apps that have registered uninstallers. Displays their
-  CPU architecture mode (Arch), friendly name, and their registered uninstaller.
-.EXAMPLE
+.DESCRIPTION  
+  This script queries Windows Registry for a list of apps that have registered uninstallers, and
+  displays their target CPU architecture (Arch), friendly name, and their registered uninstaller. 
+  In Windows PowerShell 5.1, you could accomplish the same via the `Get-Package` cmdlet because
+  Windows comes bundled with a "Programs" package provider. This provider is not available in
+  PowerShell 7.0 and later.
+.EXAMPLE  
   PS C:\> & '.\Get installed apps.ps1' | Format-Table
 
   Arch  Scope Name                                   Display name                                         Uninstall string
@@ -58,16 +63,13 @@
   IA-32 HKLM  {1a7abdc5-639b-4af0-87c6-dbc511750c6e} Microsoft Windows Desktop Runtime - 6.0.31 (x64)     "C:\ProgramData\Package Cache\{1a7abdc5-639b-4af0...
   IA-32 HKLM  {9FF5D2D9-C74D-47A0-807B-AA2EC7A12F9D} Microsoft Windows Desktop Runtime - 8.0.5 (x86)      MsiExec.exe /X{9FF5D2D9-C74D-47A0-807B-AA2EC7A12F9D}
 
-.INPUTS
+.INPUTS  
   None
-.OUTPUTS
+.OUTPUTS  
   PSCustomObject[]
-.NOTES
-  The Get-Package cmdlet in Windows PowerShell 5.1 can query Windows Registry for installed apps via
-  a PackageProvider called "Programs". This package provider was never ported to PowerShell 7.
-#>
-
-#Requires -Version 5.1
+.NOTES  
+  None
+#>  
 
 using namespace System.Management.Automation
 

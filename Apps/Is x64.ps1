@@ -1,8 +1,12 @@
+#Requires -Version 5.1
+
 <#
 .SYNOPSIS
   Determines whether an EXE file is marked as x64.
 .DESCRIPTION
-  Determines whether an EXE file is marked as x64.
+  Windows EXE files have a platform marker. This scripts determines whether that platform marker is
+  x64 and returns a Boolean in answer to that question. Beware that EXE files NOT marked as x64 can
+  still extract and run x64-only payloads.
 .EXAMPLE
   PS C:\> & "Is x64.ps1" -LiteralPath C:\Windows\Notepad.exe
   True
@@ -13,8 +17,6 @@
 .NOTES
   None
 #>
-
-#Requires -Version 5.1
 
 using namespace System.Management.Automation
 

@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WindowsShortcutFactory</name>
+    </assembly>
+    <members>
+        <member name="T:WindowsShortcutFactory.IconLocation">
+            <summary>
+            Contains the path of an icon and optionally an index.
+            </summary>
+        </member>
+        <member name="F:WindowsShortcutFactory.IconLocation.None">
+            <summary>
+            The value that represents no icon.
+            </summary>
+        </member>
+        <member name="M:WindowsShortcutFactory.IconLocation.#ctor(System.String,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:WindowsShortcutFactory.IconLocation"/> struct.
+            </summary>
+            <param name="path">Path of the icon file or resource file.</param>
+            <param name="index">Index of the icon if a resource file is specified.</param>
+        </member>
+        <member name="M:WindowsShortcutFactory.IconLocation.op_Implicit(System.String)~WindowsShortcutFactory.IconLocation">
+            <summary>
+            Converts a path to a <see cref="T:WindowsShortcutFactory.IconLocation"/> instance with an <see cref="P:WindowsShortcutFactory.IconLocation.Index"/> of 0.
+            </summary>
+            <param name="path">Path of the icon file.</param>
+        </member>
+        <member name="M:WindowsShortcutFactory.IconLocation.op_Equality(WindowsShortcutFactory.IconLocation,WindowsShortcutFactory.IconLocation)">
+            <summary>
+            Tests for equality between two <see cref="T:WindowsShortcutFactory.IconLocation"/> values.
+            </summary>
+            <param name="a">The first value.</param>
+            <param name="b">The second value.</param>
+            <returns>True if <paramref name="a"/> is equivalent to <paramref name="b"/>; otherwise false.</returns>
+        </member>
+        <member name="M:WindowsShortcutFactory.IconLocation.op_Inequality(WindowsShortcutFactory.IconLocation,WindowsShortcutFactory.IconLocation)">
+            <summary>
+            Tests for inequality between two <see cref="T:WindowsShortcutFactory.IconLocation"/> values.
+            </summary>
+            <param name="a">The first value.</param>
+            <param name="b">The second value.</param>
+            <returns>True if <paramref name="a"/> is not equivalent to <paramref name="b"/>; otherwise false.</returns>
+        </member>
+        <member name="P:WindowsShortcutFactory.IconLocation.Path">
+            <summary>
+            Gets the path of the icon file or resource file.
+            </summary>
+        </member>
+        <member name="P:WindowsShortcutFactory.IconLocation.Index">
+            <summary>
+            Gets the index of the icon if <see cref="P:WindowsShortcutFactory.IconLocation.Path"/> refers to a resource file.
+            </summary>
+        </member>
+        <member name="P:WindowsShortcutFactory.IconLocation.IsValid">
+            <summary>
+            Gets a value indicating whether a path is specified.
+            </summary>
+        </member>
+        <member name="M:WindowsShortcutFactory.IconLocation.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="M:WindowsShortcutFactory.IconLocation.Equals(WindowsShortcutFactory.IconLocation)">
+            <inheritdoc/>
+        </member>
+        <member name="M:WindowsShortcutFactory.IconLocation.Equals(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:WindowsShortcutFactory.IconLocation.GetHashCode">
+            <inheritdoc/>
+        </member>
+        <member name="F:WindowsShortcutFactory.ShellLinkV.GetPath">
+            * [size_is][string][out] */ __RPC__out_ecount_full_string(cch) LPWSTR pszFile,
+        </member>
+        <member name="T:WindowsShortcutFactory.WindowsShortcut">
+            <summary>
+            Represents a Windows shortcut.
+            </summary>
+        </member>
+        <member name="M:WindowsShortcutFactory.WindowsShortcut.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:WindowsShortcutFactory.WindowsShortcut"/> class.
+            </summary>
+        </member>
+        <member name="M:WindowsShortcutFactory.WindowsShortcut.Finalize">
+            <summary>
+            Releases any remaining unmanaged resources during finalization.
+            </summary>
+        </member>
+        <member name="P:WindowsShortcutFactory.WindowsShortcut.Arguments">
+            <summary>
+            Gets or sets the arguments to pass to the target.
+            </summary>
+        </member>
+        <member name="P:WindowsShortcutFactory.WindowsShortcut.Description">
+            <summary>
+            Gets or sets the description.
+            </summary>
+        </member>
+        <member name="P:WindowsShortcutFactory.WindowsShortcut.Path">
+            <summary>
+            Gets or sets the path of the target.
+            </summary>
+        </member>
+        <member name="P:WindowsShortcutFactory.WindowsShortcut.WorkingDirectory">
+            <summary>
+            Gets or sets the working directory to set.
+            </summary>
+        </member>
+        <member name="P:WindowsShortcutFactory.WindowsShortcut.IconLocation">
+            <summary>
+            Gets or sets the location of the icon to use for the shortcut.
+            </summary>
+        </member>
+        <member name="P:WindowsShortcutFactory.WindowsShortcut.ShowCommand">
+            <summary>
+            Gets or sets the window show command.
+            </summary>
+        </member>
+        <member name="M:WindowsShortcutFactory.WindowsShortcut.Load(System.String)">
+            <summary>
+            Loads a shortcut file from disk.
+            </summary>
+            <param name="fileName">Full path of the shortcut file to load.</param>
+            <returns>Instance of <see cref="T:WindowsShortcutFactory.WindowsShortcut"/> that represents the specified shortcut file.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="fileName"/> is null or empty.</exception>
+            <exception cref="T:System.IO.FileNotFoundException">The shortcut file was not found.</exception>
+        </member>
+        <member name="M:WindowsShortcutFactory.WindowsShortcut.Save(System.String)">
+            <summary>
+            Write the shortcut to a file on disk.
+            </summary>
+            <param name="fileName">Full path of the shortcut file to write.</param>
+            <remarks>Shortcuts normally have a .lnk file extension.</remarks>
+            <exception cref="T:System.ArgumentNullException"><paramref name="fileName"/> is null or empty.</exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException">The directory specified in <paramref name="fileName"/> does not exit.</exception>
+        </member>
+        <member name="M:WindowsShortcutFactory.WindowsShortcut.Dispose">
+            <inheritdoc/>
+        </member>
+    </members>
+</doc>

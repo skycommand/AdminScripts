@@ -1,5 +1,83 @@
 # Change log
 
+## January 2025
+
+### New
+
+- **Hardware\Get-CpuIntrinsicsSupport.ps1**: Queries all supported CPU instruction-set extensions
+  for x86 and x86-64 systems and reports their availability. Have you ever wondered whether your CPU
+  supports AVX512, AVXVNNI, or X86SERIALIZE? Now you know.
+
+- **Maintenance\Find broken Start menu LNKs.ps1**: Scans both per-user and machine-wide areas of the
+  Start menu to find shortcuts that are potentially broken. For years, I've been adamant to include
+  such a script in my collection because it's not perfect. Today, I gave up. Not everything in this
+  world is perfect; the use case justifies the imperfection. I'll perfect it in time.
+
+  Dependencies:
+
+    - `Maintenance\WindowsShortcutFactory.1.2.0\lib\netstandard2.0\WindowsShortcutFactory.xml`
+    - `Maintenance\WindowsShortcutFactory.1.2.0\lib\netstandard2.0\WindowsShortcutFactory.dll`
+    - `Maintenance\WindowsShortcutFactory.1.2.0\WindowsShortcutFactory.1.2.0.nupkg`
+    - `Maintenance\WindowsShortcutFactory.1.2.0\README.md`
+    - `Maintenance\WindowsShortcutFactory.1.2.0\.signature.p7s`
+
+- **System settings\Disable dump stack logging.reg**: Disables creation of `DumpStack.log` and
+  `DumpStack.log.tmp` at the root of the C: volume.
+
+### Changed
+
+Major changes:
+
+- **Maintenance\Optimize PATH variable.ps1**: Use `StringComparer` to detect duplicate paths with
+  different casing. Windows file systems are case-aware, case-insensitive.
+
+Minor changes:
+
+- **Apps\Reinstall AppX Packages.ps1:**     Add `Appx` module check
+- **Apps\Repair system AppX packages.ps1**: Add `Appx` module check
+- **BITS modules**: They consist of "BITS\Get active BITS jobs, detailed.ps1", "BITS\Get active BITS
+  jobs, table.ps1", "BITS\Get all BITS jobs, custom.ps1", "BITS\Get pending BITS jobs,
+  detailed.ps1", and "BITS\Get pending BITS jobs, table.ps1". They've seen the following changes:
+    - Add detailed help text
+    - Add `BitsTransfer` module check
+    - Add PowerShell version check
+- **Code snippets\PS1 template.ps1**: The `#Requires -Version 5.1` statement goes to the top, in
+  preparation for developing test adapters. Now, test adapters can read the first line of the script
+  to find out which PowerShell version the script targets.
+- **Maintenance\Compile PowerShell native images.bat**: Remove the pause for user input. This
+  functionality is now a part of Windows Terminal.
+
+Rewrote their help texts:
+
+- Apps\Get AppX package names.ps1
+- Apps\Get installed apps.ps1
+- Apps\Is x64.ps1
+- Apps\Reinstall AppX Packages.ps1
+- Apps\Remove AppX packages.ps1
+- Apps\Repair system AppX packages.ps1
+
+### Removed
+
+- `Security/MpDefinitionPackage/~Meta~ Analyze.ps1`
+- `Security/MpDefinitionPackage/~Meta~ Run.ps1`
+
+### Renamed
+
+- `Disable diagnostics data collection (reversible with Settings app).reg` to `Disable diagnostics data collection (reversible via Settings app).reg`
+- `Hide removable drives outside This PC.reg` to `Show volume icons outside This PC, 64-bit.reg`
+- `Show removable drives outside This PC, 32-bit.reg` to `Show volume icons outside This PC, 32-bit.reg`
+- `Show removable drives outside This PC, 64-bit.reg` to `Hide volume icons outside This PC.reg`
+
+### Moved
+
+- `Hide volume icons outside This PC.reg` to `Shell\Volume icons`
+- `Show volume icons outside This PC, 32-bit.reg` to `Shell\Volume icons`
+- `Show volume icons outside This PC, 64-bit.reg` to `Shell\Volume icons`
+- `Disable web results in Windows Search.reg` to `Shell\Windows Search`
+- `Restore web results to Windows Search.reg` to `Shell\Windows Search`
+- `Disable diagnostics data collection (reversible with Settings app).reg` to `System settings`
+- `Set firmware time as UTC.reg` to `System settings`
+
 ## June 2024
 
 New:

@@ -2,26 +2,23 @@
 
 <#
 .SYNOPSIS
-  Uninstalls certain packaged apps for the current user.
+  Uninstalls packaged apps bundled with Windows from the current user account.
 .DESCRIPTION
-  When Windows 10 was first published in 2015, it was bloated with marginally useful AppX packages.
+  When Windows 10 was first published in 2015, it was bloated with marginally useful packaged apps.
   To their credit, they had no performance impact. Yet, their very existence was a violation of the
-  principle of lean systems.
+  principle of lean systems. This script uninstalls them all for the current user.
+  .NOTES
+  DEPRECATED. Please use WinGet instead.
 
-  This script uninstalls them all for the current user. The script requires no administrative
-  privileges.
-.NOTES
-  DEPRECATED
+  The script requires no administrative privileges.
 
-  This script requires Remove-AppxPackage and its Appx module. As such, it won't work in PowerShell
-  6 and later.
-
-  Instead of this script, consider using WinGet.exe.
+  This script depends on Get-AppxPackage and its Appx module. As such, it won't work in PowerShell
+  6 and later, and returns an error (System.PlatformNotSupportedException).
 .LINK
   None
 #>
 
-Import-Module -Name Appx -ErrorAction Stop
+Import-Module -Name Appx -ErrorAction "Stop"
 
 $applist = @(
   "Microsoft.549981C3F5F10",                         # Cortana (2nd-Gen)

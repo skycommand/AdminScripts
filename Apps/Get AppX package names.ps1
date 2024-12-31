@@ -2,19 +2,24 @@
 
 <#
 .SYNOPSIS
-  Returns the package identities and display names of all installed packaged apps (AppX)
+  Returns the friendly app names of all packaged apps (AppX or MSIX) installed for the current user.
 .DESCRIPTION
-  Get-AppxPackage returns a list of all installed packaged apps, along with their "Name",
-  "PackageFullName", and "PackageFamilyName" properties. None of these are human-consumable. For
-  example, what is "58027.265370AB8DB33_fjemmk5ta3a5g"? This script reveals the display name of all
-  installed packaged apps.
+  Starting with Windows 8, Microsoft created an app architecture that was optimized for distribution
+  via Microsoft Store. After many name changes (Metro-style app, modern app, Store app, UWP app,
+  WinRT app, etc.), Microsoft has finally settled for "Packaged app" because these apps have package
+  identities. These apps must be distributed in AppX or MSIX packages.
+  
+  The `Get-AppxPackage` cmdlet returns a list of all packaged apps on the system along with their
+  package IDs, e.g., `58027.265370AB8DB33_fjemmk5ta3a5g`. However, the cmdlet doesn't show their app
+  names. This script mitigates that issue. It lists all packaged apps installed for the current user
+  account, along with their app names.
 .NOTES
-  DEPRECATED
+  DEPRECATED. Please use WinGet instead.
 
-  This script depends on Get-AppxPackage and its Appx module. As such, it won't work in PowerShell
-  6 and later.
+  You can pipe the output of this script to  `Format-Table` or `Format-List` cmdlets.
 
-  Instead of this script, consider using WinGet.exe.
+  The script accepts a `-Verbose` switch to display the names packages for which the name resolution
+  failed.
 .LINK
   None
 .EXAMPLE

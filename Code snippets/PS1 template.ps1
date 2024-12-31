@@ -1,3 +1,5 @@
+#Requires -Version 5.1
+
 <#
 .SYNOPSIS
   Short description
@@ -13,8 +15,6 @@
 .NOTES
   General notes
 #>
-
-#Requires -Version 5.1
 
 using namespace System.Management.Automation
 
