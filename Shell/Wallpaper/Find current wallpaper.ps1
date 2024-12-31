@@ -1,3 +1,5 @@
+#Requires -Version 5.1
+
 <#
 .SYNOPSIS
   Finds Windows wallpapers
@@ -14,8 +16,6 @@
   This script uses PowerShell in the capacity of a generic scripting language.
   Hence, it is not automation-friendly.
 #>
-
-#Requires -Version 5.1
 
 using namespace System.Management.Automation
 using namespace System.Windows.Forms

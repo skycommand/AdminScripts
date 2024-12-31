@@ -1,3 +1,5 @@
+#Requires -Version 5.1
+
 [CmdletBinding()]
 Param (
   [Parameter(Mandatory = $true)]

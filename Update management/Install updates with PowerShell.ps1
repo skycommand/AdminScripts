@@ -1,4 +1,6 @@
-﻿<#
+﻿#Requires -Version 5.1
+
+<#
 .SYNOPSIS
   Short description
 .DESCRIPTION
@@ -13,8 +15,6 @@
 .NOTES
   General notes
 #>
-
-#Requires -Version 5.1
 
 using namespace System.Management.Automation
 using namespace System.Windows.Forms

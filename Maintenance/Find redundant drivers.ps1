@@ -1,4 +1,7 @@
-﻿<#
+﻿#Requires -Version 5.1
+#Requires -RunAsAdministrator
+
+<#
 
 COPYRIGHT NOTCE
 This script has been derived from:
@@ -35,9 +38,6 @@ Contents of the Drivers.ps1 license is as follows:
   SOFTWARE.
 
 #>
-
-#Requires -Version 5.1
-#Requires -RunAsAdministrator
 
 using namespace System.Management.Automation
 

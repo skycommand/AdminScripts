@@ -1,3 +1,4 @@
+#Requires -Version 5.1
 #Requires -RunAsAdministrator
 
 Remove-Item 'C:\ProgramData\Microsoft\Windows Defender\Scans\History\Service' -Recurse -Force

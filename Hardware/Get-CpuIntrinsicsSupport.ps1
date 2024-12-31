@@ -1,3 +1,6 @@
+#Requires -Version 7.4
+# This script mustn't run on anything less than .NET 8.0.
+
 <#
 .SYNOPSIS
   Queries all supported CPU instruction-set extensions for x86 and x86-64 systems and reports their
@@ -13,9 +16,6 @@
 .NOTES
   This script requires PowerShell 7.4 because it uses .NET 8.0.
 #>
-
-#Requires -Version 7.4
-# This script mustn't run on anything less than .NET 8.0.
 
 using namespace System.Management.Automation
 using namespace System.Runtime.Intrinsics.X86

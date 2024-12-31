@@ -1,3 +1,5 @@
+#Requires -Version 5.1
+
 <#
 .SYNOPSIS
   Optimizes the PATH environment variable.
@@ -14,8 +16,6 @@
   PS C:\> & .\Optimize-EnvPath.ps1
   Reads the PATH environment variable and returns an optimized version.
 #>
-
-#Requires -Version 5.1
 
 using namespace System.Management.Automation
 using namespace System.Collections.Generic

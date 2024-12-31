@@ -1,3 +1,5 @@
+#Requires -Version 5.1
+
 <#
 .SYNOPSIS
     Finds an update package on Microsoft Catalog and returns its ID.
@@ -26,8 +28,6 @@
 .NOTES
     Special thanks to Wolfgang Sommergut for his educational article.
 #>
-
-#Requires -Version 5.1
 
 using namespace System.Management.Automation
 

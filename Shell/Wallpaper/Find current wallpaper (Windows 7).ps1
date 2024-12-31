@@ -1,4 +1,6 @@
-﻿<#
+﻿#Requires -Version 5.1
+
+<#
 .SYNOPSIS
   Finds the Windows wallpaper on Windows 7 and Windows Server 2008 R2.
 .DESCRIPTION
@@ -15,8 +17,6 @@
   Hence, it is not automation-friendly.
   This script doesn't support multiple monitors.
 #>
-
-#Requires -Version 5.1
 
 using namespace System.Management.Automation
 using namespace System.Windows.Forms

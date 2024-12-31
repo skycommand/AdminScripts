@@ -1,3 +1,5 @@
+#Requires -Version 7.2
+
 <#
 .SYNOPSIS
   Finds valid JPEG images in folder.
@@ -16,8 +18,6 @@
   .NET relies on Windows GDI+ to decode JPEG. Hence, a "bad" JPEG image is one that GDI+ cannot
   understand. (GDI+ raises error code 0x80004005.) GDI+ does not understand arithmetic coding.
 #>
-
-#Requires -Version 7.2
 
 using namespace System.Management.Automation
 using namespace System.Drawing
