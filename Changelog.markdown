@@ -1,5 +1,13 @@
 # Change log
 
+## February
+
+Changed:
+
+- `Apps\Remove AppX packages.ps1`: Added "Outlook (new)" to list; minor superficial changes
+- `Shell\Wallpaper\Find current wallpaper (Windows 7).ps1`: Fixed the version-checking code
+- `Shell\Wallpaper\Find current wallpaper.ps1`: Fixed the version-checking code
+
 ## January 2025
 
 ### New

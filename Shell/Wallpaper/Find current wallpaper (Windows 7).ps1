@@ -51,8 +51,8 @@ function PublicStaticVoidMain {
   $ErrorActionPreference = 'Continue'
 
   try {
-    # Check Windows verison
-    if ([Environment]::OSVersion.Version -ne [Version]"6.1") {
+    # Check Windows version
+    if ([Environment]::OSVersion.Version.Build -notin (7600, 7601, 8400)) {
       Write-ErrorMessage "This script only supports Windows 7 or Windows Server 2008 R2. (They identify themselves as Windows NT 6.1.) You seem to be running:`r`r$([Environment]::OSVersion.VersionString)"
       break
     }

@@ -21,12 +21,4 @@ using namespace System.Management.Automation
 [CmdletBinding()]
 param()
 
-function PublicStaticVoidMain {
-  # No [CmdletBinding()] or param() allowed here!
-  # Define parameter is in the main param() block above.
-
-  # Your code goes here.
-
-}
-
-PublicStaticVoidMain @args
+# Your code goes here.

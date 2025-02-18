@@ -58,8 +58,8 @@ function PublicStaticVoidMain {
   $ErrorActionPreference = 'Continue'
 
   try {
-    # Check Windows verison
-    If ([Environment]::OSVersion.Version -lt [Version]"6.2") {
+    # Check Windows version
+    If ([Environment]::OSVersion.Version.Build -lt 9200) {
       Write-ErrorMessage "This script only supports Windows 8, 10, and 11, as well as their Windows Server siblings. (They identify themselves as Windows NT 6.2, 6.3 or 10.0.) You seem to be running:`r`r$([Environment]::OSVersion.VersionString)"
       break
     }
@@ -68,7 +68,7 @@ function PublicStaticVoidMain {
     [UnicodeEncoding]$UnicodeObject = [UnicodeEncoding]::new()
 
     # Read and decode
-    [HashSet[String]]$PathList = [HashSet[String]]::new()
+    [HashSet[String]]$PathList = New-Object -TypeName 'HashSet[String]' -ArgumentList ([StringComparer]::CurrentCultureIgnoreCase)
     $RegKey = Get-Item -LiteralPath $RegKeyPath -ErrorAction 'Stop'
     $RegValueList = $RegKey.Property -match $RegValue
     $RegValueList | ForEach-Object {
