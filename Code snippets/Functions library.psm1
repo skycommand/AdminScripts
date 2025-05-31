@@ -230,3 +230,17 @@ function Exit-BecauseFileIsMissing {
     )
   )
 }
+
+function Reset-PSEnvPath {
+  <#
+  .SYNOPSIS
+    Reverts the PATH and PSModulePath environment variables to the logon-time values from Registry.
+  .DESCRIPTION
+    Reverts the PATH and PSModulePath environment variables to the logon-time values from Registry,
+    discarding any changes that the parent process has made in them. For the details in the impact
+    of these variables, see:
+    <https://github.com/PowerShell/PowerShell/issues/8635>
+  #>
+  $env:PATH         = $([Environment]::GetEnvironmentVariable('PATH', 'Machine')) +';'+$([Environment]::GetEnvironmentVariable('PATH', 'User'))
+  $env:PSModulePath =   [Environment]::GetEnvironmentVariable('PSModulePath', 'Machine')
+}

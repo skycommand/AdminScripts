@@ -1,10 +1,28 @@
 # Change log
 
-## February
+## May 2025
+
+### New
+
+- **Apps\Download and Install Microsoft Store.cmd**: After years of resisting, I finally added this simple batch file. It runs `wsreset.exe -i`, which downloads and installs the Microsoft Store app. It is useful when the Microsoft Store client is missing. I always thought I could memorize this simple command. As it turns out, there are myriads of simple commands to memorize, and this one doesn't stick to _my_ memory. And for you, dear reader, it may have educational value.
+
+### Changed
+
+- **All .reg files:** Unified their encoding to UTF-8. You'd think GitHub plays well with UTF-16LE, but no! This is by far the largest change this month, and the most useless one.
+- **Code snippets\Functions library.psm1** now has a new `Reset-PSEnvPath` function that reverts the `PATH` and `PSModulePath` environment variables to the logon-time values from the Registry, discarding any changes that the parent process has made in them. For the details in the impact of these variables, see: <https://github.com/PowerShell/PowerShell/issues/8635>.
+- **Shell\Wallpaper\Find current wallpaper.ps1**: Used the `new()` method instead of `New-Object`. Hopefully, this fixes the strange performance problem I'm facing.
+
+### Moved
+
+- `Disable dump stack logging.reg` from `System Settings` to `System Settings\Dump stack logging`
+- `Disable diagnostics data collection (reversible via Settings app).reg` from `System settings` to `System settings\Telemetry`
+- `System settings\Set firmware time as UTC.reg` from `System settings` to `System settings\UTC time`
+
+## February 2025
 
 Changed:
 
-- `Apps\Remove AppX packages.ps1`: Added "Outlook (new)" to list; minor superficial changes
+- `Apps\Remove AppX packages.ps1`: Added "Outlook (new)" to the list; minor superficial changes
 - `Shell\Wallpaper\Find current wallpaper (Windows 7).ps1`: Fixed the version-checking code
 - `Shell\Wallpaper\Find current wallpaper.ps1`: Fixed the version-checking code
 
@@ -12,48 +30,36 @@ Changed:
 
 ### New
 
-- **Hardware\Get-CpuIntrinsicsSupport.ps1**: Queries all supported CPU instruction-set extensions
-  for x86 and x86-64 systems and reports their availability. Have you ever wondered whether your CPU
-  supports AVX512, AVXVNNI, or X86SERIALIZE? Now you know.
+- **Hardware\Get-CpuIntrinsicsSupport.ps1**: Queries all supported CPU instruction-set extensions for x86 and x86-64 systems and reports their availability. Have you ever wondered whether your CPU supports AVX512, AVXVNNI, or X86SERIALIZE? Now you know.
 
-- **Maintenance\Find broken Start menu LNKs.ps1**: Scans both per-user and machine-wide areas of the
-  Start menu to find shortcuts that are potentially broken. For years, I've been adamant to include
-  such a script in my collection because it's not perfect. Today, I gave up. Not everything in this
-  world is perfect; the use case justifies the imperfection. I'll perfect it in time.
+- **Maintenance\Find broken Start menu LNKs.ps1**: Scans both per-user and machine-wide areas of the Start menu to find shortcuts that are potentially broken. For years, I've been adamant to include such a script in my collection because it's not perfect. Today, I gave up. Not everything in this world is perfect; the use case justifies the imperfection. I'll perfect it in time.
 
   Dependencies:
 
-    - `Maintenance\WindowsShortcutFactory.1.2.0\lib\netstandard2.0\WindowsShortcutFactory.xml`
-    - `Maintenance\WindowsShortcutFactory.1.2.0\lib\netstandard2.0\WindowsShortcutFactory.dll`
-    - `Maintenance\WindowsShortcutFactory.1.2.0\WindowsShortcutFactory.1.2.0.nupkg`
-    - `Maintenance\WindowsShortcutFactory.1.2.0\README.md`
-    - `Maintenance\WindowsShortcutFactory.1.2.0\.signature.p7s`
+  - `Maintenance\WindowsShortcutFactory.1.2.0\lib\netstandard2.0\WindowsShortcutFactory.xml`
+  - `Maintenance\WindowsShortcutFactory.1.2.0\lib\netstandard2.0\WindowsShortcutFactory.dll`
+  - `Maintenance\WindowsShortcutFactory.1.2.0\WindowsShortcutFactory.1.2.0.nupkg`
+  - `Maintenance\WindowsShortcutFactory.1.2.0\README.md`
+  - `Maintenance\WindowsShortcutFactory.1.2.0\.signature.p7s`
 
-- **System settings\Disable dump stack logging.reg**: Disables creation of `DumpStack.log` and
-  `DumpStack.log.tmp` at the root of the C: volume.
+- **System settings\Disable dump stack logging.reg**: Disables creation of `DumpStack.log` and `DumpStack.log.tmp` at the root of the C: volume.
 
 ### Changed
 
 Major changes:
 
-- **Maintenance\Optimize PATH variable.ps1**: Use `StringComparer` to detect duplicate paths with
-  different casing. Windows file systems are case-aware, case-insensitive.
+- **Maintenance\Optimize PATH variable.ps1**: Use `StringComparer` to detect duplicate paths with different casing. Windows file systems are case-aware, case-insensitive.
 
 Minor changes:
 
-- **Apps\Reinstall AppX Packages.ps1:**     Add `Appx` module check
+- **Apps\Reinstall AppX Packages.ps1:** Add `Appx` module check
 - **Apps\Repair system AppX packages.ps1**: Add `Appx` module check
-- **BITS modules**: They consist of "BITS\Get active BITS jobs, detailed.ps1", "BITS\Get active BITS
-  jobs, table.ps1", "BITS\Get all BITS jobs, custom.ps1", "BITS\Get pending BITS jobs,
-  detailed.ps1", and "BITS\Get pending BITS jobs, table.ps1". They've seen the following changes:
-    - Add detailed help text
-    - Add `BitsTransfer` module check
-    - Add PowerShell version check
-- **Code snippets\PS1 template.ps1**: The `#Requires -Version 5.1` statement goes to the top, in
-  preparation for developing test adapters. Now, test adapters can read the first line of the script
-  to find out which PowerShell version the script targets.
-- **Maintenance\Compile PowerShell native images.bat**: Remove the pause for user input. This
-  functionality is now a part of Windows Terminal.
+- **BITS modules**: They consist of "BITS\Get active BITS jobs, detailed.ps1", "BITS\Get active BITS jobs, table.ps1", "BITS\Get all BITS jobs, custom.ps1", "BITS\Get pending BITS jobs, detailed.ps1", and "BITS\Get pending BITS jobs, table.ps1". They've seen the following changes:
+  - Add detailed help text
+  - Add `BitsTransfer` module check
+  - Add PowerShell version check
+- **Code snippets\PS1 template.ps1**: The `#Requires -Version 5.1` statement goes to the top, in preparation for developing test adapters. Now, test adapters can read the first line of the script to find out which PowerShell version the script targets.
+- **Maintenance\Compile PowerShell native images.bat**: Remove the pause for user input. This functionality is now a part of Windows Terminal.
 
 Rewrote their help texts:
 
@@ -231,20 +237,20 @@ Changed:
 New:
 
 - **Shell**: There are now three new `.reg` files that fix the `.ps1` file association in Microsoft Windows. Consult with the readme file about what they do.
-    - `Fix 'Run with PowerShell' verb (PowerShell 7).reg`
-    - `Fix 'Run with PowerShell' verb (Windows 10).reg`
-    - `Fix 'Run with PowerShell' verb (Visual Studio Code - System).reg`
+  - `Fix 'Run with PowerShell' verb (PowerShell 7).reg`
+  - `Fix 'Run with PowerShell' verb (Windows 10).reg`
+  - `Fix 'Run with PowerShell' verb (Visual Studio Code - System).reg`
 - **Code snippets\PS1 template.ps1** used as a template for creating new `.ps1` files.
 - **Demos\Pipeline-ready function.ps1** demonstrates the peculiarities of creating pipeline-ready functions.
-- **Unicode test suite\Text file.markdown** is UTF-16  LE text file that contains text in 12 different languages. Only very good text editors can show them all correctly.
+- **Unicode test suite\Text file.markdown** is UTF-16 LE text file that contains text in 12 different languages. Only very good text editors can show them all correctly.
 
 Changed:
 
 - **Many name changes.** I've renamed many of the scripts, as part of adopting the following coding guidelines:
-    - `.ps1` files will have natural English names, preferably starting with an imperative verb.
-    - `.ps1` files will contain scripts that are expected to run interactively. `Write-Host` is allowed.
-    - Fully automated scripts, from now on, go into `.psm1` modules and will have cmdlet names compliant with PowerShell verb-noun standards.
-    - `.ps1` files will not have a `pause` command. This was a fragile approach. The duty of keeping the PowerShell window open for the user to see the output is now with the operating system shell.
+  - `.ps1` files will have natural English names, preferably starting with an imperative verb.
+  - `.ps1` files will contain scripts that are expected to run interactively. `Write-Host` is allowed.
+  - Fully automated scripts, from now on, go into `.psm1` modules and will have cmdlet names compliant with PowerShell verb-noun standards.
+  - `.ps1` files will not have a `pause` command. This was a fragile approach. The duty of keeping the PowerShell window open for the user to see the output is now with the operating system shell.
 - **Code snippets\Functions library.psm1** now passes PSScriptAnalyzer tests.
 - **Demos\ANSI escape sequences.ps1** now passes PSScriptAnalyzer tests.
 

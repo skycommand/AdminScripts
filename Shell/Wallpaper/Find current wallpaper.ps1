@@ -64,11 +64,8 @@ function PublicStaticVoidMain {
       break
     }
 
-    # Initialize the decoder
-    [UnicodeEncoding]$UnicodeObject = [UnicodeEncoding]::new()
-
     # Read and decode
-    [HashSet[String]]$PathList = New-Object -TypeName 'HashSet[String]' -ArgumentList ([StringComparer]::CurrentCultureIgnoreCase)
+    [HashSet[String]]$PathList = [HashSet[String]]::new([StringComparer]::CurrentCultureIgnoreCase)
     $RegKey = Get-Item -LiteralPath $RegKeyPath -ErrorAction 'Stop'
     $RegValueList = $RegKey.Property -match $RegValue
     $RegValueList | ForEach-Object {
@@ -86,7 +83,7 @@ function PublicStaticVoidMain {
               break
             }
           }
-          $Decoded = $UnicodeObject.GetString($Encoded, $PathStartDelta, $PathLength)
+          $Decoded = [UnicodeEncoding]::Unicode.GetString($Encoded, $PathStartDelta, $PathLength)
           $PathList.Add($Decoded) | Out-Null
         } else {
           $ErrorCountReadValue++
