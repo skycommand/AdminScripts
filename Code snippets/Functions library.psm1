@@ -1,3 +1,176 @@
+<#
+Functions are sorted alphabetically
+#>
+
+function Exit-BecauseFileIsMissing {
+  param (
+    # Specify one or two words that says what's missing; use lowercase for indefinite nouns
+    [Parameter(Mandatory, Position = 0)][String]$Title,
+    # Specify the path of the missing file
+    [Parameter(Mandatory, Position = 1)][String]$Path
+  )
+  $PSCmdlet.ThrowTerminatingError(
+    [ErrorRecord]::new(
+      [System.IO.FileNotFoundException]::new("Could not find the $Title at '$Path'"),
+      'FileNotFound',
+      [ErrorCategory]::ObjectNotFound,
+      $Path
+    )
+  )
+}
+
+function Exit-BecauseFolderIsMissing {
+  param (
+    # Specify one or two words that says what's missing; use lowercase for indefinite nouns
+    [Parameter(Mandatory, Position = 0)][String]$Title,
+    # Specify the path of the missing folder
+    [Parameter(Mandatory, Position = 1)][String]$Path
+  )
+  $PSCmdlet.ThrowTerminatingError(
+    [ErrorRecord]::new(
+      [System.IO.DirectoryNotFoundException]::new("Could not find the $Title at '$Path'"),
+      'FolderNotFound',
+      [ErrorCategory]::ObjectNotFound,
+      $Path
+    )
+  )
+}
+
+function Exit-BecauseOsIsNotSupported {
+  $PSCmdlet.ThrowTerminatingError(
+    [ErrorRecord]::new(
+      [PSInvalidOperationException]::new('This operating system is not supported.'),
+      'OSNotSupported',
+      [ErrorCategory]::InvalidOperation,
+      [System.Environment]::OSVersion
+    )
+  )
+}
+
+function Get-AlphabetLower {
+  <#
+  .SYNOPSIS
+    Returns an array of Char containing 'a' through 'a'.
+  .DESCRIPTION
+    Returns an array of Char  with 26 members. The array contains the lowercase alphabet letters 'a' through 'z'.
+  .EXAMPLE
+    PS C:\> (Get-AlphabetLower) -join ', '
+    a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z
+  .INPUTS
+    None
+  .OUTPUTS
+    System.Char[]
+  #>
+
+  return [Char[]](97..122)
+}
+
+function Get-AlphabetUpper {
+  <#
+  .SYNOPSIS
+    Returns an array of Char containing 'A' through 'Z'.
+  .DESCRIPTION
+    Returns an array of Char  with 26 members. The array contains the uppercase alphabet letters 'A' through 'Z'.
+  .EXAMPLE
+    PS C:\> (Get-AlphabetUpper) -join ', '
+    A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z
+  .INPUTS
+    None
+  .OUTPUTS
+    System.Char[]
+  #>
+
+  return [Char[]](65..90)
+}
+
+function New-TemporaryFileName {
+  <#
+  .SYNOPSIS
+    Generates a string to use as your temporary file's name.
+  .DESCRIPTION
+    Generates a string whose general form is "tmp####.tmp", where #### is a hexadecimal number. This style mimicks the output of the built-in New-TemporaryFile.
+  .EXAMPLE
+    PS C:\> New-TemporaryFileName
+    tmp5B7F.tmp
+  .INPUTS
+    None
+  .OUTPUTS
+    System.String
+  .NOTES
+    Version 1.0
+  #>
+  [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
+  param ()
+  return "tmp$((Get-Random -Maximum 0xFFFF).ToString('X4')).tmp"
+}
+
+function New-TemporaryFolderName {
+  <#
+  .SYNOPSIS
+    Generates a string to use as your temporary folder's name.
+  .DESCRIPTION
+    Generates a string whose general form is "tmp####", where #### is a hexadecimal number. This style mimicks the output of the built-in New-TemporaryFile.
+  .EXAMPLE
+    PS C:\> New-TemporaryFolderName
+    tmp5B7F.tmp
+  .INPUTS
+    None
+  .OUTPUTS
+    System.String
+  .NOTES
+    None
+  #>
+  [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
+  param ()
+  return "tmp$((Get-Random -Maximum 0xFFFF).ToString('X4'))"
+}
+
+function Remove-RegistryValue {
+  <#
+  .SYNOPSIS
+    Attempts to remove one or more values from a given path in Windows Registry.
+  .DESCRIPTION
+    Removes one or more specified values from a given path in Windows Registry, if they exist. Remains silent if they don't exist. Generates a warning in the even of other problems.
+  .EXAMPLE
+    PS C:\> Remove-RegistryValues -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -Name "AppThatIJustUninstalled-TrayIcon", "AppThatIJustUninstalled-Updater"
+
+    Opens the "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" path of Windows Registry, looks for two values: "AppThatIJustUninstalled-TrayIcon", "AppThatIJustUninstalled-Updater". If they exist, deletes them.
+  .INPUTS
+    None
+  .OUTPUTS
+    None
+  .NOTES
+    Version 1.0
+  #>
+  [CmdletBinding(SupportsShouldProcess)]
+  param (
+    [Parameter(Mandatory, Position = 0)] [String] $Path,
+    [Parameter(Mandatory, Position = 1)] [String[]] $Name
+  )
+  if (Test-Path -Path $Path) {
+    Remove-ItemProperty -Path $Path -Name $Name -ErrorAction SilentlyContinue -ErrorVariable ee -WhatIf:$WhatIfPreference
+    foreach ($e in $ee) {
+      if (-not ($e.Exception -is [System.ArgumentException])) { Write-Warning $e }
+    }
+  } else {
+    Write-Verbose "Could not find '$Path'"
+  }
+}
+
+function Reset-PSEnvPath {
+  <#
+  .SYNOPSIS
+    Reverts the PATH and PSModulePath environment variables to the logon-time values from Registry.
+  .DESCRIPTION
+    Reverts the PATH and PSModulePath environment variables to the logon-time values from Registry,
+    discarding any changes that the parent process has made in them. For the details in the impact
+    of these variables, see:
+    <https://github.com/PowerShell/PowerShell/issues/8635>
+  #>
+  $env:PATH         = $([Environment]::GetEnvironmentVariable('PATH', 'Machine')) +';'+$([Environment]::GetEnvironmentVariable('PATH', 'User'))
+  $env:PSModulePath =   [Environment]::GetEnvironmentVariable('PSModulePath', 'Machine')
+}
+
 function Test-ProcessAdminRight {
   <#
   .SYNOPSIS
@@ -74,173 +247,4 @@ function Unregister-ScheduledTaskEx {
   } else {
     Write-Verbose "Found no scheduled tasks matching the requested criteria: $TaskNameEx"
   }
-}
-
-function Remove-RegistryValue {
-  <#
-  .SYNOPSIS
-    Attempts to remove one or more values from a given path in Windows Registry.
-  .DESCRIPTION
-    Removes one or more specified values from a given path in Windows Registry, if they exist. Remains silent if they don't exist. Generates a warning in the even of other problems.
-  .EXAMPLE
-    PS C:\> Remove-RegistryValues -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -Name "AppThatIJustUninstalled-TrayIcon", "AppThatIJustUninstalled-Updater"
-
-    Opens the "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" path of Windows Registry, looks for two values: "AppThatIJustUninstalled-TrayIcon", "AppThatIJustUninstalled-Updater". If they exist, deletes them.
-  .INPUTS
-    None
-  .OUTPUTS
-    None
-  .NOTES
-    Version 1.0
-  #>
-  [CmdletBinding(SupportsShouldProcess)]
-  param (
-    [Parameter(Mandatory, Position = 0)] [String] $Path,
-    [Parameter(Mandatory, Position = 1)] [String[]] $Name
-  )
-  if (Test-Path -Path $Path) {
-    Remove-ItemProperty -Path $Path -Name $Name -ErrorAction SilentlyContinue -ErrorVariable ee -WhatIf:$WhatIfPreference
-    foreach ($e in $ee) {
-      if (-not ($e.Exception -is [System.ArgumentException])) { Write-Warning $e }
-    }
-  } else {
-    Write-Verbose "Could not find '$Path'"
-  }
-}
-
-function New-TemporaryFileName {
-  <#
-  .SYNOPSIS
-    Generates a string to use as your temporary file's name.
-  .DESCRIPTION
-    Generates a string whose general form is "tmp####.tmp", where #### is a hexadecimal number. This style mimicks the output of the built-in New-TemporaryFile.
-  .EXAMPLE
-    PS C:\> New-TemporaryFileName
-    tmp5B7F.tmp
-  .INPUTS
-    None
-  .OUTPUTS
-    System.String
-  .NOTES
-    Version 1.0
-  #>
-  [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
-  param ()
-  return "tmp$((Get-Random -Maximum 0xFFFF).ToString('X4')).tmp"
-}
-
-function New-TemporaryFolderName {
-  <#
-  .SYNOPSIS
-    Generates a string to use as your temporary folder's name.
-  .DESCRIPTION
-    Generates a string whose general form is "tmp####", where #### is a hexadecimal number. This style mimicks the output of the built-in New-TemporaryFile.
-  .EXAMPLE
-    PS C:\> New-TemporaryFolderName
-    tmp5B7F.tmp
-  .INPUTS
-    None
-  .OUTPUTS
-    System.String
-  .NOTES
-    None
-  #>
-  [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
-  param ()
-  return "tmp$((Get-Random -Maximum 0xFFFF).ToString('X4'))"
-}
-
-function Get-AlphabetUpper {
-  <#
-  .SYNOPSIS
-    Returns an array of Char containing 'A' through 'Z'.
-  .DESCRIPTION
-    Returns an array of Char  with 26 members. The array contains the uppercase alphabet letters 'A' through 'Z'.
-  .EXAMPLE
-    PS C:\> (Get-AlphabetUpper) -join ', '
-    A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z
-  .INPUTS
-    None
-  .OUTPUTS
-    System.Char[]
-  #>
-
-  return [Char[]](65..90)
-}
-
-function Get-AlphabetLower {
-  <#
-  .SYNOPSIS
-    Returns an array of Char containing 'a' through 'a'.
-  .DESCRIPTION
-    Returns an array of Char  with 26 members. The array contains the lowercase alphabet letters 'a' through 'z'.
-  .EXAMPLE
-    PS C:\> (Get-AlphabetLower) -join ', '
-    a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z
-  .INPUTS
-    None
-  .OUTPUTS
-    System.Char[]
-  #>
-
-  return [Char[]](97..122)
-}
-
-function Exit-BecauseOsIsNotSupported {
-  $PSCmdlet.ThrowTerminatingError(
-    [ErrorRecord]::new(
-      [PSInvalidOperationException]::new('This operating system is not supported.'),
-      'OSNotSupported',
-      [ErrorCategory]::InvalidOperation,
-      [System.Environment]::OSVersion
-    )
-  )
-}
-
-function Exit-BecauseFolderIsMissing {
-  param (
-    # Specify one or two words that says what's missing; use lowcase for indefinite nouns
-    [Parameter(Mandatory, Position = 0)][String]$Title,
-    # Specify the path of the missing folder
-    [Parameter(Mandatory, Position = 1)][String]$Path
-  )
-  $PSCmdlet.ThrowTerminatingError(
-    [ErrorRecord]::new(
-      [System.IO.DirectoryNotFoundException]::new("Could not find the $Title at '$Path'"),
-      'FolderNotFound',
-      [ErrorCategory]::ObjectNotFound,
-      $Path
-    )
-  )
-}
-
-function Exit-BecauseFileIsMissing {
-  param (
-    # Specify one or two words that says what's missing; use lowcase for indefinite nouns
-    [Parameter(Mandatory, Position = 0)][String]$Title,
-    # Specify the path of the missing file
-    [Parameter(Mandatory, Position = 1)][String]$Path
-  )
-  $PSCmdlet.ThrowTerminatingError(
-    [ErrorRecord]::new(
-      [System.IO.FileNotFoundException]::new("Could not find the $Title at '$Path'"),
-      'FileNotFound',
-      [ErrorCategory]::ObjectNotFound,
-      $Path
-    )
-  )
-}
-
-function Reset-PSEnvPath {
-  <#
-  .SYNOPSIS
-    Reverts the PATH and PSModulePath environment variables to the logon-time values from Registry.
-  .DESCRIPTION
-    Reverts the PATH and PSModulePath environment variables to the logon-time values from Registry,
-    discarding any changes that the parent process has made in them. For the details in the impact
-    of these variables, see:
-    <https://github.com/PowerShell/PowerShell/issues/8635>
-  #>
-  $env:PATH         = $([Environment]::GetEnvironmentVariable('PATH', 'Machine')) +';'+$([Environment]::GetEnvironmentVariable('PATH', 'User'))
-  $env:PSModulePath =   [Environment]::GetEnvironmentVariable('PSModulePath', 'Machine')
 }
