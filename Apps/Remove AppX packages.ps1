@@ -20,7 +20,7 @@
 
 Import-Module -Name Appx -ErrorAction "Stop"
 
-$applist = @(
+$AppList = @(
   "Microsoft.549981C3F5F10",                         # "Cortana" (2nd-Gen)
   "Microsoft.3DBuilder",                             # "3D Builder"
   "Microsoft.BingWeather",                           # "Weather"
@@ -77,7 +77,7 @@ $applist = @(
   "Microsoft.Office.Sway"                            # "Office Sway"
 )
 
-foreach ($app in $applist) {
+foreach ($app in $AppList) {
   $APPXs = Get-AppxPackage $app
   if ($null -ne $APPXs )
   {

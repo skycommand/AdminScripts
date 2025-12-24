@@ -1,2 +1,2 @@
 @echo off
-wsreset.exe -i
+WsReset.exe -i

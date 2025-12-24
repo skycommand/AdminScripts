@@ -22,9 +22,9 @@ Write-Output 'Enabling visual styles'
 <# METHOD 1:
 
     System.Windows.Forms.MessageBox
-    https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.messagebox
+    https://learn.microsoft.com/en-us/dotnet/api/system.windows.forms.messagebox
 
-    Comforms with visual styles
+    Conforms with visual styles
 
     To get the details of parameter types:
         [enum]::GetValues([System.Windows.Forms.MessageBoxButtons])
@@ -39,9 +39,9 @@ Write-Output $result
 <# METHOD 2:
 
     Microsoft.VisualBasic.Interaction.MsgBox()
-    https://docs.microsoft.com/en-us/dotnet/api/microsoft.visualbasic.interaction.msgbox
+    https://learn.microsoft.com/en-us/dotnet/api/microsoft.visualbasic.interaction.msgbox
 
-    Comforms with visual styles
+    Conforms with visual styles
 
     To get the details of parameter type:
         [enum]::GetValues([Microsoft.VisualBasic.MsgBoxStyle])
@@ -56,12 +56,12 @@ Write-Output $result
 <# METHOD 3 (DEPRECATED):
 
     WScript.Shell.Popup()
-    https://docs.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/scripting-articles/x83z1d9f(v=vs.84)
+    https://learn.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/scripting-articles/x83z1d9f(v=vs.84)
 
     Not affected by visual styles
     (Looks like something from Windows 95!)
 #>
 Write-Output "Demonstrating method 3: $Method3"
-$MsgBox = New-Object -ComObject wscript.shell
+$MsgBox = New-Object -ComObject WScript.Shell
 $result = $MsgBox.Popup($Message3, 0, $TitleBar, 0 -bor 64)
 Write-Output $result

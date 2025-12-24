@@ -5,7 +5,7 @@
   Optimizes the PATH environment variable.
 
 .DESCRIPTION
-  In Microsoft Windows, the PATH environment variable contains a list of folder pathes. When a user
+  In Microsoft Windows, the PATH environment variable contains a list of folder paths. When a user
   asks the OS to run an executable file without specifying a fully qualified path, the OS searches
   folders listed in the PATH environment variable for the executable file. It is because of PATH
   that we can tell Windows to run "notepad" without knowing where Notepad.exe resides.
@@ -33,7 +33,7 @@ function Test-ProcessAdminRight {
 
   .NOTES
     For the Requires directive, see the "about_Requires" help page.
-    https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_requires?view=powershell-7
+    https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_requires
 
   #>
   $MyId = [System.Security.Principal.WindowsIdentity]::GetCurrent()
@@ -128,7 +128,7 @@ function ValidatePathList {
     }
 
     # Resolve convoluted paths
-    # The cmdlet doesn't trim the trailing slahs or backslash
+    # The cmdlet doesn't trim the trailing slash or backslash
     $Element = (Resolve-Path -LiteralPath $Element).Path
 
     # Wrap the path in double quotation marks if it contains a $PathSep

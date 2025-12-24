@@ -176,6 +176,9 @@ This folder contains code that one should not run directly. Rather, PowerShell d
 ### Hardware
 
 - **Get-CpuIntrinsicsSupport.ps1**: Has a specific app ever required a CPU feature? Have you ever been uncertain whether your CPU has that feature? If the answers to both questions are "Yes," this script is for you. Run it, and it will report all CPU features that .NET 8.0 recognizes.
+- **Hardware\List all HarddiskVolume objects.ps1**: Reveals the "device path" (`\Device\HarddiskVolume##`) for each Windows partition. Device paths are internal kernel conventions. Windows rarely exposes them, but when it does, the user needs to figure to what they're referring.
+- **Hardware\List all HarddiskVolume objects.cmd**: This is the poor man's version of the above (`List all HarddiskVolume objects.ps1`). It relies on `fltmc.exe`.
+- **Hardware\List all partitions.ps1**: Lists all fixed disk partitions, sorts them first by disk number, then partition number, and adds an index column that assigns the smallest unused natural number to each partition. This is a human helper script. It is so simple that can be memorized. There are times when an admin needs the machine-wide partition number (as opposed to the per-disk number). This number is the same as the partition's corresponding `\Device\HarddiskVolume[#]` kernel objects.
 - **Set-BluetoothRadio.ps1**: Turns the Bluetooth module on or off.
 
 ### Last logon time

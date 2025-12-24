@@ -1,6 +1,101 @@
+#requires -Version 5.1
+using namespace System.Management.Automation
 <#
 Functions are sorted alphabetically
 #>
+
+function ConvertTo-NativeDigits {
+  <#
+  .SYNOPSIS
+    Converts the digits in a string from one language to another. It supports English, Arabic, and
+    Persian.
+  .DESCRIPTION
+    World language may have different alphabets and digits. Therefore, their scripts have different
+    Unicode representations. The .NET calls these distinctions "cultures". This function converts
+    the input script's digits of one culture to another. It supports English, Arabic, and Persian.
+    Unicode represents English digits in U+0030 through U+0039. Arabic digits are U+06F0 through
+    U+06F9 (Arabic-Indic Digits). Persian, Dari, Pashto, and Urdu digits are U+0660 through U+0669
+    (Extended Arabic-Indic Digits), although script-sensitive fonts render it differently for Urdu.
+    Arial is one of the rare script-sensitive fonts that also converts Extended Arabic-Indic Digits
+    to Arabic-Indic Digits and vice versa.
+  .NOTES
+
+  Digit | Unicode
+    ----- | -------
+    0     | U+0030
+    1     | U+0031
+    2     | U+0032
+    3     | U+0033
+    4     | U+0034
+    5     | U+0035
+    6     | U+0036
+    7     | U+0037
+    8     | U+0038
+    9     | U+0039
+
+    Digit | Unicode
+    ----- | -------
+    ۰     | U+06F0
+    ۱     | U+06F1
+    ۲     | U+06F2
+    ۳     | U+06F3
+    ۴     | U+06F4
+    ۵     | U+06F5
+    ۶     | U+06F6
+    ۷     | U+06F7
+    ۸     | U+06F8
+    ۹     | U+06F9
+
+    Digit | Unicode
+    ----- | -------
+    ٠     | U+0660
+    ١     | U+0661
+    ٢     | U+0662
+    ٣     | U+0663
+    ٤     | U+0664
+    ٥     | U+0665
+    ٦     | U+0666
+    ٧     | U+0667
+    ٨     | U+0668
+    ٩     | U+0669
+
+  .EXAMPLE
+    PS C:\> ConvertTo-NativeDigits -InputString "1a12b23c34d45e56f67g78h89i90j0" -TargetCulture "ar"
+    ١a١٢b٢٣c٣٤d٤٥e٥٦f٦٧g٧٨h٨٩i٩٠j٠
+
+    Converts "1a12b23c34d45e56f67g78h89i90j0" to "١a١٢b٢٣c٣٤d٤٥e٥٦f٦٧g٧٨h٨٩i٩٠j٠".
+  #>
+  param (
+    # Input string subject to digit conversion
+    [Parameter(Mandatory)]
+    [string]
+    $InputString,
+
+    # Input culture
+    [Parameter()]
+    [ValidateSet("ar", "en", "fa")]
+    [string]
+    $InputCulture = "en",
+
+    # Target culture
+    [Parameter()]
+    [ValidateSet("ar", "en", "fa")]
+    [string]
+    $TargetCulture = "fa"
+  )
+  if ($InputCulture -eq $TargetCulture) { return $InputString }
+
+  $SrcN = [System.Globalization.CultureInfo]::new($InputCulture).NumberFormat.NativeDigits
+  $TgtN = [System.Globalization.CultureInfo]::new($TargetCulture).NumberFormat.NativeDigits
+
+  $OutputStringBuilder = [System.Text.StringBuilder]::new($InputString)
+
+  for ($i = 0; $i -lt $SrcN.Count; $i++) {
+    $OutputStringBuilder.Replace($SrcN[$i], $TgtN[$i]) | Out-Null
+  }
+
+  return $OutputStringBuilder.ToString()
+}
 
 function Exit-BecauseFileIsMissing {
   param (
@@ -88,7 +183,7 @@ function New-TemporaryFileName {
   .SYNOPSIS
     Generates a string to use as your temporary file's name.
   .DESCRIPTION
-    Generates a string whose general form is "tmp####.tmp", where #### is a hexadecimal number. This style mimicks the output of the built-in New-TemporaryFile.
+    Generates a string whose general form is "tmp####.tmp", where #### is a hexadecimal number. This style simulates the output of the built-in New-TemporaryFile.
   .EXAMPLE
     PS C:\> New-TemporaryFileName
     tmp5B7F.tmp
@@ -109,7 +204,7 @@ function New-TemporaryFolderName {
   .SYNOPSIS
     Generates a string to use as your temporary folder's name.
   .DESCRIPTION
-    Generates a string whose general form is "tmp####", where #### is a hexadecimal number. This style mimicks the output of the built-in New-TemporaryFile.
+    Generates a string whose general form is "tmp####", where #### is a hexadecimal number. This style simulates the output of the built-in New-TemporaryFile.
   .EXAMPLE
     PS C:\> New-TemporaryFolderName
     tmp5B7F.tmp
@@ -179,7 +274,7 @@ function Test-ProcessAdminRight {
     Starting with PowerShell 4.0, the "Requires -RunAsAdministrator" directive prevents the execution of the script when administrative privileges are absent. However, there are still times that you'd like to just check the privilege (or lack thereof), e.g., to announce it to the user or downgrade script functionality gracefully.
   .NOTES
     For the Requires directive, see the "about_Requires" help page.
-    https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_requires?view=powershell-7
+    https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_requires
   #>
   $MyId = [System.Security.Principal.WindowsIdentity]::GetCurrent()
   $WindowsPrincipal = New-Object System.Security.Principal.WindowsPrincipal( $MyId )
@@ -218,7 +313,7 @@ function Unregister-ScheduledTaskEx {
     Unregisters several scheduled tasks whose names matches a wildcard pattern (not regex)
   .DESCRIPTION
     Uses Get-ScheduledTask to get a list of all scheduled tasks, filters then via the -like operator, and runs Unregister-ScheduledTask against the resulting set.
-    Extremly dangerous. Use with caution.
+    Extremely dangerous. Use with caution.
   .EXAMPLE
     PS C:\> Unregister-ScheduledTaskEx -TaskNameEx "AppThatIJustUninstalled_User.*"
 

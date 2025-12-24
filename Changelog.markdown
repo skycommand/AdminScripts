@@ -1,10 +1,31 @@
 # Change log
 
+## December 2025
+
+### New
+
+- **Hardware\List all HarddiskVolume objects.ps1**: Reveals the "device path" (`\Device\HarddiskVolume##`) for each Windows partition. Device paths are internal kernel conventions. Windows rarely exposes them, but when it does, the user needs to figure to what they're referring.
+- **Hardware\List all HarddiskVolume objects.cmd**: This is the poor man's version of the above (`List all HarddiskVolume objects.ps1`). It relies on `fltmc.exe`.
+- **Hardware\List all partitions.ps1**: Lists all fixed disk partitions, sorts them first by disk number, then partition number, and adds an index column that assigns the smallest unused natural number to each partition. This is a human helper script. It is so simple that can be memorized. There are times when an admin needs the machine-wide partition number (as opposed to the per-disk number). This number is the same as the partition's corresponding `\Device\HarddiskVolume[#]` kernel objects.
+
+### Changed
+
+Major:
+
+- **Code snippets\Functions library.psm1**: Aside from minor copyedits, the module now has a new cmdlet, `ConvertTo-NativeDigits`. This cmdlet converts the digits in a string from one language to another. It supports English, Arabic, and Persian. For those who don't know, not all languages use the same digits. Latin-based scripts used the Western Arabic digits, while the Arabic and Persian languages use the Eastern Arabic digits, albeit with certain language-specific distinctions.
+
+Minor (link and typo fixes):
+
+- `Apps\Download and install Microsoft Store.cmd`
+- `Apps\Remove AppX packages.ps1`
+- `Demos\Message boxes in PowerShell.ps1`
+- `Maintenance\Optimize PATH variable.ps1`
+
 ## May 2025
 
 ### New
 
-- **Apps\Download and Install Microsoft Store.cmd**: After years of resisting, I finally added this simple batch file. It runs `wsreset.exe -i`, which downloads and installs the Microsoft Store app. It is useful when the Microsoft Store client is missing. I always thought I could memorize this simple command. As it turns out, there are myriads of simple commands to memorize, and this one doesn't stick to _my_ memory. And for you, dear reader, it may have educational value.
+- **Apps\Download and Install Microsoft Store.cmd**: After years of resisting, I finally added this simple batch file. It runs `WsReset.exe -i`, which downloads and installs the Microsoft Store app. It is useful when the Microsoft Store client is missing. I always thought I could memorize this simple command. As it turns out, there are myriads of simple commands to memorize, and this one doesn't stick to _my_ memory. And for you, dear reader, it may have educational value.
 
 ### Changed
 
@@ -20,11 +41,11 @@
 
 ## February 2025
 
-Changed:
+### Changed
 
-- `Apps\Remove AppX packages.ps1`: Added "Outlook (new)" to the list; minor superficial changes
-- `Shell\Wallpaper\Find current wallpaper (Windows 7).ps1`: Fixed the version-checking code
-- `Shell\Wallpaper\Find current wallpaper.ps1`: Fixed the version-checking code
+- **Apps\Remove AppX packages.ps1**: Added "Outlook (new)" to the list; minor superficial changes
+- **Shell\Wallpaper\Find current wallpaper (Windows 7).ps1**: Fixed the version-checking code
+- **Shell\Wallpaper\Find current wallpaper.ps1**: Fixed the version-checking code
 
 ## January 2025
 
@@ -63,12 +84,12 @@ Minor changes:
 
 Rewrote their help texts:
 
-- Apps\Get AppX package names.ps1
-- Apps\Get installed apps.ps1
-- Apps\Is x64.ps1
-- Apps\Reinstall AppX Packages.ps1
-- Apps\Remove AppX packages.ps1
-- Apps\Repair system AppX packages.ps1
+- `Apps\Get AppX package names.ps1`
+- `Apps\Get installed apps.ps1`
+- `Apps\Is x64.ps1`
+- `Apps\Reinstall AppX Packages.ps1`
+- `Apps\Remove AppX packages.ps1`
+- `Apps\Repair system AppX packages.ps1`
 
 ### Removed
 
@@ -94,7 +115,7 @@ Rewrote their help texts:
 
 ## June 2024
 
-New:
+### New
 
 - `Apps\Is x64.ps1`
 - `Hardware\Set-BluetoothRadio.ps1`
@@ -114,7 +135,7 @@ New:
 - `Shell\Web results in Windows Search\Disable web results in Windows Search.reg`
 - `Shell\Web results in Windows Search\Restore web results to Windows Search.reg`
 
-Changed:
+### Changed
 
 - **AppX**: Renamed to **Apps**
 - **Get installed apps.ps1**: Moved into the `Apps` folder
@@ -125,21 +146,21 @@ Changed:
 
 ## March 2024
 
-Changed:
+### Changed
 
 - **Demos\ANSI escape sequences.ps1:** Extended this demo to support contrast comparison.
 
 ## February 2024
 
-New:
+### New
 
 - **Update management\Install updates with Wusa.exe.ps1:** Scans the current folder and all its subfolders for `.msu` files and invokes Windows Update Standalone Installer to install them all.
 
-Remove:
+### Removed
 
 - **Maintenance\Repair Windows.ps1:** This script proved more difficult than I had anticipated. I never had time to finish it.
 
-Changed:
+### Changed
 
 - **AppX\Get AppX package names.ps1:** Added help contents
 - **AppX\Reinstall AppX Packages.ps1:** Added help contents
@@ -152,7 +173,9 @@ Changed:
 
 ## November 2023
 
-Changed (minor):
+### Changed
+
+Minor changes only:
 
 - **Shell\Wallpaper\Find current wallpaper (Windows 7).ps1**: Streamlines the version-checking code
 - **Shell\Wallpaper\Find current wallpaper.ps1**: Streamlines the version-checking code
@@ -160,13 +183,13 @@ Changed (minor):
 
 ## August 2023
 
-Deprecated:
+### Deprecated
 
-- Clear-WindowsDefenderHistory.ps1
+- `Clear-WindowsDefenderHistory.ps1`
 
 ## June 2023
 
-Changed:
+### Changed
 
 - **Maintenance\Optimize PATH variable.ps1**: This script now performs optimizations automatically.
 - **AppX\Remove AppX packages.ps1**: Revised to match modern use cases. It no longer attempts to remove apps for all users.
@@ -174,11 +197,13 @@ Changed:
 
 ## March 2023
 
-Changed (major):
+### Changed
+
+Major changes:
 
 - **Shell\Wallpaper\Find current wallpaper.ps1**: I finally managed to obtain a second monitor! Now, this script correctly reports all wallpaper when multiple monitors have different wallpapers.
 
-Changed (others):
+Minor changes:
 
 - **Shell\Wallpaper\Find current wallpaper (Windows 7).ps1**: Fixed error handling bug.
 - **Unicode test suite**: Removed Wikipedia logos, as my cooperation with Wikipedia is now over – and not in a good way. Someone purporting to represent Wikipedia's administration sent me a not-nice email. I've since decided not to trust anything I read in that email, including the identity of its sender and its degree of officiality. However, Wikipedia is yet another entry in the long list of institutions that started as champions of freedom, only to become a figurative police state.
@@ -190,11 +215,11 @@ Changed (others):
 
 ## February 2023
 
-New:
+### New
 
 - **Maintenance\Get installed apps.ps1**: A rudimentary script that queries Windows Registry for installed apps. In Windows PowerShell 5.1, you could accomplish the same via the `Get-Package` cmdlet since Windows comes bundled with a "Programs" package provider. This provider is not available in PowerShell 7.0 and later.
 
-Changed:
+### Changed
 
 - **Demos\ANSI escape sequences.ps1**: More comprehensive demo. Uses `Write-Output` instead of `Write-Host`.
 - **Demos\System colors.ps1**: Renamed from `Enumerate system colors.ps1`. Fixed PowerShell 5.1 compatibility. Used `Write-Output` instead of `Write-Host`.
@@ -206,14 +231,14 @@ Changed:
 
 ## August 2022
 
-Changed:
+### Changed
 
 - **Maintenance\Optimize PATH variable.ps1**: Minor optimization
 - **Unicode test suite**: Recompressed images losslessly
 
 ## June 2022
 
-New:
+### New
 
 - **Demos\Enumerate system colors.ps1**: Demonstrates the `System.Drawing.SystemColors` class. This class enumerates the colors that Windows 7 uses to render its standard UI on the screen. Unfortunately, this class has limited uses in Windows 10 because it cannot retrieve the new Accent Color.
 - **Graphics\Find good JPEG images.ps1**: This script first enumerates JPEG files within a folder. You can specify the `-Recurse` switch to force searching subfolders too. After that, it opens each file and extracts it width and height in pixels. The script silently ignores JPEG files that it cannot parse. I use this script to find JPEG images that use Huffman Coding instead of Arithmetic Coding.
@@ -224,7 +249,7 @@ New:
 - **Maintenance\Optimize PATH variable.ps1**: If you work with package managers (as a developer) or containerization solutions (as an IT admin), your PATH variable gets dirty soon. This script inspects both copies of PATH (per-user and machine-wide), removes bad or redundant entries, normalizes paths, and displays the optimized results.
 - **Update management\Find update on Microsoft Catalog.ps1**: Finds an update package on Microsoft Catalog and returns its ID.
 
-Changed:
+### Changed
 
 - **Changes to the folder structure:** "Icon cache", "File associations", and "Wallpaper" are now subfolders of "Shell".
 - **Clear Windows Update history.ps1**: This script now disables `BITS`, `DoSvc`, `UsoSvc`, `WaaSMedicSvc`, and `wuauserv` before proceeding.
@@ -234,7 +259,7 @@ Changed:
 
 ## February 2022
 
-New:
+### New
 
 - **Shell**: There are now three new `.reg` files that fix the `.ps1` file association in Microsoft Windows. Consult with the readme file about what they do.
   - `Fix 'Run with PowerShell' verb (PowerShell 7).reg`
@@ -244,7 +269,7 @@ New:
 - **Demos\Pipeline-ready function.ps1** demonstrates the peculiarities of creating pipeline-ready functions.
 - **Unicode test suite\Text file.markdown** is UTF-16 LE text file that contains text in 12 different languages. Only very good text editors can show them all correctly.
 
-Changed:
+### Changed
 
 - **Many name changes.** I've renamed many of the scripts, as part of adopting the following coding guidelines:
   - `.ps1` files will have natural English names, preferably starting with an imperative verb.
@@ -256,7 +281,7 @@ Changed:
 
 ## October 2021
 
-New:
+### New
 
 - **Demos folder** contains scripts that demonstrates how PowerShell works
 - **Demos\ANSI escape sequences.ps1**: Demonstrates the use of ANSI escape sequences in PowerShell. In reality, I use it to calibrate my settings, i.e., to ensure that my color schemes and font choices maintain a high contrast. I kept it compatible with PowerShell 5.1.
@@ -264,7 +289,7 @@ New:
 - **Demos\Sort order.ps1**: Compares how .NET Framework sorts a `Char[]` array versus a `String[]` array, when both have the same contents.
 - **Demos\Working paths.ps1**: There are three types of working paths (working folders) in PowerShell: Process working path, script working path, and invoker's working path. There are four ways of discovering them. This script prints the results of all four ways. However, for the invokers working path to show its effect, you must invoke this demo script from within another script.
 
-Changed:
+### Changed
 
 - **Code snippets folder**: Moved from `(Code snippets)`
 - **Demos\Message boxes in PowerShell.ps1**: Moved from `(Code snippets)\Demo - Message boxes in PowerShell.ps1`
@@ -273,7 +298,7 @@ Changed:
 
 ## July 2021
 
-New:
+### New
 
 - **\~Meta\~ Analyze.ps1**: Analyzes all PowerShell scripts via Script Analyzer.
 - **Changelog.markdown**: The file whose contents you are reading right now!
@@ -281,7 +306,7 @@ New:
 - **(Code snippets)\Demo - Pipline-ready function.ps1**: Demonstrates how PowerShell passes objects through the pipeline.
 - **Update management\Clear-WindowsUpdateHistory.ps1**: Clears the history of installed Windows updates. Use this script when your update history is corrupt, causing Windows Update to download update packages even after you've installed an equivalent `.msu` package manually.
 
-Changed:
+### Changed
 
 - **(Code snippets)\Functions library.psm1**: Support `-WhatIf` and `-Confirm` in `Unregister-ScheduledTaskEx`, `Remove-RegistryValues`
 - **AppX\Inventory AppX Packages.ps1**: Update legal notice
@@ -302,6 +327,6 @@ Changed:
 - **Update management\Install all with DISM.exe.ps1**: Rename from `Install with DISM.exe.ps1`. Use `$PSScriptRoot` and `Out-Null`.
 - **Update management\Run all MSPs.ps1**: Use `$PSScriptRoot` and `Out-Null`
 
-Removed:
+### Removed
 
 - **Download\Download-Channel9VideosFromRSS.ps1**: This script was unreliable.
