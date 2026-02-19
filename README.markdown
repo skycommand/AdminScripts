@@ -66,7 +66,7 @@ For deprecated scripts:
 
 The following scripts help you manage your software.
 
-- **Download and Install Microsoft Store.cmd**: Runs `wsreset.exe -i`, which downloads and installs the Microsoft Store app. This batch file is merely a means of convenience in the case you forgot what command and what switch reinstall Microsoft Store. After all, Microsoft documentations aren't what they used to be.
+- **Download and Install Microsoft Store.cmd**: Runs `WsReset.exe -i`, which downloads and installs the Microsoft Store app. This batch file is merely a means of convenience in the case you forgot what command and what switch reinstall Microsoft Store. After all, Microsoft documentations aren't what they used to be.
 
 - **~~Get AppX package names.ps1~~**: Returns the friendly app names of all packaged apps (AppX or MSIX) installed for the current user.
 
@@ -88,7 +88,7 @@ The following scripts help you manage your software.
 
   DEPRECATED. I strongly recommend not to use it.
 
-  This script queries all mainline packaged apps whose publishers are "cw5n1h2txyewy" (Microsoft apps) or "8wekyb3d8bbwe" (Windows components). Re-registers them for the current user.
+  This script queries all mainline packaged apps whose publishers are "`cw5n1h2txyewy`" (Microsoft apps) or "`8wekyb3d8bbwe`" (Windows components). Re-registers them for the current user.
 
 - **~~Remove AppX packages.ps1~~**: Uninstalls packaged apps bundled with Windows from the current user account.
 
