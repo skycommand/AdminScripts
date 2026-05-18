@@ -67,7 +67,8 @@ function ConvertTo-NativeDigits {
   #>
   param (
     # Input string subject to digit conversion
-    [Parameter(Mandatory)]
+    [Parameter(Mandatory, ValueFromPipeline)]
+    [AllowEmptyString()]
     [string]
     $InputString,
 
@@ -83,18 +84,21 @@ function ConvertTo-NativeDigits {
     [string]
     $TargetCulture = "fa"
   )
-  if ($InputCulture -eq $TargetCulture) { return $InputString }
+  process {
+    if ($InputString -eq [string]::Empty) { return [string]::Empty }
+    if ($InputCulture -eq $TargetCulture) { return $InputString }
 
-  $SrcN = [System.Globalization.CultureInfo]::new($InputCulture).NumberFormat.NativeDigits
-  $TgtN = [System.Globalization.CultureInfo]::new($TargetCulture).NumberFormat.NativeDigits
+    $SrcN = [System.Globalization.CultureInfo]::new($InputCulture).NumberFormat.NativeDigits
+    $TgtN = [System.Globalization.CultureInfo]::new($TargetCulture).NumberFormat.NativeDigits
 
-  $OutputStringBuilder = [System.Text.StringBuilder]::new($InputString)
+    $OutputStringBuilder = [System.Text.StringBuilder]::new($InputString)
 
-  for ($i = 0; $i -lt $SrcN.Count; $i++) {
-    $OutputStringBuilder.Replace($SrcN[$i], $TgtN[$i]) | Out-Null
+    for ($i = 0; $i -lt $SrcN.Count; $i++) {
+      $OutputStringBuilder.Replace($SrcN[$i], $TgtN[$i]) | Out-Null
+    }
+
+    return $OutputStringBuilder.ToString()
   }
-
-  return $OutputStringBuilder.ToString()
 }
 
 function Exit-BecauseFileIsMissing {
@@ -262,8 +266,8 @@ function Reset-PSEnvPath {
     of these variables, see:
     <https://github.com/PowerShell/PowerShell/issues/8635>
   #>
-  $env:PATH         = $([Environment]::GetEnvironmentVariable('PATH', 'Machine')) +';'+$([Environment]::GetEnvironmentVariable('PATH', 'User'))
-  $env:PSModulePath =   [Environment]::GetEnvironmentVariable('PSModulePath', 'Machine')
+  $env:PATH = $([Environment]::GetEnvironmentVariable('PATH', 'Machine')) + ';' + $([Environment]::GetEnvironmentVariable('PATH', 'User'))
+  $env:PSModulePath = [Environment]::GetEnvironmentVariable('PSModulePath', 'Machine')
 }
 
 function Test-ProcessAdminRight {

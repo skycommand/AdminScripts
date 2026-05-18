@@ -23,7 +23,7 @@ function Write-Something {
   }
 }
 
-function Public~Static~Void~Main {
+function PublicStaticVoidMain {
   [String[]]$a="A","B","C","D","E"
 
   Write-Output "Testing inline array input directly"
@@ -45,4 +45,4 @@ function Public~Static~Void~Main {
   $a | Write-Something
 }
 
-Public~Static~Void~Main
+PublicStaticVoidMain
