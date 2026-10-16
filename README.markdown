@@ -226,11 +226,11 @@ This entire folder, `MpDefinitionPackage`, is a PowerShell module that adds a cm
 
 I conceived it as a script at a time when our site was suffering a network outage. Not only we couldn't update our antimalware, users were using USB flash drives (notorious for being malware carriers) to transfer files. Desperate times need desperate measures. I wrote this solution to keep our devices secure. Eventually, I turned it into a module.
 
-**Warning:**
+**Warnings:**
 
-- Be aware that Microsoft antimalware definitions are copyright-protected. Handling them, with or without this module, must be in compliance with the copyright laws of your region. Residents of the United States of America must use this module in compliance with the Title 17 of United States Code, section 117 ("Limitations on exclusive rights: Computer programs"), article C (USC17 § 117c).
+- Be aware that Microsoft antimalware definitions are copyright-protected. Handling them, with or without this module, must be in compliance with the copyright laws of your region. Residents of the United States of America must comply with Title 17 of United States Code, section 117 ("Limitations on exclusive rights: Computer programs"), article C (USC17 § 117c).
 
-- I do not guarantee that this solution works. If you wish to update an entire network while preserving Internet bandwidth, the official solutions are _Windows Server Update Services_ and _System Center_.
+- This module is not actively developed. I do not guarantee that it works. Indeed an obscure bug in its error handling was not fixed until October 2026.
 
 #### Others
 

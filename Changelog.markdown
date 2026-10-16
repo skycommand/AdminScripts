@@ -1,11 +1,25 @@
 # Change log
 
+## October 2026
+
+### New (October 2026)
+
+- **Demos\Terminating error.ps1**: Demonstrates the recursive effect of invoking `ThrowTerminatingError()` on the chain of functions that lead to its invocation.
+
+### Changed (October 2026)
+
+- **Security\MpDefinitionPackage**: Major changes:
+  1. The module now uses a `try` block to ensure `$PSCmdlet.ThrowTerminatingError()` terminates the invocation of `Build-MpDefinitionPackage` all the way to the prompt. Within scripts, an invocation of `$PSCmdlet.ThrowTerminatingError()` terminates the script entirely. Within a module function, `$PSCmdlet.ThrowTerminatingError()` only terminates the calling function.
+  2. The module now uses Windows build number to determine the OS version. The `Build` property of `System.Environment.OSVersion.Version` is enough to identify the Windows OS. The four properties `Major`, `MajorRevision`, `Minor`, and `MinorRevision` are entirely useless.
+  3. A new `Security\MpDefinitionPackage\Incompleteness.markdown` remains myself and interested contributors of the project's incompleteness.
+- **Code snippets\Functions library.psm1**: Negligible change. `ConvertTo-NativeDigits` now recognized parameter positions.
+
 ## May 2026
 
 ### Changed (May 2026)
 
 - **Apps\Is x64.ps1**: Now handles pipeline input from `Get-Item` and `Get-ChildItem`
-- **Code snippets\Functions library.psm1**: `ConvertTo-NativeDigits ()` now accepts pipeline input
+- **Code snippets\Functions library.psm1**: `ConvertTo-NativeDigits` now accepts pipeline input
 - **Demos\Pipeline-ready function.ps1**: Cosmetic change only
 - **Maintenance\Find broken services.ps1**: Changed the detection algorithm to avoid running afoul of Microsoft Defender Antivirus
 

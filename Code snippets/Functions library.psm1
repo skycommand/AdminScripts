@@ -73,13 +73,13 @@ function ConvertTo-NativeDigits {
     $InputString,
 
     # Input culture
-    [Parameter()]
+    [Parameter(Position = 0)]
     [ValidateSet("ar", "en", "fa")]
     [string]
     $InputCulture = "en",
 
     # Target culture
-    [Parameter()]
+    [Parameter(Position = 1)]
     [ValidateSet("ar", "en", "fa")]
     [string]
     $TargetCulture = "fa"

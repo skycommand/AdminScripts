@@ -88,6 +88,8 @@ AliasesToExport = @()
 
 # List of all files packaged with this module
 FileList = @(
+    'res\How to use.html'
+    'res\How to use.min.html'
     'res\SFX-commands-MASM.txt',
     'res\SFX-commands-Defender.txt'
 )
